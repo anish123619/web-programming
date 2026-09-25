@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me</title>
+<style>
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2b2d33;
+    background-color: #fafafa;
+    line-height: 1.6;
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    font-size: 1.05rem;
+    color: #55585f;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+  }
+
+  section {
+    padding: 4rem 2rem;
+  }
+
+ 
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #1e293b;
+  }
+
+  .navbar__brand {
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .navbar__links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .navbar__links a {
+    color: #d1d5db;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .navbar__links a:hover {
+    color: #10B981;
+  }
+
+  
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+    min-height: 65vh;
+    background: linear-gradient(135deg, #0f766e, #10B981);
+    color: #ffffff;
+  }
+
+  .hero h1 {
+    color: #ffffff;
+  }
+
+  .hero__subtitle {
+    max-width: 600px;
+    font-size: 1.2rem;
+    color: #e2f5ef;
+  }
+
+  .btn {
+    margin-top: 1rem;
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 999px;
+    background-color: #ffffff;
+    color: #0f766e;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+
+
+  .skills {
+    background-color: #ffffff;
+    text-align: center;
+  }
+
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .skill-card {
+    flex: 1 1 280px;
+    max-width: 320px;
+    background-color: #f1f5f9;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: left;
+    border-top: 4px solid #10B981;
+  }
+
+  .skill-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+  }
+
+
+  
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2.5rem 2rem;
+    background-color: #1e293b;
+    color: #94a3b8;
+    text-align: center;
+  }
+
+  .footer__links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer__links a {
+    color: #d1d5db;
+    transition: color 0.2s ease;
+  }
+
+  .footer__links a:hover {
+    color: #ffffff;
+  }
+</style>
+</head>
+<body>
+
+  
+  <nav class="navbar">
+    <div class="navbar__brand">MyName</div>
+    <ul class="navbar__links">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#footer">Contact</a></li>
+    </ul>
+  </nav>
+
+  
+  <section class="hero" id="hero">
+    <h1>Hi, Myself Tamang Anish.</h1>
+    <p class="hero__subtitle">
+      I am a student at Gachon University majoring in computer 
+      engineering. I am learning web programming in this semester.
+    </p>
+    <button class="btn">Get In Touch</button>
+  </section>
+
+ 
+  <section class="skills" id="skills">
+    <h2>What I Do</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Design</h3>
+        <p>Clean, thoughtful interfaces built with attention to detail.</p>
+      </div>
+      <div class="skill-card">
+        <h3>Development</h3>
+        <p>Writing solid, maintainable code across the stack.</p>
+      </div>
+      <div class="skill-card">
+        <h3>Strategy</h3>
+        <p>Planning projects that solve real problems efficiently.</p>
+      </div>
+    </div>
+  </section>
+
+  
+  <footer class="footer" id="footer">
+    <div class="footer__links">
+      <a href="#">GitHub</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Email</a>
+    </div>
+    <small>&copy; 2026 Tamang Anish. Built with HTML &amp; CSS.</small>
+  </footer>
+
+</body>
+</html>

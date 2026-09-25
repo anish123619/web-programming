@@ -1,0 +1,247 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>My CSS Advanced Page</title>
+
+<style>
+  
+
+  :root {
+    --primary: #0f766e;
+    --accent: #14b8a6;
+    --bg: #f0fdfa;
+    --text: #134e4a;
+    --card-bg: white;
+    --radius: 12px;
+    --spacing: 20px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --primary: #5eead4;
+      --accent: #2dd4bf;
+      --bg: #042f2e;
+      --text: #ccfbf1;
+      --card-bg: #134e4a;
+    }
+  }
+
+
+  
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+
+ 
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px 30px;
+    background: #1e293b;
+
+    z-index: 1000;
+  }
+
+  nav span {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  nav a {
+    color: #e5e7eb;
+    text-decoration: none;
+    margin-left: 20px;
+  }
+
+  nav a:hover {
+    color: var(--accent);
+  }
+
+
+ 
+  .hero {
+    min-height: 400px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    padding: 100px 20px 40px;
+
+    animation: fadeIn 1.5s ease;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+  }
+
+  .hero p {
+    font-size: 18px;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+  
+  .skills-section {
+    padding: 30px;
+  }
+
+  .sticky-h2 {
+    position: sticky;
+    top: 60px;
+
+    background: var(--bg);
+    padding: 15px 0;
+
+    margin-bottom: 20px;
+
+    z-index: 10;
+  }
+
+
+ 
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing);
+  }
+
+  
+
+  @media (min-width: 640px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+
+ 
+
+  .card {
+    background: var(--card-bg);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius);
+
+    padding: 30px;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    transition: transform 0.3s ease,
+                box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(15, 118, 110, 0.3);
+  }
+
+
+  
+
+  .card[data-icon]::before {
+    content: attr(data-icon);
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+
+<body>
+
+  
+  <nav>
+    <span> Tamang Anish
+    </span>
+
+    <div>
+      <a href="#">Home</a>
+      <a href="#skills">Skills</a>
+    </div>
+  </nav>
+
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Hello, I am Tamang 
+        Anish
+    </h1>
+    <p>
+      Computer Engineering · Gachon University · Week 3 CSS Advanced
+    </p>
+  </section>
+
+
+  <!-- SKILLS SECTION -->
+  <section class="skills-section" id="skills">
+
+    <h2 class="sticky-h2">My Skills</h2>
+
+    <div class="grid">
+
+      <div class="card" data-icon="🌐">
+        HTML5
+      </div>
+
+      <div class="card" data-icon="🎨">
+        CSS3
+      </div>
+
+      <div class="card" data-icon="🐍">
+        Python
+      </div>
+
+      <div class="card" data-icon="🗂️">
+        CSS Grid
+      </div>
+
+      <div class="card" data-icon="💻">
+        Web Development
+      </div>
+
+    </div>
+
+  </section>
+
+</body>
+</html>
+```
