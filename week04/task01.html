@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Counter</title>
+
+    <style>
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+
+        .done {
+            background-color: green;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="clickButton">Click me</button>
+
+    <p id="counter">Clicks: 0</p>
+
+    <p id="message"></p>
+
+    <script>
+        
+        const button = document.querySelector('#clickButton');
+
+    
+        const counter = document.querySelector('#counter');
+        const message = document.querySelector('#message');
+
+        
+        let count = 0;
+
+        
+        button.addEventListener('click', function() {
+
+            
+            count++;
+
+            
+            counter.textContent = 'Clicks: ' + count;
+
+        
+            if (count === 5) {
+                button.classList.add('done');
+                message.textContent = ' Congratulations anish! You reached 5 clicks!';
+            }
+        });
+    </script>
+
+</body>
+</html>
+

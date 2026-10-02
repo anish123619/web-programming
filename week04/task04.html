@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Search</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        #search {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .student {
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: #eee;
+            border-radius: 5px;
+        }
+
+        mark {
+            background-color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Student Search</h1>
+
+        <input
+            id="search"
+            type="text"
+            placeholder="Search for a student..."
+        >
+
+        <div class="student">Tamang Anish</div>
+        <div class="student">John cena</div>
+        <div class="student">Son heung min</div>
+        <div class="student">David </div>
+        <div class="student">Eminem</div>
+        <div class="student">Michael Brown</div>
+
+    </div>
+
+    <script>
+        // Select the search box
+        const search = document.querySelector('#search');
+
+        // Listen for typing
+        search.addEventListener('input', function(e) {
+
+            // Get the search term and convert it to lowercase
+            const term = e.target.value.toLowerCase();
+
+            // Get all student elements
+            const students = document.querySelectorAll('.student');
+
+            // Check every student
+            students.forEach(function(student) {
+
+                const name = student.textContent.toLowerCase();
+
+                if (name.includes(term)) {
+                    student.style.display = 'block';
+                } else {
+                    student.style.display = 'none';
+                }
+
+            });
+
+        });
+    </script>
+
+</body>
+</html>
+
