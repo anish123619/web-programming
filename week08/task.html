@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact form.</title>
+  <style>
+    /* CSS Styling */
+    .contact-form {
+      max-width: 500px;
+      margin: 2rem auto;
+      font-family: sans-serif;
+    }
+
+    .contact-form fieldset {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-form legend {
+      font-weight: bold;
+      padding: 0 0.5rem;
+    }
+
+    .contact-form label {
+      display: block;
+      margin-top: 1rem;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+
+    
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: 3px solid #F7DF1E;
+      outline-offset: 1px;
+    }
+
+    
+    .contact-form input.touched:valid,
+    .contact-form textarea.touched:valid {
+      border: 2px solid #27C93F;
+    }
+
+    
+    .contact-form input.touched:invalid,
+    .contact-form textarea.touched:invalid {
+      border: 2px solid #FF5F56;
+    }
+
+    .contact-form button {
+      background-color: #0056b3;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .contact-form button:hover {
+      background-color: #004085;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HTML Form -->
+  <form action="#" method="POST" class="contact-form" novalidate>
+    <fieldset>
+      <legend>YOUR PERSONAL INFORMATION</legend>
+      
+      <!-- Name Field -->
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required minlength="2" maxlength="50" placeholder="Your name">
+
+      <!-- Email Field -->
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required placeholder="anish123@gmail.com">
+
+      <!-- Subject Field -->
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" name="subject" required minlength="5" placeholder="What is this about?">
+
+      <!-- Message Textarea -->
+      <label for="message">Message</label>
+      <textarea id="message" name="message" required minlength="10" maxlength="500" rows="5" placeholder="Write your message here..."></textarea>
+      
+    </fieldset>
+
+    <button type="submit">Send Message</button>
+  </form>
+
+  <!-- JavaScript Helper to make the CSS validation states behave smoothly -->
+  <script>
+    const formInputs = document.querySelectorAll('.contact-form input, .contact-form textarea');
+    
+    formInputs.forEach(input => {
+      input.addEventListener('blur', () => {
+        input.classList.add('touched');
+      });
+    });
+  </script>
+
+</body>
+</html>
