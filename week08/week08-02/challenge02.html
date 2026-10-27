@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration Form</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 30px;
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1a56db;
+    }
+
+    form {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    fieldset {
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 0;
+    }
+
+    legend {
+      font-weight: 700;
+      font-size: 15px;
+      color: #1a56db;
+      padding: 0 8px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 14px;
+      border: 2px solid #c8d4f0;
+      border-radius: 8px;
+      outline: none;
+      box-sizing: border-box;
+      transition: all 0.2s;
+    }
+
+    input:focus, select:focus {
+      border-color: #1a56db;
+      box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.15);
+    }
+    
+    .err {
+      color: #dc2626;
+      font-size: 0.8rem;
+      display: block;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    input[aria-invalid="true"] {
+      border-color: #dc2626;
+      background-color: #fef2f2;
+    }
+
+    input[aria-invalid="false"] {
+      border-color: #16a34a;
+      background-color: #f0fdf4;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .checkbox-group input {
+      width: auto;
+    }
+
+    .checkbox-group label {
+      margin-top: 0;
+      font-weight: normal;
+    }
+
+    .range-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    input[type="range"] {
+      cursor: pointer;
+    }
+
+    button {
+      margin-top: 10px;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      width: 100%;
+      transition: background 0.2s;
+    }
+
+    button:disabled {
+      background: #9ca3af;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    button:enabled {
+      background: #1a56db;
+      cursor: pointer;
+    }
+
+    button:enabled:hover {
+      background: #1e40af;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Student Registration Form</h2>
+
+  <form id="regForm" method="post" action="/register" novalidate>
+    
+    <!-- Personal Information -->
+    <fieldset>
+      <legend>Personal Info</legend>
+
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" name="full_name" required placeholder="Enter your full name here" aria-describedby="err-fullname" aria-invalid="false">
+      <span class="err" id="err-fullname" role="alert"></span>
+
+      <!-- Challenge 1 Field -->
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required pattern="^[a-zA-Z0-9]{3,}$" placeholder="At least 3 alphanumeric chars" aria-describedby="err-username" aria-invalid="false">
+      <span class="err" id="err-username" role="alert"></span>
+
+      <label for="studentid">Student ID</label>
+      <input type="text" id="studentid" name="student_id" pattern="\d{9}" required placeholder="202112345" aria-describedby="err-studentid" aria-invalid="false">
+      <span class="err" id="err-studentid" role="alert"></span>
+
+      <label for="dob">Date of Birth</label>
+      <input type="date" id="dob" name="date_of_birth" required aria-describedby="err-dob" aria-invalid="false">
+      <span class="err" id="err-dob" role="alert"></span>
+
+      <label for="major">Major</label>
+      <select id="major" name="major" required aria-describedby="err-major">
+        <option value="">-- Select Major --</option>
+        <option value="cs">Computer Engineering</option>
+        <option value="se">Electrical Engineering</option>
+        <option value="ai">Semi conductor</option>
+        <option value="ds">MBBS</option>
+      </select>
+      <span class="err" id="err-major" role="alert"></span>
+    </fieldset>
+
+    <!-- Account Information -->
+    <fieldset>
+      <legend>Account Info</legend>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required placeholder="name@gachon.ac.kr" aria-describedby="err-email" aria-invalid="false">
+      <span class="err" id="err-email" role="alert"></span>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" minlength="8" required placeholder="At least 8 characters" aria-describedby="err-password" aria-invalid="false">
+      <span class="err" id="err-password" role="alert"></span>
+
+      <!-- Challenge 2 Field -->
+      <label for="password-confirm">Confirm Password</label>
+      <input type="password" id="password-confirm" name="password_confirm" required placeholder="Re-enter your password" aria-describedby="err-password-confirm" aria-invalid="false">
+      <span class="err" id="err-password-confirm" role="alert"></span>
+
+      <label for="phone">Phone Number</label>
+      <input type="text" id="phone" name="phone" pattern="\d{3}-\d{4}-\d{4}" required placeholder="010-1234-5678" aria-describedby="err-phone" aria-invalid="false">
+      <span class="err" id="err-phone" role="alert"></span>
+      
+      <label for="experience">Years of Coding Experience: <span id="exp-value">0</span> years</label>
+      <div class="range-container">
+        <input type="range" id="experience" name="experience" min="0" max="10" value="0" oninput="document.getElementById('exp-value').innerText = this.value">
+      </div>
+    </fieldset>
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="terms" name="terms" required aria-describedby="err-terms">
+      <label for="terms">I agree to the terms and conditions</label>
+    </div>
+    <span class="err" id="err-terms" role="alert"></span>
+
+    <button type="submit" id="submit-btn" disabled>Submit Registration</button>
+
+    <div id="success-msg" style="display: none; color: #16a34a; font-weight: bold; text-align: center; margin-top: 10px;">
+      Registration successful!
+    </div>
+  </form>
+
+  <script>
+    const form = document.getElementById('regForm');
+    const submitBtn = document.getElementById('submit-btn');
+    const successMsg = document.getElementById('success-msg');
+
+    const fullname = document.getElementById('fullname');
+    const username = document.getElementById('username');
+    const studentid = document.getElementById('studentid');
+    const dob = document.getElementById('dob');
+    const major = document.getElementById('major');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const passwordConfirm = document.getElementById('password-confirm');
+    const phone = document.getElementById('phone');
+    const terms = document.getElementById('terms');
+
+    const usernamePattern = /^[a-zA-Z0-9]{3,}$/;
+
+    function markValid(input, span) {
+      input.setAttribute('aria-invalid', 'false');
+      span.textContent = '';
+    }
+
+    function markInvalid(input, span, msg) {
+      input.setAttribute('aria-invalid', 'true');
+      span.textContent = msg;
+    }
+
+    // --- Validators ---
+    function validateFullname() {
+      const err = document.getElementById('err-fullname');
+      if (fullname.validity.valueMissing) {
+        markInvalid(fullname, err, 'Full name is required');
+        return false;
+      }
+      markValid(fullname, err);
+      return true;
+    }
+
+    function validateUsername() {
+      const err = document.getElementById('err-username');
+      if (username.validity.valueMissing) {
+        markInvalid(username, err, 'Username is required');
+        return false;
+      }
+      if (!usernamePattern.test(username.value)) {
+        markInvalid(username, err, 'Min. 3 chars, letters and numbers only');
+        return false;
+      }
+      markValid(username, err);
+      return true;
+    }
+
+    function validateStudentId() {
+      const err = document.getElementById('err-studentid');
+      if (studentid.validity.valueMissing) {
+        markInvalid(studentid, err, 'Student ID is required');
+        return false;
+      }
+      if (studentid.validity.patternMismatch || !/^\d{9}$/.test(studentid.value)) {
+        markInvalid(studentid, err, 'Student ID must be exactly 9 digits');
+        return false;
+      }
+      markValid(studentid, err);
+      return true;
+    }
+
+    function validateDob() {
+      const err = document.getElementById('err-dob');
+      if (dob.validity.valueMissing) {
+        markInvalid(dob, err, 'Date of birth is required');
+        return false;
+      }
+      markValid(dob, err);
+      return true;
+    }
+
+    function validateMajor() {
+      const err = document.getElementById('err-major');
+      if (major.validity.valueMissing || major.value === "") {
+        markInvalid(major, err, 'Please select your major');
+        return false;
+      }
+      markValid(major, err);
+      return true;
+    }
+
+    function validateEmail() {
+      const err = document.getElementById('err-email');
+      if (email.validity.valueMissing) {
+        markInvalid(email, err, 'Email address is required');
+        return false;
+      }
+      if (email.validity.typeMismatch) {
+        markInvalid(email, err, 'Please enter a valid email address');
+        return false;
+      }
+      markValid(email, err);
+      return true;
+    }
+
+    function validatePassword() {
+      const err = document.getElementById('err-password');
+      if (password.validity.valueMissing) {
+        markInvalid(password, err, 'Password is required');
+        return false;
+      }
+      if (password.validity.tooShort) {
+        markInvalid(password, err, 'Password must be at least 8 characters');
+        return false;
+      }
+      markValid(password, err);
+      return true;
+    }
+
+    // --- Challenge 2 Cross-Field Match Validator ---
+    function validatePasswordMatch() {
+      const err = document.getElementById('err-password-confirm');
+      if (passwordConfirm.validity.valueMissing) {
+        markInvalid(passwordConfirm, err, 'Please confirm your password');
+        passwordConfirm.setCustomValidity('Required');
+        return false;
+      }
+      if (passwordConfirm.value !== password.value) {
+        passwordConfirm.setCustomValidity('Passwords do not match');
+        markInvalid(passwordConfirm, err, 'Passwords do not match');
+        return false;
+      } else {
+        passwordConfirm.setCustomValidity(''); // CRITICAL: Clear custom error
+        markValid(passwordConfirm, err);
+        return true;
+      }
+    }
+
+    function validatePhone() {
+      const err = document.getElementById('err-phone');
+      if (phone.validity.valueMissing) {
+        markInvalid(phone, err, 'Phone number is required');
+        return false;
+      }
+      if (phone.validity.patternMismatch || !/^\d{3}-\d{4}-\d{4}$/.test(phone.value)) {
+        markInvalid(phone, err, 'Format must be 010-1234-5678');
+        return false;
+      }
+      markValid(phone, err);
+      return true;
+    }
+
+    function validateTerms() {
+      const err = document.getElementById('err-terms');
+      if (!terms.checked) {
+        err.textContent = 'You must agree to the terms and conditions';
+        return false;
+      }
+      err.textContent = '';
+      return true;
+    }
+
+    function validateAllFields() {
+      return validateFullname() &&
+             validateUsername() &&
+             validateStudentId() &&
+             validateDob() &&
+             validateMajor() &&
+             validateEmail() &&
+             validatePassword() &&
+             validatePasswordMatch() &&
+             validatePhone() &&
+             validateTerms();
+    }
+
+    // --- Real-Time Feedback Wiring ---
+    const allInputs = form.querySelectorAll('input, select');
+    allInputs.forEach(element => {
+      element.addEventListener('input', () => {
+        validateFullname();
+        validateUsername();
+        validateStudentId();
+        validateDob();
+        validateMajor();
+        validateEmail();
+        validatePassword();
+        validatePasswordMatch();
+        validatePhone();
+        validateTerms();
+
+        // Bonus check: Enable submit button only if entire form validity checks out
+        submitBtn.disabled = !form.checkValidity();
+      });
+
+      element.addEventListener('change', () => {
+        submitBtn.disabled = !form.checkValidity();
+      });
+    });
+
+    // Special listener: if main password changes, re-verify confirmation matching
+    password.addEventListener('input', validatePasswordMatch);
+
+    // Initial load check
+    submitBtn.disabled = !form.checkValidity();
+
+    // --- Submit Handler ---
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (validateAllFields()) {
+        successMsg.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

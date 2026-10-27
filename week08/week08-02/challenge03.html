@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration Form</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 30px;
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1a56db;
+    }
+
+    form {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    fieldset {
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 0;
+    }
+
+    legend {
+      font-weight: 700;
+      font-size: 15px;
+      color: #1a56db;
+      padding: 0 8px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+      margin-top: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 14px;
+      border: 2px solid #c8d4f0;
+      border-radius: 8px;
+      outline: none;
+      box-sizing: border-box;
+      transition: all 0.2s;
+    }
+
+    input:focus {
+      border-color: #1a56db;
+      box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.15);
+    }
+    
+    .err {
+      color: #dc2626;
+      font-size: 0.8rem;
+      display: block;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    input[aria-invalid="true"] {
+      border-color: #dc2626;
+      background-color: #fef2f2;
+    }
+
+    input[aria-invalid="false"] {
+      border-color: #16a34a;
+      background-color: #f0fdf4;
+    }
+
+    button {
+      margin-top: 10px;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      width: 100%;
+      transition: background 0.2s;
+    }
+
+    button:disabled {
+      background: #9ca3af;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    button:enabled {
+      background: #1a56db;
+      cursor: pointer;
+    }
+
+    button:enabled:hover {
+      background: #1e40af;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Student Registration Form</h2>
+
+  <!-- novalidate suppresses default browser bubbles so JS takes control -->
+  <form id="regForm" method="post" action="/register" novalidate>
+    
+    <fieldset>
+      <legend>Account Credentials</legend>
+
+      <!-- C1: Username Field -->
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required pattern="^[a-zA-Z0-9]{3,}$" placeholder="Min 3 alphanumeric characters" aria-describedby="err-username" aria-invalid="false">
+      <span class="err" id="err-username" role="alert"></span>
+
+      <!-- C3 Field: Student ID (9 digits) -->
+      <label for="studentid">Student ID</label>
+      <input type="text" id="studentid" name="student_id" pattern="\d{9}" required placeholder="202112345" aria-describedby="err-studentid" aria-invalid="false">
+      <span class="err" id="err-studentid" role="alert"></span>
+
+      <!-- C3 Field: Email Address -->
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required placeholder="name@gachon.ac.kr" aria-describedby="err-email" aria-invalid="false">
+      <span class="err" id="err-email" role="alert"></span>
+
+      <!-- C3 Field: Password (min 8 chars) -->
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" minlength="8" required placeholder="At least 8 characters" aria-describedby="err-password" aria-invalid="false">
+      <span class="err" id="err-password" role="alert"></span>
+
+      <!-- C2 Field: Confirm Password -->
+      <label for="password-confirm">Confirm Password</label>
+      <input type="password" id="password-confirm" name="password_confirm" required placeholder="Re-enter your password" aria-describedby="err-password-confirm" aria-invalid="false">
+      <span class="err" id="err-password-confirm" role="alert"></span>
+
+      <!-- C3 Field: Phone Number (010-XXXX-XXXX) -->
+      <label for="phone">Phone Number</label>
+      <input type="text" id="phone" name="phone" pattern="\d{3}-\d{4}-\d{4}" required placeholder="010-1234-5678" aria-describedby="err-phone" aria-invalid="false">
+      <span class="err" id="err-phone" role="alert"></span>
+    </fieldset>
+
+    <!-- C3 Bonus Feature: Submit button starts disabled -->
+    <button type="submit" id="submit-btn" disabled>Submit Registration</button>
+
+    <div id="success-msg" style="display: none; color: #16a34a; font-weight: bold; text-align: center; margin-top: 10px;">
+      Registration successful!
+    </div>
+  </form>
+
+  <script>
+    const form = document.getElementById('regForm');
+    const submitBtn = document.getElementById('submit-btn');
+    const successMsg = document.getElementById('success-msg');
+
+    const username = document.getElementById('username');
+    const studentid = document.getElementById('studentid');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const passwordConfirm = document.getElementById('password-confirm');
+    const phone = document.getElementById('phone');
+
+    const usernamePattern = /^[a-zA-Z0-9]{3,}$/;
+
+    function markValid(input, span) {
+      input.setAttribute('aria-invalid', 'false');
+      span.textContent = '';
+    }
+
+    function markInvalid(input, span, msg) {
+      input.setAttribute('aria-invalid', 'true');
+      span.textContent = msg;
+    }
+
+    // --- C1: Username Validation ---
+    function validateUsername() {
+      const err = document.getElementById('err-username');
+      if (username.validity.valueMissing) {
+        markInvalid(username, err, 'Username is required.');
+        return false;
+      }
+      if (!usernamePattern.test(username.value)) {
+        markInvalid(username, err, 'Min. 3 chars, letters and numbers only.');
+        return false;
+      }
+      markValid(username, err);
+      return true;
+    }
+
+    // --- C3: Student ID Validation ---
+    function validateStudentId() {
+      const err = document.getElementById('err-studentid');
+      if (studentid.validity.valueMissing) {
+        markInvalid(studentid, err, 'Student ID is required.');
+        return false;
+      }
+      if (studentid.validity.patternMismatch || !/^\d{9}$/.test(studentid.value)) {
+        markInvalid(studentid, err, 'Student ID must be exactly 9 digits.');
+        return false;
+      }
+      markValid(studentid, err);
+      return true;
+    }
+
+    // --- C3: Email Validation ---
+    function validateEmail() {
+      const err = document.getElementById('err-email');
+      if (email.validity.valueMissing) {
+        markInvalid(email, err, 'Email address is required.');
+        return false;
+      }
+      if (email.validity.typeMismatch) {
+        markInvalid(email, err, 'Please enter a valid email address.');
+        return false;
+      }
+      markValid(email, err);
+      return true;
+    }
+
+    // --- C3: Password Validation ---
+    function validatePassword() {
+      const err = document.getElementById('err-password');
+      if (password.validity.valueMissing) {
+        markInvalid(password, err, 'Password is required.');
+        return false;
+      }
+      if (password.validity.tooShort) {
+        markInvalid(password, err, 'Password must be at least 8 characters.');
+        return false;
+      }
+      markValid(password, err);
+      return true;
+    }
+
+    // --- C2: Password Confirmation with setCustomValidity ---
+    function validatePasswordMatch() {
+      const err = document.getElementById('err-password-confirm');
+      if (passwordConfirm.validity.valueMissing) {
+        markInvalid(passwordConfirm, err, 'Please confirm your password.');
+        passwordConfirm.setCustomValidity('Required');
+        return false;
+      }
+      if (passwordConfirm.value !== password.value) {
+        passwordConfirm.setCustomValidity('Passwords do not match');
+        markInvalid(passwordConfirm, err, 'Passwords do not match.');
+        return false;
+      } else {
+        passwordConfirm.setCustomValidity(''); // CRITICAL: Clear custom error
+        markValid(passwordConfirm, err);
+        return true;
+      }
+    }
+
+    // --- C3: Phone Number Validation ---
+    function validatePhone() {
+      const err = document.getElementById('err-phone');
+      if (phone.validity.valueMissing) {
+        markInvalid(phone, err, 'Phone number is required.');
+        return false;
+      }
+      if (phone.validity.patternMismatch || !/^\d{3}-\d{4}-\d{4}$/.test(phone.value)) {
+        markInvalid(phone, err, 'Format must be 010-1234-5678.');
+        return false;
+      }
+      markValid(phone, err);
+      return true;
+    }
+
+    // Run all checks together for submit guard
+    function validateAllFields() {
+      return validateUsername() &&
+             validateStudentId() &&
+             validateEmail() &&
+             validatePassword() &&
+             validatePasswordMatch() &&
+             validatePhone();
+    }
+
+    // --- Real-Time Event Wiring (C1 + C2 + C3) ---
+    const allInputs = form.querySelectorAll('input');
+    allInputs.forEach(input => {
+      input.addEventListener('input', () => {
+        validateUsername();
+        validateStudentId();
+        validateEmail();
+        validatePassword();
+        validatePasswordMatch();
+        validatePhone();
+
+        // C3 Bonus: Enable submit button only if form.checkValidity() passes
+        submitBtn.disabled = !form.checkValidity();
+      });
+    });
+
+    // Special handler: Re-check password match if primary password changes
+    password.addEventListener('input', validatePasswordMatch);
+
+    // Initial state check on load
+    submitBtn.disabled = !form.checkValidity();
+
+    // --- Form Submit Guard ---
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (validateAllFields()) {
+        successMsg.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
