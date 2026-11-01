@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Loops Playground</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4efe8;
+            padding: 30px;
+            color: #3d3a36;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 20px auto;
+        }
+
+        h1 {
+            color: #5b4636;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .card {
+            background: #fffdf9;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-radius: 14px;
+            box-shadow: 0 5px 16px #463a2d18;
+            border: 1px solid #eadfce;
+        }
+
+        .card h2 {
+            color: #6b705c;
+            margin-top: 0;
+        }
+
+        input, button {
+            padding: 10px 12px;
+            margin: 5px;
+            border-radius: 8px;
+            border: 1px solid #d6c9b8;
+            font-size: 15px;
+        }
+
+        input {
+            background: #fff;
+        }
+
+        input:focus {
+            outline: 2px solid #a3a879;
+            border-color: #a3a879;
+        }
+
+        button {
+            background: #7b8b67;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            background: #657451;
+        }
+
+        pre {
+            background: #353b35;
+            color: #d4e2bd;
+            padding: 15px;
+            border-radius: 9px;
+            min-height: 50px;
+            white-space: pre-wrap;
+        }
+
+        #fruitList button {
+            background: #b8795f;
+        }
+
+        #fruitList button:hover {
+            background: #9d634c;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>JavaScript Loops Playground</h1>
+
+    <div class="card">
+        <h2>1. Repeat Steps</h2>
+
+        <label>Number of repetitions:</label>
+        <input type="number" id="count"
+               min="1" max="20" value="5">
+
+        <button onclick="runSteps()">Run Loop</button>
+
+        <pre id="stepOutput"></pre>
+    </div>
+
+    <div class="card">
+        <h2>2. Loop Through Fruits</h2>
+
+        <input type="text" id="fruitInput"
+               placeholder="Enter a fruit">
+
+        <button onclick="addFruit()">Add Fruit</button>
+
+        <button onclick="runFruits()">Run Loop</button>
+
+        <p id="fruitList"></p>
+
+        <pre id="fruitOutput"></pre>
+    </div>
+
+</div>
+
+<script>
+    
+    function runSteps() {
+        let count = Number(document.getElementById("count").value);
+
+        if (count < 1 || count > 20 || !Number.isInteger(count)) {
+            document.getElementById("stepOutput").textContent =
+                "Enter a whole number from 1 to 20.";
+            return;
+        }
+
+        let output = "";
+
+        for (let i = 1; i <= count; i++) {
+            output += "Step " + i + "\n";
+        }
+
+        document.getElementById("stepOutput").textContent = output;
+    }
+
+    // Array of fruits
+    let fruits = ["apple", "banana", "cherry"];
+
+    function showFruits() {
+        document.getElementById("fruitList").innerHTML = "";
+
+        fruits.forEach(function(fruit, index) {
+            let button = document.createElement("button");
+            button.textContent = "Remove " + fruit;
+
+            button.onclick = function() {
+                fruits.splice(index, 1);
+                showFruits();
+                runFruits();
+            };
+
+            document.getElementById("fruitList").appendChild(button);
+        });
+    }
+
+    function addFruit() {
+        let input = document.getElementById("fruitInput");
+        let fruit = input.value.trim();
+
+        if (fruit !== "") {
+            fruits.push(fruit);
+            input.value = "";
+            showFruits();
+            runFruits();
+        }
+    }
+
+    function runFruits() {
+        let output = "";
+
+        for (let fruit of fruits) {
+            output += fruit + "\n";
+        }
+
+        document.getElementById("fruitOutput").textContent =
+            output || "No fruits in the array.";
+    }
+
+    // Initial output
+    runSteps();
+    showFruits();
+    runFruits();
+</script>
+
+</body>
+</html>
