@@ -1,119 +1,561 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Web Development Projects</title>
+
+    <title>My Web Development Portfolio</title>
+
+    <style>
+        /* Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* General page styling */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f4ff;
+            color: #1a1a2e;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a56db, #7c3aed);
+            color: white;
+            padding: 40px 25px;
+            border-radius: 12px;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            opacity: 0.9;
+        }
+
+        /* Main content */
+        main {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        /* Each week's section */
+        .week-section {
+            margin-bottom: 35px;
+        }
+
+        .week-section h2 {
+            color: #1a56db;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #c8d4f0;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+        }
+
+        /* Task cards layout */
+        .tasks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        /* Individual task card */
+        .task-card {
+            background: white;
+            border: 1px solid #d5def2;
+            border-radius: 10px;
+            padding: 18px;
+            text-decoration: none;
+            color: #1a1a2e;
+
+            flex: 1 1 200px;
+            max-width: 260px;
+
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .task-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 5px 16px rgba(26, 86, 219, 0.15);
+        }
+
+        .task-card .tag {
+            color: #1a56db;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .task-card h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .task-card p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 45px;
+            padding: 20px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* Mobile-friendly layout */
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            header h1 {
+                font-size: 1.6rem;
+            }
+
+            .task-card {
+                max-width: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>My Web Development Projects</h1>
+    <header>
+        <h1>🌐 My Web Development Portfolio</h1>
+        <p>Web Programming · HTML · CSS · JavaScript</p>
+        <p>Gachon University</p>
+        <p>TAMANG ANISH(202637595)</p>
+    </header>
 
-    <h2>Week 2</h2>
-    <ul>
-        <li><a href="week2-01/task01.html">Week 2-01 - Task 1</a></li>
-        <li><a href="week2-01/task02.html">Week 2-01 - Task 2</a></li>
-        <li><a href="week2-01/task03.html">Week 2-01 - Task 3</a></li>
-        <li><a href="week2-01/task04.html">Week 2-01 - Task 4</a></li>
-        <li><a href="week2-01/task05.html">Week 2-01 - Task 5</a></li>
-        <li><a href="week2-01/task06.html">Week 2-01 - Task 6</a></li>
-        <li><a href="week2-01/task07.html">Week 2-01 - Task 7</a></li>
-        <li><a href="week2-01/task08.html">Week 2-01 - Task 8</a></li>
-    </ul>
+    <main>
 
-    <h2>Week 2-02</h2>
-    <ul>
-        <li><a href="week2-02/task01.html">Task 1</a></li>
-        <li><a href="week2-02/task02.html">Task 2</a></li>
-        <li><a href="week2-02/task03.html">Task 3</a></li>
-        <li><a href="week2-02/task04.html">Task 4</a></li>
-        <li><a href="week2-02/task05.html">Task 5</a></li>
-        <li><a href="week2-02/task06.html">Task 6</a></li>
-        <li><a href="week2-02/task07.html">Task 7</a></li>
-        <li><a href="week2-02/task08.html">Task 8</a></li>
-    </ul>
+        <!-- WEEK 2 -->
+        <section class="week-section">
+            <h2>Week 2-01 — HTML Practice</h2>
+            <div class="tasks">
 
-    <h2>Week 3-01</h2>
-    <ul>
-        <li><a href="week03-01/task01.html">Task 1</a></li>
-        <li><a href="week03-01/task02.html">Task 2</a></li>
-        <li><a href="week03-01/task03.html">Task 3</a></li>
-        <li><a href="week03-01/task04.html">Task 4</a></li>
-        <li><a href="week03-01/task05.html">Task 5</a></li>
-        <li><a href="week03-01/task06.html">Task 6</a></li>
-        <li><a href="week03-01/task07.html">Task 7</a></li>
-        <li><a href="week03-01/task08.html">Task 8</a></li>
-    </ul>
+                <a class="task-card" href="week2-01/task01.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 1</h3>
+                    <p>HTML practice exercise</p>
+                </a>
 
-    <h2>Week 3-02</h2>
-    <ul>
-        <li><a href="week03-02/task01.html">Task 1</a></li>
-        <li><a href="week03-02/task02.html">Task 2</a></li>
-        <li><a href="week03-02/task03.html">Task 3</a></li>
-        <li><a href="week03-02/task04.html">Task 4</a></li>
-        <li><a href="week03-02/task05.html">Task 5</a></li>
-        <li><a href="week03-02/task06.html">Task 6</a></li>
-        <li><a href="week03-02/task07.html">Task 7</a></li>
+                <a class="task-card" href="week2-01/task02.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 2</h3>
+                    <p>HTML practice exercise</p>
+                </a>
 
-    </ul>
+                <a class="task-card" href="week2-01/task03.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 3</h3>
+                    <p>HTML practice exercise</p>
+                </a>
 
-    <h2>Week 4</h2>
-    <ul>
-        <li><a href="week04/task01.html">Task 1</a></li>
-        <li><a href="week04/task02.html">Task 2</a></li>
-        <li><a href="week04/task03.html">Task 3</a></li>
-        <li><a href="week04/task04.html">Task 4</a></li>
-    </ul>
+                <a class="task-card" href="week2-01/task04.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 4</h3>
+                    <p>HTML practice exercise</p>
+                </a>
 
-    <h2>Week 05</h2>
-    <ul>
-        <li><a href="week05/counter.html">counter</a></li>
-        <li><a href="week05/Grade-calculator.html">Your grade calculaotor</a></li>
-        <li><a href="week05/Loops.html">Loops</a></li>
-    </ul>
+                <a class="task-card" href="week2-01/task05.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 5</h3>
+                    <p>HTML practice exercise</p>
+                </a>
 
-    <h2>week06</h2>
-    <ul>
-        <li><a href="week06/blog_fetcher.html">Blog fetcher</a></li>
-        <li><a href="week06/country_explorer.html">Country Explorer</a></li>
-        <li><a href="week06/joke-generator.html">Joke Generator</a></li>
-        <li><a href="week06/pokemon.html">Pokemon</a></li>
-        <li><a href="week06/random_user.html">Random User Generator</a></li>
-        <li><a href="week06/Seoul_weather.html">Seoul Weather </a></li>
-    </ul>
+                <a class="task-card" href="week2-01/task06.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 6</h3>
+                    <p>HTML practice exercise</p>
+                </a>
 
-    <h2>Week07</h2>
-    <ul>
-        <li><a href="week07/book finder.html">Book search</a></li>
-    </ul>
-     
-    <h1>Week08</h1>
-    
-    <h2>week08-01</h2>
+                <a class="task-card" href="week2-01/task07.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 7</h3>
+                    <p>HTML practice exercise</p>
+                </a>
 
-    <ul>
-        <li><a href="week08-01/Exercise-01.html">Exercise-01</a></li>
-        <li><a href="week08-01/Exercise-01.html">Exercise-02</a></li>
-        <li><a href="week08-01/Exercise-03.html">Exercise-03</a></li>
-        <li><a href="week08-01/task-homework.html">HOMEWROK</a></li>
-        <li><a href="week08-01/task.html">task</a></li>
+                <a class="task-card" href="week2-01/task08.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 8</h3>
+                    <p>HTML practice exercise</p>
+                </a>
 
+            </div>
+        </section>
 
-        
-    </ul>
-     
-    <h2>week08-02</h2>
-    <ul>
-        <li><a href="week08-02/challenge01.html">challenge-01</a></li>
-        <li><a href="week08-02/challenge02.html">challenge-02</a></li>
-        <li><a href="week08-02/challenge03.html">challenge-03</a> </li>
-        <li><a href="week08-02/homework.html">homework</a></li>
-    
-    </ul>
+        <!-- WEEK 2-02 -->
+        <section class="week-section">
+            <h2>Week 2-02 — HTML Practice</h2>
+            <div class="tasks">
 
-    
-    <h2>Week09</h2>
+                <a class="task-card" href="week2-02/task01.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 1</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week2-02/task02.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 2</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week2-02/task03.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 3</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week2-02/task04.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 4</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week2-02/task05.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 5</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week2-02/task06.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 6</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week2-02/task07.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 7</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week2-02/task08.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 8</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- WEEK 3 -->
+        <section class="week-section">
+            <h2>Week 3-01 — HTML Practice</h2>
+            <div class="tasks">
+
+                <a class="task-card" href="week03-01/task01.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 1</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-01/task02.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 2</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-01/task03.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 3</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-01/task04.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 4</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-01/task05.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 5</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-01/task06.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 6</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-01/task07.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 7</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-01/task08.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 8</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- WEEK 3-02 -->
+        <section class="week-section">
+            <h2>Week 3-02 — HTML Practice</h2>
+            <div class="tasks">
+
+                <a class="task-card" href="week03-02/task01.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 1</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-02/task02.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 2</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-02/task03.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 3</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-02/task04.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 4</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-02/task05.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 5</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-02/task06.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 6</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week03-02/task07.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 7</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- WEEK 4 -->
+        <section class="week-section">
+            <h2>Week 4 — HTML Practice</h2>
+            <div class="tasks">
+
+                <a class="task-card" href="week04/task01.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 1</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week04/task02.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 2</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week04/task03.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 3</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+                <a class="task-card" href="week04/task04.html">
+                    <div class="tag">HTML</div>
+                    <h3>Task 4</h3>
+                    <p>HTML practice exercise</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- WEEK 5 -->
+        <section class="week-section">
+            <h2>Week 5 — JavaScript Basics</h2>
+            <div class="tasks">
+
+                <a class="task-card" href="week05/counter.html">
+                    <div class="tag">JavaScript</div>
+                    <h3>Counter</h3>
+                    <p>Practice click events and updating page content.</p>
+                </a>
+
+                <a class="task-card" href="week05/Grade-calculator.html">
+                    <div class="tag">JavaScript</div>
+                    <h3>Grade Calculator</h3>
+                    <p>Calculate grades using JavaScript logic.</p>
+                </a>
+
+                <a class="task-card" href="week05/Loops.html">
+                    <div class="tag">JavaScript</div>
+                    <h3>Loops</h3>
+                    <p>Practice repeating actions using loops.</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- WEEK 6 -->
+        <section class="week-section">
+            <h2>Week 6 — Fetch API and Data</h2>
+            <div class="tasks">
+
+                <a class="task-card" href="week06/blog_fetcher.html">
+                    <div class="tag">Fetch API</div>
+                    <h3>Blog Fetcher</h3>
+                    <p>Retrieve blog data from an API.</p>
+                </a>
+
+                <a class="task-card" href="week06/country_explorer.html">
+                    <div class="tag">Fetch API</div>
+                    <h3>Country Explorer</h3>
+                    <p>Explore country information.</p>
+                </a>
+
+                <a class="task-card" href="week06/joke-generator.html">
+                    <div class="tag">Fetch API</div>
+                    <h3>Joke Generator</h3>
+                    <p>Fetch and display a random joke.</p>
+                </a>
+
+                <a class="task-card" href="week06/pokemon.html">
+                    <div class="tag">Fetch API</div>
+                    <h3>Pokémon</h3>
+                    <p>Retrieve Pokémon information.</p>
+                </a>
+
+                <a class="task-card" href="week06/random_user.html">
+                    <div class="tag">Fetch API</div>
+                    <h3>Random User Generator</h3>
+                    <p>Fetch random user information.</p>
+                </a>
+
+                <a class="task-card" href="week06/Seoul_weather.html">
+                    <div class="tag">API</div>
+                    <h3>Seoul Weather</h3>
+                    <p>Display weather information for Seoul.</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- WEEK 7 -->
+        <section class="week-section">
+            <h2>Week 7 — Book Search</h2>
+            <div class="tasks">
+
+                <a class="task-card" href="week07/book finder.html">
+                    <div class="tag">JavaScript / API</div>
+                    <h3>Book Finder</h3>
+                    <p>Search for books using a book search tool.</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- WEEK 8-01 -->
+        <section class="week-section">
+            <h2>Week 8-01 — Exercises</h2>
+            <div class="tasks">
+
+                <a class="task-card" href="week08/week08-01/Exercise-01.html">
+                    <div class="tag">Exercise</div>
+                    <h3>Exercise 1</h3>
+                    <p>Week 8 practice exercise.</p>
+                </a>
+
+                <a class="task-card" href="week08/week08-01/Exercise-02.html">
+                    <div class="tag">Exercise</div>
+                    <h3>Exercise 2</h3>
+                    <p>Week 8 practice exercise.</p>
+                </a>
+
+                <a class="task-card" href="week08/week08-01/Exercise-03.html">
+                    <div class="tag">Exercise</div>
+                    <h3>Exercise 3</h3>
+                    <p>Week 8 practice exercise.</p>
+                </a>
+
+                <a class="task-card" href="week08/week08-01/task-homework.html">
+                    <div class="tag">Homework</div>
+                    <h3>Homework</h3>
+                    <p>Week 8 homework assignment.</p>
+                </a>
+
+                <a class="task-card" href="week08/week08-01/task.html">
+                    <div class="tag">Task</div>
+                    <h3>Task</h3>
+                    <p>Week 8 programming task.</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- WEEK 8-02 -->
+        <section class="week-section">
+            <h2>Week 8-02 — Challenges</h2>
+            <div class="tasks">
+
+                <a class="task-card" href="week08/week08-02/challenge01.html">
+                    <div class="tag">Challenge</div>
+                    <h3>Challenge 1</h3>
+                    <p>Week 8 programming challenge.</p>
+                </a>
+
+                <a class="task-card" href="week08/week08-02/challenge02.html">
+                    <div class="tag">Challenge</div>
+                    <h3>Challenge 2</h3>
+                    <p>Week 8 programming challenge.</p>
+                </a>
+
+                <a class="task-card" href="week08/week08-02/challenge03.html">
+                    <div class="tag">Challenge</div>
+                    <h3>Challenge 3</h3>
+                    <p>Week 8 programming challenge.</p>
+                </a>
+
+                <a class="task-card" href="week08/week08-02/homework.html">
+                    <div class="tag">Homework</div>
+                    <h3>Homework</h3>
+                    <p>Week 8 homework assignment.</p>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Built with HTML, CSS &amp; JavaScript</p>
+        <p>Hosted on GitHub Pages</p>
+        <P>@TAMANGANISH</P>
+        <P></P>
+    </footer>
 
 </body>
 </html>
