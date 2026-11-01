@@ -61,6 +61,31 @@
             margin-bottom: 16px;
         }
 
+        /* Skip Link */
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .skip-link:focus {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: auto;
+            height: auto;
+            background: #1a56db;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            z-index: 1000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
         /* Task cards layout */
         .tasks {
             display: flex;
@@ -106,14 +131,15 @@
             color: #666;
         }
 
-       /* Footer */
+        /* Footer */
         footer {
             text-align: center;
             margin-top: 45px;
             padding: 20px;
-            color: #555; /* Changed from #777 to #555 for better contrast */
+            color: #555; /* Fixed color contrast from #777 to #555 */
             font-size: 13px;
         }
+
         /* Mobile-friendly layout */
         @media (max-width: 600px) {
             body {
@@ -134,13 +160,14 @@
 <body>
 
     <header>
+        <a href="#main-content" class="skip-link">Skip to main content</a>
         <h1>🌐 My Web Development Portfolio</h1>
         <p>Web Programming · HTML · CSS · JavaScript</p>
         <p>Gachon University</p>
         <marquee behavior="" direction="left"><p>TAMANG ANISH(202637595)</p></marquee>
     </header>
 
-    <main>
+    <main id="main-content">
 
         <!-- WEEK 2 -->
         <section class="week-section">
@@ -551,8 +578,7 @@
     <footer>
         <p>Built with HTML, CSS &amp; JavaScript</p>
         <p>Hosted on GitHub Pages</p>
-        <P>@TAMANGANISH</P>
-        <P></P>
+        <p>@TAMANGANISH</p>
     </footer>
 
 </body>
