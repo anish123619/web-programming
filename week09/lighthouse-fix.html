@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form - Accessible</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            padding: 24px;
+            max-width: 400px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        .error {
+            color: #c53030;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .icon-btn {
+            background: #1a7f5a;
+            color: white;
+            width: 36px;
+            height: 36px;
+            font-size: 18px;
+            border-radius: 50%;
+        }
+        .submit-btn {
+            background: #1a56db;
+            color: white;
+            padding: 10px 24px;
+            font-size: 15px;
+            width: 100%;
+            margin-top: 8px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Sign Up</h2>
+
+    <!-- Issue 1 Fixed: Added aria-label to icon-only button -->
+    <button class="icon-btn" aria-label="Search" type="button">🔍</button>
+
+    <div style="margin-top: 16px;">
+        <!-- Issue 2 Fixed: Added semantic <label> linked via 'for' attribute -->
+        <label for="email-field">Email address</label>
+        <input type="email" placeholder="Email address" id="email-field">
+        <!-- Issue 3 Fixed: Added text marker "Error:" alongside color -->
+        <div class="error">Error: Please enter a valid email address.</div>
+    </div>
+
+    <div style="margin-top: 8px;">
+        <div class="error">Error: Password too short.</div>
+    </div>
+
+    <button class="submit-btn" type="submit">Create account</button>
+
+    <!-- Issue 4 Fixed: Replaced generic "click here" alt text with a meaningful description -->
+    <a href="/about" style="margin-top: 16px; display: inline-block;">
+        <img src="about-thumb.png" alt="Learn more about our team on the about page" style="background: #e0eaff; width: 80px; height: 40px; border-radius: 4px;">
+    </a>
+
+</body>
+</html>
