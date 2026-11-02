@@ -1,12 +1,15 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Grade Checker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #e8f0e8;
+            background-color: #eef2f3;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -15,87 +18,112 @@
         }
 
         .container {
-            background: #fffdf7;
-            padding: 35px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 20px #243b2a20;
+            background-color: white;
             width: 300px;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px #00000020;
         }
 
         h1 {
-            color: #344e41;
+            color: #334155;
         }
 
-        label {
-            display: block;
-            margin: 20px 0 10px;
-            color: #475569;
+        p {
+            color: #64748b;
         }
 
         input {
+            width: 90%;
             padding: 10px;
+            margin: 15px 0;
             border: 1px solid #cbd5e1;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 16px;
         }
 
-        input:focus {
-            outline: 2px solid #588157;
-            border-color: #588157;
+        button {
+            width: 100%;
+            padding: 11px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 8px;
         }
 
-        h2 {
-            margin-top: 25px;
-            color: #344e41;
+        button:hover {
+            background-color: #1d4ed8;
         }
 
-        #grade {
-            color: #588157;
+        #reset {
+            background-color: #64748b;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #2563eb;
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
-        <h1>Grade Checker</h1>
 
-        <label for="number">Adjust your score:</label>
+        <h1>Grade Calculator</h1>
+        <p>Enter your examination score</p>
 
-        <input type="number" id="number"
-               min="0" max="100" placeholder="Enter score"
-               oninput="checkGrade()">
+        <input type="number" id="score" placeholder="Enter score (0-100)">
 
-        <h2>Grade: <span id="grade">—</span></h2>
+        <button onclick="calculateGrade()">Calculate Grade</button>
+
+        <button id="reset" onclick="resetGrade()">Reset</button>
+
+        <div id="result">Your grade will appear here</div>
+
     </div>
 
     <script>
-        function checkGrade() {
-            const input = document.getElementById("number");
-            const grade = document.getElementById("grade");
+        function calculateGrade() {
 
-            if (input.value === "") {
-                grade.textContent = "—";
-                return;
+            let score = Number(document.getElementById("score").value);
+            let result = document.getElementById("result");
+
+            if (document.getElementById("score").value === "") {
+                result.textContent = "Please enter a score.";
             }
 
-            let score = Number(input.value);
-            score = Math.max(0, Math.min(100, score));
-            input.value = score;
-
-            let result;
-
-            if (score >= 90) {
-                result = "A";
-            } else if (score >= 80) {
-                result = "B";
-            } else if (score >= 70) {
-                result = "C";
-            } else {
-                result = "F";
+            else if (score < 0 || score > 100) {
+                result.textContent = "Enter a score between 0 and 100.";
             }
 
-            grade.textContent = result;
+            else if (score >= 90) {
+                result.textContent = "Grade: A";
+            }
+
+            else if (score >= 80) {
+                result.textContent = "Grade: B";
+            }
+
+            else if (score >= 70) {
+                result.textContent = "Grade: C";
+            }
+
+            else {
+                result.textContent = "Grade: F";
+            }
+        }
+
+        function resetGrade() {
+            document.getElementById("score").value = "";
+            document.getElementById("result").textContent =
+                "Your grade will appear here";
         }
     </script>
 
