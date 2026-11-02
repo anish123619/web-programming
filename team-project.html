@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Louis Fitness </title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: {
+              950: '#070709',
+              900: '#0d0d12',
+              850: '#121218',
+              800: '#181822',
+              700: '#232332'
+            },
+            crimson: {
+              400: '#ff3b5c',
+              500: '#e50914',
+              600: '#b80710',
+              glow: 'rgba(229, 9, 20, 0.45)'
+            }
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'monospace', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #070709;
+      color: #ededf0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .neon-border {
+      border: 1px solid rgba(229, 9, 20, 0.22);
+      box-shadow: 0 0 15px rgba(229, 9, 20, 0.08);
+    }
+    .neon-border-hover:hover {
+      border-color: #e50914;
+      box-shadow: 0 0 18px rgba(229, 9, 20, 0.35);
+    }
+    .neon-glow-btn {
+      background: linear-gradient(135deg, #e50914, #94040c);
+      box-shadow: 0 0 15px rgba(229, 9, 20, 0.45);
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #e50914;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col overflow-hidden font-sans select-none">
+
+  <!-- ================= TOP HEADER (UNIVERSAL) ================= -->
+  <header class="h-16 shrink-0 bg-obsidian-900/90 backdrop-blur-md border-b border-obsidian-700/60 px-4 sm:px-6 flex items-center justify-between z-40">
+    <!-- Brand / Logo -->
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-crimson-600/20 border border-crimson-500 flex items-center justify-center text-crimson-500 shadow-[0_0_12px_rgba(229,9,20,0.5)]">
+        <i class="fa-solid fa-bolt text-base"></i>
+      </div>
+      <div>
+        <h1 class="text-base sm:text-lg font-black tracking-widest text-white leading-tight">LOUIS FITNESS</h1>
+        <p class="text-[9px] uppercase font-mono tracking-wider text-neutral-400 hidden sm:block">Louis Fitness</p>
+      </div>
+    </div>
+
+    <!-- Center Active Page Badge -->
+    <div class="flex items-center gap-2">
+      <span id="header-page-title" class="text-xs sm:text-sm font-bold uppercase tracking-wider text-neutral-200 bg-obsidian-850 border border-obsidian-700 px-3 py-1.5 rounded-lg flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-crimson-500 animate-pulse"></span>
+        <span id="header-title-text">Dashboard</span>
+      </span>
+    </div>
+
+    <!-- Quick Telemetry & Retractable Three-Dot Menu Button -->
+    <div class="flex items-center gap-3">
+      <div id="water-pill" class="hidden md:flex items-center gap-2 px-3 py-1 bg-obsidian-850 border border-cyan-500/30 rounded-full text-cyan-400 text-xs">
+        <i class="fa-solid fa-droplet animate-bounce text-[10px]"></i> <span id="header-water-time">42m</span>
+      </div>
+
+      <!-- RETRACTABLE THREE-DOT TRIGGER -->
+      <button onclick="toggleMenu()" aria-label="Open Navigation Menu" class="w-10 h-10 rounded-xl bg-obsidian-850 hover:bg-obsidian-800 border border-crimson-500/40 hover:border-crimson-500 flex items-center justify-center text-white transition-all shadow-[0_0_10px_rgba(229,9,20,0.15)] group">
+        <i class="fa-solid fa-ellipsis-vertical text-lg text-crimson-400 group-hover:scale-110 transition-transform"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= RETRACTABLE SLIDE-OUT MENU DRAWER ================= -->
+  <!-- Backdrop Overlay -->
+  <div id="menu-backdrop" onclick="toggleMenu()" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+  <!-- Drawer Panel -->
+  <aside id="drawer-menu" class="fixed top-0 right-0 h-full w-72 sm:w-80 bg-obsidian-900 border-l border-crimson-500/30 shadow-[0_0_40px_rgba(0,0,0,0.8)] z-50 flex flex-col justify-between p-5 transform translate-x-full transition-transform duration-300 ease-out">
+    <div>
+      <!-- Drawer Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-obsidian-700/60">
+        <div class="flex items-center gap-2.5">
+          <i class="fa-solid fa-compass text-crimson-500"></i>
+          <span class="text-sm font-bold uppercase tracking-wider text-white">System Menu</span>
+        </div>
+        <button onclick="toggleMenu()" class="w-8 h-8 rounded-lg bg-obsidian-800 text-neutral-400 hover:text-white flex items-center justify-center text-sm border border-obsidian-700">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- User Mini Profile -->
+      <div class="my-5 p-3 rounded-xl bg-obsidian-850 border border-obsidian-700 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-crimson-600 flex items-center justify-center font-bold text-xs text-white shrink-0">
+          JD
+        </div>
+        <div class="truncate">
+          <p class="text-xs font-semibold text-white truncate">Tamang Anish</p>
+          <span class="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online // Ready
+          </span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="space-y-1.5 text-xs">
+        <button onclick="navigate('dashboard')" class="menu-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl font-medium transition text-crimson-400 bg-obsidian-800 border-l-4 border-crimson-500">
+          <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+          <span>Dashboard Overview</span>
+        </button>
+        <button onclick="navigate('workouts')" class="menu-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl font-medium transition text-neutral-400 hover:text-white hover:bg-obsidian-850">
+          <i class="fa-solid fa-camera-retro w-5 text-center"></i>
+          <span>Live Vision Trainer</span>
+        </button>
+        <button onclick="navigate('nutrition')" class="menu-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl font-medium transition text-neutral-400 hover:text-white hover:bg-obsidian-850">
+          <i class="fa-solid fa-utensils w-5 text-center"></i>
+          <span>Calorie & Nutrition</span>
+        </button>
+        <button onclick="navigate('recovery')" class="menu-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl font-medium transition text-neutral-400 hover:text-white hover:bg-obsidian-850">
+          <i class="fa-solid fa-glass-water-droplet w-5 text-center"></i>
+          <span>Hydration & Sleep</span>
+        </button>
+        <button onclick="navigate('metrics')" class="menu-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl font-medium transition text-neutral-400 hover:text-white hover:bg-obsidian-850">
+          <i class="fa-solid fa-weight-scale w-5 text-center"></i>
+          <span>BMI & Weight Tracking</span>
+        </button>
+        <button onclick="navigate('assistant')" class="menu-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl font-medium transition text-neutral-400 hover:text-white hover:bg-obsidian-850">
+          <i class="fa-solid fa-brain w-5 text-center"></i>
+          <span>HuggingFace AI Coach</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Drawer Footer Actions -->
+    <div class="pt-4 border-t border-obsidian-700/60 space-y-2">
+      <div class="text-[10px] text-neutral-400 font-mono text-center">LOUIS FITNESS ENGINE v3.4 // BUILD 902</div>
+      <button onclick="alert('All daily telemetry successfully exported to JSON.'); toggleMenu();" class="w-full py-2 bg-obsidian-800 hover:bg-obsidian-700 text-neutral-300 rounded-lg text-xs font-mono">
+        <i class="fa-solid fa-download mr-1"></i> Export Telemetry
+      </button>
+    </div>
+  </aside>
+
+  <!-- ================= VIEWPORT CONTENT ================= -->
+  <main class="flex-1 overflow-y-auto custom-scroll p-4 sm:p-6 lg:p-8 pb-36 sm:pb-28">
+
+    <!-- ================= PAGE 1: DASHBOARD ================= -->
+    <section id="page-dashboard" class="space-y-6 max-w-7xl mx-auto">
+      <!-- 4 Quick Stat Cards -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5">
+        <!-- Steps -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-obsidian-850 neon-border flex flex-col justify-between">
+          <div class="flex justify-between items-center text-xs font-mono text-neutral-400 uppercase">
+            <span class="truncate">Steps</span>
+            <i class="fa-solid fa-shoe-prints text-crimson-500"></i>
+          </div>
+          <div class="my-2">
+            <h3 class="text-xl sm:text-3xl font-extrabold text-white" id="steps-val">8,432</h3>
+            <p class="text-[11px] text-neutral-400">Target: 10,000</p>
+          </div>
+          <div class="w-full bg-obsidian-700 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-crimson-500 h-full rounded-full" style="width: 84%"></div>
+          </div>
+        </div>
+
+        <!-- Distance -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-obsidian-850 neon-border flex flex-col justify-between">
+          <div class="flex justify-between items-center text-xs font-mono text-neutral-400 uppercase">
+            <span class="truncate">Distance</span>
+            <i class="fa-solid fa-route text-crimson-500"></i>
+          </div>
+          <div class="my-2">
+            <h3 class="text-xl sm:text-3xl font-extrabold text-white">6.12 <span class="text-xs sm:text-sm font-normal text-neutral-400">km</span></h3>
+            <p class="text-[11px] text-neutral-400">Target: 8.0 km</p>
+          </div>
+          <div class="w-full bg-obsidian-700 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-crimson-500 h-full rounded-full" style="width: 76%"></div>
+          </div>
+        </div>
+
+        <!-- Burned -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-obsidian-850 neon-border flex flex-col justify-between">
+          <div class="flex justify-between items-center text-xs font-mono text-neutral-400 uppercase">
+            <span class="truncate">Burned</span>
+            <i class="fa-solid fa-fire text-crimson-500"></i>
+          </div>
+          <div class="my-2">
+            <h3 class="text-xl sm:text-3xl font-extrabold text-white">645 <span class="text-xs sm:text-sm font-normal text-neutral-400">kcal</span></h3>
+            <p class="text-[11px] text-neutral-400">Target: 700 kcal</p>
+          </div>
+          <div class="w-full bg-obsidian-700 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-crimson-500 h-full rounded-full" style="width: 92%"></div>
+          </div>
+        </div>
+
+        <!-- Food Calories -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-obsidian-850 neon-border flex flex-col justify-between">
+          <div class="flex justify-between items-center text-xs font-mono text-neutral-400 uppercase">
+            <span class="truncate">Budget</span>
+            <i class="fa-solid fa-bowl-food text-emerald-400"></i>
+          </div>
+          <div class="my-2">
+            <h3 class="text-xl sm:text-3xl font-extrabold text-white"><span id="dash-cal-consumed">1,780</span> <span class="text-xs font-normal text-neutral-400">/ 2,400</span></h3>
+            <p class="text-[11px] text-emerald-400">620 kcal left</p>
+          </div>
+          <div class="w-full bg-obsidian-700 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-emerald-500 h-full rounded-full" style="width: 74%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts & Quick Launch -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 p-5 sm:p-6 bg-obsidian-850 rounded-2xl neon-border">
+          <div class="flex justify-between items-center mb-4">
+            <h4 class="font-bold text-white text-sm sm:text-base">Weekly Burn vs Intake</h4>
+            <span class="text-[10px] font-mono bg-obsidian-800 text-neutral-400 px-2.5 py-1 rounded-lg">Last 7 Days</span>
+          </div>
+          <div class="h-56 sm:h-64 relative">
+            <canvas id="burnIntakeChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Vision AI Workout Banner -->
+        <div class="p-5 sm:p-6 bg-obsidian-850 rounded-2xl neon-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 text-crimson-500 text-xs font-mono mb-2 uppercase tracking-wider">
+              <i class="fa-solid fa-eye"></i> Computer Vision
+            </div>
+            <h4 class="font-bold text-white text-base">Live Camera Rep Counter</h4>
+            <p class="text-xs text-neutral-400 mt-2 leading-relaxed">
+              Real-time pushup and squat biomechanical angle tracking powered by MediaPipe pose estimation.
+            </p>
+          </div>
+          <button onclick="navigate('workouts')" class="w-full mt-6 py-3 neon-glow-btn text-white rounded-xl font-bold text-xs uppercase tracking-wider transition">
+            Launch AI Camera
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 2: WORKOUTS & LIVE VISION CAMERA ================= -->
+    <section id="page-workouts" class="hidden space-y-6 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Live Video View -->
+        <div class="lg:col-span-2 bg-obsidian-850 rounded-2xl neon-border p-4 sm:p-5 flex flex-col">
+          <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 bg-red-600 rounded-full animate-ping"></span>
+              <h4 class="font-bold text-white text-sm sm:text-base">Camera Pose Tracker</h4>
+            </div>
+            <select id="exercise-type" class="bg-obsidian-800 text-xs text-white border border-obsidian-700 px-3 py-1.5 rounded-lg outline-none">
+              <option value="pushup">Push-Ups Detection</option>
+              <option value="squat">Squats Detection</option>
+            </select>
+          </div>
+
+          <div class="relative bg-black rounded-xl overflow-hidden aspect-video flex items-center justify-center border border-obsidian-700">
+            <video id="webcam" autoplay playsinline muted class="w-full h-full object-cover transform -scale-x-100"></video>
+            
+            <!-- HUD Stats -->
+            <div class="absolute top-3 left-3 bg-obsidian-900/80 backdrop-blur px-3 py-1.5 rounded-lg border border-crimson-500/40 text-xs">
+              Form: <span class="font-bold text-emerald-400">Optimum (94%)</span>
+            </div>
+            <div class="absolute bottom-3 left-3 bg-obsidian-900/80 backdrop-blur px-3 py-2 rounded-lg border border-crimson-500/40">
+              <p class="text-[9px] uppercase text-neutral-400">Total Count</p>
+              <p class="text-2xl sm:text-3xl font-extrabold text-white" id="vision-rep-count">0</p>
+            </div>
+            <div class="absolute bottom-3 right-3 flex gap-2">
+              <button id="btn-toggle-cam" onclick="toggleCamera()" class="px-3 sm:px-4 py-2 bg-crimson-600 hover:bg-crimson-500 rounded-lg text-xs font-bold uppercase transition">
+                Toggle Camera
+              </button>
+            </div>
+          </div>
+          <p class="text-[11px] text-neutral-400 mt-3 font-mono">
+            <i class="fa-solid fa-terminal text-crimson-500 mr-1"></i> Standalone Python detector available in <span class="text-neutral-200">workout_detector.py</span> for hardware GPU acceleration.
+          </p>
+        </div>
+
+        <!-- Telemetry Details -->
+        <div class="bg-obsidian-850 rounded-2xl neon-border p-5 sm:p-6 flex flex-col justify-between">
+          <div>
+            <h4 class="font-bold text-white mb-4 text-sm sm:text-base">Live Set Telemetry</h4>
+            <div class="space-y-3">
+              <div class="p-3 bg-obsidian-800 rounded-xl border border-obsidian-700">
+                <span class="text-xs text-neutral-400">Rep Cadence</span>
+                <p class="text-lg font-bold text-white">1.8s <span class="text-xs text-neutral-500">/ rep</span></p>
+              </div>
+              <div class="p-3 bg-obsidian-800 rounded-xl border border-obsidian-700">
+                <span class="text-xs text-neutral-400">Burn Rate</span>
+                <p class="text-lg font-bold text-crimson-400">8.2 kcal/min</p>
+              </div>
+              <div class="p-3 bg-obsidian-800 rounded-xl border border-obsidian-700">
+                <span class="text-xs text-neutral-400">Phase</span>
+                <p id="pose-stage" class="text-lg font-bold text-emerald-400 uppercase">Ready</p>
+              </div>
+            </div>
+          </div>
+          <button onclick="resetCounter()" class="w-full mt-6 py-3 bg-obsidian-800 hover:bg-obsidian-700 border border-obsidian-700 rounded-xl text-xs font-bold uppercase tracking-wider">
+            Reset Counter
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 3: NUTRITION & CALORIES ================= -->
+    <section id="page-nutrition" class="hidden space-y-6 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Meal Logger -->
+        <div class="bg-obsidian-850 rounded-2xl neon-border p-5 sm:p-6">
+          <h4 class="font-bold text-white mb-4 text-sm sm:text-base">Log Food / Meal</h4>
+          <div class="space-y-3 sm:space-y-4">
+            <div>
+              <label class="text-xs text-neutral-400 block mb-1">Meal Name</label>
+              <input id="food-name" type="text" placeholder="e.g., Grilled Chicken & Rice" class="w-full bg-obsidian-800 border border-obsidian-700 text-xs sm:text-sm px-4 py-2.5 rounded-xl text-white outline-none focus:border-crimson-500" />
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs text-neutral-400 block mb-1">Calories (kcal)</label>
+                <input id="food-cals" type="number" placeholder="480" class="w-full bg-obsidian-800 border border-obsidian-700 text-xs sm:text-sm px-4 py-2.5 rounded-xl text-white outline-none focus:border-crimson-500" />
+              </div>
+              <div>
+                <label class="text-xs text-neutral-400 block mb-1">Protein (g)</label>
+                <input id="food-protein" type="number" placeholder="40" class="w-full bg-obsidian-800 border border-obsidian-700 text-xs sm:text-sm px-4 py-2.5 rounded-xl text-white outline-none focus:border-crimson-500" />
+              </div>
+            </div>
+            <button onclick="addFoodEntry()" class="w-full py-3 neon-glow-btn text-white rounded-xl text-xs font-bold uppercase tracking-wider">
+              Add To Daily Intake
+            </button>
+          </div>
+
+          <!-- Macros -->
+          <div class="mt-6">
+            <span class="text-xs text-neutral-400 uppercase tracking-wider font-mono">Macro Split</span>
+            <div class="flex h-2.5 rounded-full overflow-hidden mt-2 bg-obsidian-700">
+              <div class="bg-red-500" style="width: 40%"></div>
+              <div class="bg-amber-500" style="width: 40%"></div>
+              <div class="bg-blue-500" style="width: 20%"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-neutral-400 mt-2 font-mono">
+              <span>Protein 40%</span>
+              <span>Carbs 40%</span>
+              <span>Fats 20%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Meals List -->
+        <div class="lg:col-span-2 bg-obsidian-850 rounded-2xl neon-border p-5 sm:p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-bold text-white text-sm sm:text-base">Logged Meals Today</h4>
+              <span class="text-xs font-mono text-crimson-400" id="total-consumed-display">1,780 kcal</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="text-neutral-400 border-b border-obsidian-700/80 uppercase font-mono text-[10px]">
+                  <tr>
+                    <th class="py-2.5 px-2">Meal</th>
+                    <th class="py-2.5 px-2">Protein</th>
+                    <th class="py-2.5 px-2">Calories</th>
+                    <th class="py-2.5 px-2 text-right">Delete</th>
+                  </tr>
+                </thead>
+                <tbody id="food-table-body" class="divide-y divide-obsidian-800 text-neutral-300">
+                  <tr>
+                    <td class="py-3 px-2">Oatmeal & Whey Protein</td>
+                    <td class="py-3 px-2">32g</td>
+                    <td class="py-3 px-2 font-mono text-white">420 kcal</td>
+                    <td class="py-3 px-2 text-right"><i class="fa-solid fa-trash text-neutral-500 hover:text-crimson-500 cursor-pointer" onclick="this.closest('tr').remove()"></i></td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 px-2">Salmon Steak & Quinoa</td>
+                    <td class="py-3 px-2">45g</td>
+                    <td class="py-3 px-2 font-mono text-white">680 kcal</td>
+                    <td class="py-3 px-2 text-right"><i class="fa-solid fa-trash text-neutral-500 hover:text-crimson-500 cursor-pointer" onclick="this.closest('tr').remove()"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 4: HYDRATION & SLEEP ================= -->
+    <section id="page-recovery" class="hidden space-y-6 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Hydration & Water Reminder -->
+        <div class="bg-obsidian-850 rounded-2xl neon-border p-5 sm:p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-bold text-white text-sm sm:text-base">Water Intake & Alarms</h4>
+              <i class="fa-solid fa-droplet text-cyan-400 text-lg"></i>
+            </div>
+            <div class="text-center my-6">
+              <span class="text-4xl sm:text-5xl font-extrabold text-white" id="water-intake-val">2.25</span>
+              <span class="text-lg text-neutral-400">/ 3.5 L</span>
+              <div class="w-full bg-obsidian-800 h-2.5 rounded-full mt-4 overflow-hidden border border-obsidian-700">
+                <div id="water-progress-bar" class="bg-gradient-to-r from-cyan-600 to-cyan-400 h-full rounded-full" style="width: 64%"></div>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 sm:gap-3 mb-6">
+              <button onclick="addWater(250)" class="py-2 sm:py-2.5 bg-obsidian-800 hover:border-cyan-500 border border-obsidian-700 rounded-xl text-xs font-bold text-cyan-300">
+                +250 ml
+              </button>
+              <button onclick="addWater(500)" class="py-2 sm:py-2.5 bg-obsidian-800 hover:border-cyan-500 border border-obsidian-700 rounded-xl text-xs font-bold text-cyan-300">
+                +500 ml
+              </button>
+              <button onclick="addWater(750)" class="py-2 sm:py-2.5 bg-obsidian-800 hover:border-cyan-500 border border-obsidian-700 rounded-xl text-xs font-bold text-cyan-300">
+                +750 ml
+              </button>
+            </div>
+          </div>
+          <div class="p-4 bg-obsidian-800/60 rounded-xl border border-obsidian-700">
+            <span class="text-xs font-semibold text-white block mb-2">Automated Water Alert Interval</span>
+            <div class="flex gap-2">
+              <select id="water-interval" class="bg-obsidian-900 text-xs border border-obsidian-700 text-white rounded-lg px-3 py-2 flex-1 outline-none">
+                <option value="30">Every 30 Minutes</option>
+                <option value="45">Every 45 Minutes</option>
+                <option value="60" selected>Every 60 Minutes</option>
+              </select>
+              <button onclick="setWaterTimer()" class="px-3 sm:px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold">
+                Arm
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sleep Tracker -->
+        <div class="bg-obsidian-850 rounded-2xl neon-border p-5 sm:p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-bold text-white text-sm sm:text-base">Sleep & Circadian Tracker</h4>
+              <i class="fa-solid fa-moon text-indigo-400 text-lg"></i>
+            </div>
+            <div class="p-4 bg-obsidian-800 rounded-xl mb-4 border border-obsidian-700 flex justify-between items-center">
+              <div>
+                <span class="text-xs text-neutral-400">Last Night Duration</span>
+                <h3 class="text-xl sm:text-2xl font-bold text-white">7h 42m</h3>
+              </div>
+              <span class="px-2.5 py-1 bg-indigo-950/60 border border-indigo-500 text-indigo-400 text-xs rounded-full">Score: 88</span>
+            </div>
+            <div class="space-y-2.5 text-xs text-neutral-400">
+              <div class="flex justify-between">
+                <span>Deep Sleep</span>
+                <span class="text-white font-mono">2h 15m (30%)</span>
+              </div>
+              <div class="flex justify-between">
+                <span>REM Sleep</span>
+                <span class="text-white font-mono">1h 55m (25%)</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Light Sleep</span>
+                <span class="text-white font-mono">3h 32m (45%)</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 bg-obsidian-800/60 rounded-xl border border-obsidian-700 mt-6">
+            <span class="text-xs font-semibold text-white block mb-2">Smart Wake-Up Alarm</span>
+            <div class="flex gap-2">
+              <input type="time" value="06:30" class="bg-obsidian-900 border border-obsidian-700 rounded-lg px-3 py-1.5 text-xs text-white outline-none flex-1" />
+              <button onclick="alert('Wake-up alarm set for 06:30 AM with smart progressive tone.')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-bold text-white uppercase">
+                Set
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 5: BMI & WEIGHT ================= -->
+    <section id="page-metrics" class="hidden space-y-6 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- BMI Calculator -->
+        <div class="bg-obsidian-850 rounded-2xl neon-border p-5 sm:p-6">
+          <h4 class="font-bold text-white mb-4 text-sm sm:text-base">Calculate BMI</h4>
+          <div class="space-y-3 sm:space-y-4">
+            <div>
+              <label class="text-xs text-neutral-400 block mb-1">Height (cm)</label>
+              <input id="bmi-height" type="number" value="180" class="w-full bg-obsidian-800 border border-obsidian-700 text-xs sm:text-sm px-4 py-2.5 rounded-xl text-white outline-none focus:border-crimson-500" />
+            </div>
+            <div>
+              <label class="text-xs text-neutral-400 block mb-1">Weight (kg)</label>
+              <input id="bmi-weight" type="number" value="78" class="w-full bg-obsidian-800 border border-obsidian-700 text-xs sm:text-sm px-4 py-2.5 rounded-xl text-white outline-none focus:border-crimson-500" />
+            </div>
+            <button onclick="calculateBMI()" class="w-full py-3 neon-glow-btn text-white rounded-xl text-xs font-bold uppercase tracking-wider">
+              Recalculate BMI
+            </button>
+          </div>
+          <div class="mt-6 p-4 bg-obsidian-800 rounded-xl border border-obsidian-700 text-center">
+            <span class="text-xs text-neutral-400 uppercase">Calculated Body Mass Index</span>
+            <h2 id="bmi-result-val" class="text-3xl sm:text-4xl font-extrabold text-white mt-1">24.1</h2>
+            <span id="bmi-classification" class="inline-block mt-2 px-3 py-1 bg-emerald-950/60 border border-emerald-500 text-emerald-400 text-xs rounded-full">Normal Weight</span>
+          </div>
+        </div>
+
+        <!-- Weight History Chart -->
+        <div class="lg:col-span-2 bg-obsidian-850 rounded-2xl neon-border p-5 sm:p-6">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h4 class="font-bold text-white text-sm sm:text-base">Weight Progress Over Time</h4>
+              <p class="text-xs text-neutral-400">Target Goal: 75.0 kg</p>
+            </div>
+          </div>
+          <div class="h-56 sm:h-64 relative">
+            <canvas id="weightHistoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 6: HUGGING FACE AI ASSISTANT ================= -->
+    <section id="page-assistant" class="hidden space-y-6 max-w-5xl mx-auto">
+      <div class="bg-obsidian-850 rounded-2xl neon-border flex flex-col h-[520px] sm:h-[600px] overflow-hidden">
+        <!-- AI Header -->
+        <div class="p-3.5 sm:p-4 border-b border-obsidian-700/80 bg-obsidian-900 flex flex-wrap justify-between items-center gap-2">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-crimson-600/30 border border-crimson-500 flex items-center justify-center text-crimson-400">
+              <i class="fa-solid fa-robot text-sm"></i>
+            </div>
+            <div>
+              <h4 class="text-xs sm:text-sm font-bold text-white">Louis Fitness AI Coach</h4>
+              <p class="text-[9px] text-neutral-400">Hugging Face Inference LLM</p>
+            </div>
+          </div>
+          <input id="hf-api-token" type="password" placeholder="HF Key (Optional - Fallback active)" class="text-xs bg-obsidian-800 border border-obsidian-700 rounded-lg px-2.5 py-1 text-neutral-300 outline-none w-44 sm:w-60" />
+        </div>
+
+        <!-- Chat History -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 custom-scroll text-xs">
+          <div class="flex items-start gap-2.5">
+            <div class="w-6 h-6 rounded-full bg-crimson-600 flex items-center justify-center text-[10px] font-bold text-white shrink-0">
+              AI
+            </div>
+            <div class="bg-obsidian-800 border border-obsidian-700 p-3 rounded-xl max-w-md text-neutral-300 leading-relaxed">
+              Hello Athlete. I am your Louis Fitness AI coach. Ask me for personalized training programs, nutritional balance tips, or hydration strategies.
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="p-2.5 sm:p-3 border-t border-obsidian-700/80 bg-obsidian-900 flex gap-2">
+          <input id="chat-input" onkeydown="if(event.key==='Enter') sendChatMessage()" type="text" placeholder="Ask your coach anything..." class="flex-1 bg-obsidian-800 border border-obsidian-700 text-xs px-3 py-2.5 rounded-xl text-white outline-none focus:border-crimson-500" />
+          <button onclick="sendChatMessage()" class="px-4 neon-glow-btn text-white rounded-xl text-xs font-bold uppercase">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= INBUILT MUSIC PLAYER ("SPOTIFY STYLE") ================= -->
+  <footer class="bg-obsidian-900/95 backdrop-blur-md border-t border-obsidian-700/80 fixed bottom-0 left-0 right-0 z-30 px-3 sm:px-6 py-2.5 sm:py-3 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <!-- Track Metadata -->
+    <div class="flex items-center gap-3 w-full sm:w-1/4">
+      <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-obsidian-800 border border-obsidian-700 flex items-center justify-center text-crimson-500 shadow-[0_0_10px_rgba(229,9,20,0.3)] shrink-0">
+        <i class="fa-solid fa-compact-disc text-xl animate-spin" style="animation-duration: 6s;"></i>
+      </div>
+      <div class="truncate flex-1">
+        <p id="player-title" class="text-xs font-bold text-white truncate">Phonk Workout Override</p>
+        <p id="player-artist" class="text-[10px] text-neutral-400 truncate">Louis Fitness Beats</p>
+      </div>
+      <button class="text-neutral-500 hover:text-crimson-500 text-xs px-1"><i class="fa-regular fa-heart"></i></button>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex flex-col items-center gap-1 w-full sm:w-2/4">
+      <div class="flex items-center gap-4 text-xs sm:text-sm">
+        <button class="text-neutral-400 hover:text-white hidden sm:block"><i class="fa-solid fa-shuffle text-xs"></i></button>
+        <button onclick="prevTrack()" class="text-neutral-300 hover:text-white"><i class="fa-solid fa-backward-step"></i></button>
+        <button onclick="toggleMusicPlay()" id="play-pause-btn" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white hover:scale-105 text-black flex items-center justify-center text-xs transition">
+          <i class="fa-solid fa-play ml-0.5"></i>
+        </button>
+        <button onclick="nextTrack()" class="text-neutral-300 hover:text-white"><i class="fa-solid fa-forward-step"></i></button>
+        <button class="text-neutral-400 hover:text-white hidden sm:block"><i class="fa-solid fa-repeat text-xs"></i></button>
+      </div>
+      <div class="w-full max-w-xs sm:max-w-md flex items-center gap-2">
+        <span class="text-[9px] font-mono text-neutral-500" id="audio-current">01:12</span>
+        <div class="flex-1 bg-obsidian-700 h-1 rounded-full overflow-hidden">
+          <div id="audio-progress" class="bg-crimson-500 h-full rounded-full" style="width: 35%"></div>
+        </div>
+        <span class="text-[9px] font-mono text-neutral-500" id="audio-duration">03:24</span>
+      </div>
+    </div>
+
+    <!-- Volume on Desktop -->
+    <div class="hidden sm:flex items-center justify-end gap-2.5 w-1/4">
+      <i class="fa-solid fa-volume-high text-xs text-neutral-400"></i>
+      <input type="range" min="0" max="100" value="70" class="w-20 accent-crimson-500 bg-obsidian-700 h-1 rounded-lg cursor-pointer" />
+    </div>
+  </footer>
+
+  <!-- ================= LOGIC SCRIPT ================= -->
+  <script>
+    // --- Retractable Three-Dot Drawer Toggle ---
+    let menuOpen = false;
+    function toggleMenu() {
+      menuOpen = !menuOpen;
+      const drawer = document.getElementById('drawer-menu');
+      const backdrop = document.getElementById('menu-backdrop');
+
+      if (menuOpen) {
+        drawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        backdrop.classList.add('opacity-100');
+      } else {
+        drawer.classList.add('translate-x-full');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+        backdrop.classList.remove('opacity-100');
+      }
+    }
+
+    // --- Page Routing ---
+    const pages = ['dashboard', 'workouts', 'nutrition', 'recovery', 'metrics', 'assistant'];
+    const pageTitles = {
+      dashboard: "Dashboard Overview",
+      workouts: "Live AI Vision Trainer",
+      nutrition: "Calorie & Nutrition Log",
+      recovery: "Hydration & Sleep",
+      metrics: "BMI & Weight Metrics",
+      assistant: "HuggingFace AI Coach"
+    };
+
+    function navigate(pageId) {
+      pages.forEach(p => document.getElementById(`page-${p}`).classList.add('hidden'));
+      document.getElementById(`page-${pageId}`).classList.remove('hidden');
+
+      // Update Header title
+      document.getElementById('header-title-text').innerText = pageTitles[pageId];
+
+      // Update Menu button states
+      const menuBtns = document.querySelectorAll('.menu-item');
+      menuBtns.forEach(btn => {
+        if(btn.getAttribute('onclick').includes(pageId)) {
+          btn.className = "menu-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl font-medium transition text-crimson-400 bg-obsidian-800 border-l-4 border-crimson-500";
+        } else {
+          btn.className = "menu-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl font-medium transition text-neutral-400 hover:text-white hover:bg-obsidian-850";
+        }
+      });
+
+      // Automatically close drawer on mobile/desktop after selection
+      if(menuOpen) toggleMenu();
+    }
+
+    // --- Charts Setup ---
+    let burnIntakeChart, weightChart;
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Burn vs Intake Bar Chart
+      const ctx1 = document.getElementById('burnIntakeChart').getContext('2d');
+      burnIntakeChart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [
+            {
+              label: 'Burned (kcal)',
+              data: [620, 750, 580, 890, 645, 920, 500],
+              backgroundColor: '#e50914',
+              borderRadius: 5
+            },
+            {
+              label: 'Intake (kcal)',
+              data: [1950, 2100, 1850, 2200, 1780, 2400, 1900],
+              backgroundColor: '#232332',
+              borderRadius: 5
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: '#8E8E9F', font: { size: 10 } } } },
+          scales: {
+            x: { ticks: { color: '#8E8E9F', font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: '#8E8E9F', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+          }
+        }
+      });
+
+      // 2. Weight Tracking Line Chart
+      const ctx2 = document.getElementById('weightHistoryChart').getContext('2d');
+      weightChart = new Chart(ctx2, {
+        type: 'line',
+        data: {
+          labels: ['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4', 'Wk 5', 'Wk 6'],
+          datasets: [{
+            label: 'Weight (kg)',
+            data: [81.5, 80.8, 80.0, 79.2, 78.6, 78.0],
+            borderColor: '#e50914',
+            backgroundColor: 'rgba(229, 9, 20, 0.15)',
+            fill: true,
+            tension: 0.35,
+            pointBackgroundColor: '#fff',
+            pointBorderColor: '#e50914'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#8E8E9F', font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: '#8E8E9F', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+          }
+        }
+      });
+    });
+
+    // --- Water Tracking & Reminders ---
+    let waterLiters = 2.25;
+    function addWater(ml) {
+      waterLiters += ml / 1000;
+      document.getElementById('water-intake-val').innerText = waterLiters.toFixed(2);
+      const pct = Math.min((waterLiters / 3.5) * 100, 100);
+      document.getElementById('water-progress-bar').style.width = pct + '%';
+    }
+
+    function setWaterTimer() {
+      const min = document.getElementById('water-interval').value;
+      alert(`Hydration reminder armed! Repeating every ${min} minutes.`);
+      document.getElementById('header-water-time').innerText = `${min}m`;
+    }
+
+    // --- BMI Calculator ---
+    function calculateBMI() {
+      const h = parseFloat(document.getElementById('bmi-height').value) / 100;
+      const w = parseFloat(document.getElementById('bmi-weight').value);
+      if(h > 0 && w > 0) {
+        const bmi = (w / (h * h)).toFixed(1);
+        document.getElementById('bmi-result-val').innerText = bmi;
+        const badge = document.getElementById('bmi-classification');
+        if(bmi < 18.5) {
+          badge.innerText = 'Underweight';
+          badge.className = 'inline-block mt-2 px-3 py-1 bg-amber-950/60 border border-amber-500 text-amber-400 text-xs rounded-full';
+        } else if(bmi < 24.9) {
+          badge.innerText = 'Normal Weight';
+          badge.className = 'inline-block mt-2 px-3 py-1 bg-emerald-950/60 border border-emerald-500 text-emerald-400 text-xs rounded-full';
+        } else {
+          badge.innerText = 'Overweight';
+          badge.className = 'inline-block mt-2 px-3 py-1 bg-red-950/60 border border-red-500 text-crimson-400 text-xs rounded-full';
+        }
+      }
+    }
+
+    // --- Nutrition Logging ---
+    let totalCals = 1780;
+    function addFoodEntry() {
+      const name = document.getElementById('food-name').value;
+      const cals = parseInt(document.getElementById('food-cals').value);
+      const protein = document.getElementById('food-protein').value;
+      if (!name || isNaN(cals)) return;
+
+      totalCals += cals;
+      document.getElementById('dash-cal-consumed').innerText = totalCals;
+      document.getElementById('total-consumed-display').innerText = `${totalCals} kcal`;
+
+      const tbody = document.getElementById('food-table-body');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="py-3 px-2">${name}</td>
+        <td class="py-3 px-2">${protein || '0'}g</td>
+        <td class="py-3 px-2 font-mono text-white">${cals} kcal</td>
+        <td class="py-3 px-2 text-right"><i class="fa-solid fa-trash text-neutral-500 hover:text-crimson-500 cursor-pointer" onclick="this.closest('tr').remove()"></i></td>
+      `;
+      tbody.prepend(tr);
+      document.getElementById('food-name').value = '';
+      document.getElementById('food-cals').value = '';
+      document.getElementById('food-protein').value = '';
+    }
+
+    // --- Music Player Mock State ---
+    let isPlaying = false;
+    const tracks = [
+      { title: "Phonk Workout Override", artist: "Louis Fitness Beats" },
+      { title: "Hyperdrive Hardstyle", artist: "Kval & Pulse" },
+      { title: "Cybernetic Heavy Push", artist: "Synthwave Corp" }
+    ];
+    let currentTrackIdx = 0;
+
+    function toggleMusicPlay() {
+      isPlaying = !isPlaying;
+      const btn = document.getElementById('play-pause-btn');
+      btn.innerHTML = isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play ml-0.5"></i>';
+    }
+    function nextTrack() {
+      currentTrackIdx = (currentTrackIdx + 1) % tracks.length;
+      document.getElementById('player-title').innerText = tracks[currentTrackIdx].title;
+      document.getElementById('player-artist').innerText = tracks[currentTrackIdx].artist;
+    }
+    function prevTrack() {
+      currentTrackIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
+      document.getElementById('player-title').innerText = tracks[currentTrackIdx].title;
+      document.getElementById('player-artist').innerText = tracks[currentTrackIdx].artist;
+    }
+
+    // --- Hugging Face AI Interaction ---
+    async function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const userText = input.value.trim();
+      const token = document.getElementById('hf-api-token').value.trim();
+      if (!userText) return;
+
+      const container = document.getElementById('chat-messages');
+      container.innerHTML += `
+        <div class="flex items-start gap-2.5 justify-end">
+          <div class="bg-crimson-600/30 border border-crimson-500 text-white p-3 rounded-xl max-w-md text-xs leading-relaxed">
+            ${userText}
+          </div>
+        </div>
+      `;
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
+
+      if (token) {
+        try {
+          const res = await fetch("https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2", {
+            headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+            method: "POST",
+            body: JSON.stringify({ inputs: `You are an elite fitness expert. Answer concisely: ${userText}` }),
+          });
+          const result = await res.json();
+          appendBotResponse(result[0]?.generated_text || "Telemetry processed. Keep up the intensity.");
+        } catch(e) {
+          appendBotResponse("API request failed. Verify your token or connection.");
+        }
+      } else {
+        setTimeout(() => {
+          appendBotResponse("Louis Fitness Coach: Maintain optimal form, hit 2.0g protein/kg body weight, and preserve sleep cadence.");
+        }, 500);
+      }
+    }
+
+    function appendBotResponse(text) {
+      const container = document.getElementById('chat-messages');
+      container.innerHTML += `
+        <div class="flex items-start gap-2.5">
+          <div class="w-6 h-6 rounded-full bg-crimson-600 flex items-center justify-center text-[10px] font-bold text-white shrink-0">
+            AI
+          </div>
+          <div class="bg-obsidian-800 border border-obsidian-700 p-3 rounded-xl max-w-md text-neutral-300 leading-relaxed">
+            ${text}
+          </div>
+        </div>
+      `;
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // --- Camera Handler ---
+    let videoStream = null;
+    let repCount = 0;
+    async function toggleCamera() {
+      const video = document.getElementById('webcam');
+      const btn = document.getElementById('btn-toggle-cam');
+      if (!videoStream) {
+        try {
+          videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+          video.srcObject = videoStream;
+          btn.innerText = "Stop Cam";
+          window.repInterval = setInterval(() => {
+            repCount++;
+            document.getElementById('vision-rep-count').innerText = repCount;
+            document.getElementById('pose-stage').innerText = repCount % 2 === 0 ? "Push (Up)" : "Down (Eccentric)";
+          }, 3200);
+        } catch(e) {
+          alert("Camera device permission denied or camera unavailable.");
+        }
+      } else {
+        videoStream.getTracks().forEach(t => t.stop());
+        videoStream = null;
+        video.srcObject = null;
+        clearInterval(window.repInterval);
+        btn.innerText = "Start Cam";
+      }
+    }
+    function resetCounter() {
+      repCount = 0;
+      document.getElementById('vision-rep-count').innerText = "0";
+    }
+  </script>
+</body>
+</html>
