@@ -1,90 +1,191 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Performance Optimization Homework Report</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-            background-color: #f9f9f9;
-        }
-        header {
-            background: #2c3e50;
-            color: #fff;
-            padding: 2rem;
-            border-radius: 8px;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        h1, h2, h3 {
-            color: #2c3e50;
-        }
-        header h1 {
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-        .section {
-            background: #fff;
-            padding: 1.5rem 2rem;
-            margin-bottom: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        ul {
-            padding-left: 1.5rem;
-        }
-        li {
-            margin-bottom: 0.5rem;
-        }
-        pre {
-            background: #272822;
-            color: #f8f8f2;
-            padding: 1rem;
-            border-radius: 6px;
-            overflow-x: auto;
-            font-family: monospace;
-            font-size: 0.9rem;
-        }
-        .screenshot-container {
-            display: flex;
-            gap: 1rem;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-        .screenshot-box {
-            flex: 1;
-            min-width: 300px;
-            background: #f1f1f1;
-            padding: 1rem;
-            border-radius: 6px;
-            text-align: center;
-            border: 2px dashed #ccc;
-        }
-        .screenshot-box img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-            margin-top: 0.5rem;
-        }
+        :root {
+    --bg-primary: #0f172a;
+    --bg-card: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+    --border-color: #334155;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.7;
+    color: var(--text-main);
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    background-color: var(--bg-primary);
+    background-image: radial-gradient(circle at top right, #1e1b4b 0%, transparent 40%),
+                      radial-gradient(circle at bottom left, #064e3b 0%, transparent 40%);
+    background-attachment: fixed;
+}
+
+header {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 3rem 2rem;
+    border-radius: 16px;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent-gradient);
+}
+
+h1, h2, h3 {
+    color: var(--text-main);
+    letter-spacing: -0.025em;
+}
+
+header h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.75rem;
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 2rem 2.5rem;
+    margin-bottom: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.section:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.75rem;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    color: var(--accent);
+}
+
+h3 {
+    font-size: 1.15rem;
+    margin-top: 1.5rem;
+    color: #cbd5e1;
+}
+
+p {
+    color: #cbd5e1;
+}
+
+ul {
+    padding-left: 1.25rem;
+    color: #cbd5e1;
+}
+
+li {
+    margin-bottom: 0.75rem;
+}
+
+li strong {
+    color: #f1f5f9;
+}
+
+pre {
+    background: #090d16;
+    color: #e2e8f0;
+    padding: 1.25rem;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-family: 'Fira Code', Consolas, monospace;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+    margin-top: 0.75rem;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+code {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.screenshot-container {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+}
+
+.screenshot-box {
+    flex: 1;
+    min-width: 280px;
+    background: #090d16;
+    padding: 1.25rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px dashed var(--border-color);
+}
+
+.screenshot-box h3 {
+    color: var(--text-main);
+    margin-top: 0;
+    font-size: 1rem;
+}
+
+.screenshot-box p em {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.screenshot-box img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 0.75rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
     </style>
 </head>
 <body>
 
     <header>
         <h1>Web Performance Optimization Report</h1>
-        <p>Student Homework Assignment: Project Auditing & Speed Enhancements</p>
+        <p> Homework Assignment: Project Auditing & Speed Enhancements</p>
     </header>
 
     <div class="section">
         <h2>1. Project Overview</h2>
-        <p>This report documents the performance audit and optimization implementation for the <strong>Gaze Web Chat Application</strong> hosted on GitHub Pages. By analyzing initial Lighthouse metrics, five core performance bottlenecks were identified and resolved to improve speed and user experience.</p>
+        <p>This report documents the performance audit and optimization implementation for the <strong>Gaze Website</strong> hosted on <a href="https://anish123619.github.io/web-programming/">My Github</a>. By analyzing initial Lighthouse metrics, five core performance bottlenecks were identified and resolved to improve speed and user experience.</p>
     </div>
 
     <div class="section">
@@ -134,14 +235,13 @@
         <div class="screenshot-container">
             <div class="screenshot-box">
                 <h3>Before Optimization</h3>
-                <p><em>(Replace src with your actual 'Before' screenshot)</em></p>
+                
                 <img src="before.png" alt="Before Optimization Score">
             </div>
             
             <div class="screenshot-box">
                 <h3>After Optimization</h3>
-                <p><em>(Replace src with your actual 'After' screenshot)</em></p>
-                <img src="afafter-screenshot.png" alt="After Optimization Score">
+                <img src="after.png" alt="After Optimization Score">
             </div>
 
             <div class="screenshot-box" style="flex-basis: 100%;">
@@ -158,4 +258,4 @@
     </div>
 
 </body>
-</html> -->
+</html>
