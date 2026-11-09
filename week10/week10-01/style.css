@@ -183,6 +183,36 @@ p:empty {
     display: none;
 }
 
+/* ---------- img: polaroid pinned to the page ---------- */
+img {
+    display: block;
+    align-self: flex-start;
+    box-sizing: border-box;
+    max-width: min(100%, 360px);
+    height: auto;
+    margin-top: var(--line);
+    padding: 12px 12px 40px;
+    background: #f7f2e6;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 3px;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.18),
+        0 14px 28px rgba(0, 0, 0, 0.22);
+    color: var(--muted);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.85rem;
+    transform: rotate(-2deg);
+    transform-origin: top left;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+img:hover {
+    transform: rotate(0deg) translateY(-4px);
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.2),
+        0 22px 40px rgba(0, 0, 0, 0.28);
+}
+
 /* ---------- a: pen-ink link with highlighter wipe ---------- */
 a {
     align-self: flex-start;
@@ -244,5 +274,5 @@ a:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
     h1 span { animation: none; }
-    a, a::after { transition: none; }
+    a, a::after, img { transition: none; }
 }
