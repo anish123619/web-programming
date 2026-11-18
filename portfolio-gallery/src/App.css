@@ -1,0 +1,4 @@
+.project-list { display: flex; gap: 16px; flex-wrap: wrap; }
+.project-card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; width: 250px; }
+.filter-bar button { margin-right: 8px; padding: 6px 12px; cursor: pointer; }
+.filter-bar .active { background: #2f5d8c; color: white; }
