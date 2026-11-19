@@ -215,6 +215,166 @@ footer p {
     margin: 4px 0;
 }
 
+/* ================================================
+   NEW: Find a task (search box + week grid)
+   ================================================ */
+[hidden] { display: none !important; }
+
+.finder {
+    margin-bottom: 14px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #121116;
+    box-shadow: 0 8px 25px #00000030;
+    scroll-margin-top: 20px;
+}
+
+.finder-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.finder-top label {
+    font-weight: bold;
+}
+
+.finder-top input {
+    flex: 1 1 260px;
+    padding: 10px 14px;
+    border: 1px solid #302b38;
+    border-radius: 50px;
+    background: #19171e;
+    color: var(--ink);
+    font-size: 1rem;
+}
+
+.finder-top input:focus-visible,
+.finder-buttons button:focus-visible,
+.week-index a:focus-visible,
+.week-section summary:focus-visible {
+    outline: 3px solid var(--coral);
+    outline-offset: 3px;
+}
+
+.finder-buttons button {
+    padding: 8px 14px;
+    border: 1px solid #302b38;
+    border-radius: 50px;
+    background: #19171e;
+    color: var(--muted);
+    font-size: .9rem;
+    cursor: pointer;
+    transition: color .2s ease, border-color .2s ease;
+}
+
+.finder-buttons button:hover {
+    color: var(--white);
+    border-color: var(--coral);
+}
+
+.search-status {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.week-index {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.week-index a {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    border: 1px solid #302b38;
+    border-radius: 10px;
+    background: #19171e;
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color .2s ease, background .2s ease;
+}
+
+.week-index a:hover {
+    border-color: var(--coral);
+    background: #211b2b;
+}
+
+.week-index strong { font-size: .9rem; }
+.week-index span   { color: var(--muted); font-size: .75rem; }
+
+/* ================================================
+   NEW: Folding week sections
+   ================================================ */
+.week-section summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.week-section summary::-webkit-details-marker { display: none; }
+
+.week-section summary::after {
+    content: "+";
+    color: var(--coral);
+    font-size: 1.4rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.week-section details[open] summary::after { content: "\2212"; }
+
+.week-section summary h2 {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    border-bottom: 0;
+}
+
+.week-section .count {
+    color: var(--muted);
+    font-size: .8rem;
+}
+
+.week-section details[open] summary {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+}
+
+/* ================================================
+   Mobile (keep this block LAST)
+   ================================================ */
+   .scroll-wrap {
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.scroll-text {
+    white-space: nowrap;
+    animation: scroll-left 14s linear infinite;
+}
+
+.scroll-text:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-left {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(-100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-text { animation: none; }
+}
 @media (max-width: 620px) {
     .site-header {
         padding: 18px 20px 30px;
@@ -236,7 +396,8 @@ footer p {
         margin-top: 20px;
     }
 
-    .week-section {
+    .week-section,
+    .finder {
         padding: 18px;
     }
 }
