@@ -17,7 +17,7 @@ function App() {
     <div>
       <StudentCard name="Tamang Anish" id="202637595" major="Computer Engineering" />
 
-      <h2>Exercise 1: ProfileCard</h2>
+      <h2 id="exercises">Exercise 1: ProfileCard</h2>
       <ProfileCard name="Tamang Anish" role="Student" email="tamanganish296@gmail.com" />
 
       <h2>Exercise 2: Notifications</h2>
