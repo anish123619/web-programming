@@ -1,4 +1,147 @@
-.project-list { display: flex; gap: 16px; flex-wrap: wrap; }
-.project-card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; width: 250px; }
-.filter-bar button { margin-right: 8px; padding: 6px 12px; cursor: pointer; }
-.filter-bar .active { background: #2f5d8c; color: white; }
+:root {
+    --bg: #09090c;
+    --card: #19171e;
+    --line: #302b38;
+    --accent: #a78bfa;
+    --text: #f2eff5;
+    --muted: #aaa3b3;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 80% 0%, #21172f 0%, transparent 40%),
+        var(--bg);
+    color: var(--text);
+    font-family: system-ui, Arial, sans-serif;
+}
+
+/* App's wrapper div */
+#root > div {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+h1 {
+    margin: 0 0 24px;
+    text-align: center;
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+/* Filter buttons */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.filter-bar button {
+    padding: 8px 18px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--muted);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.filter-bar button:hover {
+    color: var(--text);
+    border-color: var(--accent);
+}
+
+.filter-bar .active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #14101f;
+    font-weight: bold;
+}
+
+/* Project cards */
+.project-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--accent);
+    border-radius: 16px;
+    background: var(--card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: 0 12px 30px rgba(167, 139, 250, 0.25);
+}
+
+.project-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.3rem;
+}
+
+.description {
+    flex: 1;
+    margin: 0 0 14px;
+    color: var(--muted);
+}
+
+/* Technology tags */
+.tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.tech-tag {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(167, 139, 250, 0.16);
+    color: #cdbfff;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Links */
+.links {
+    display: flex;
+    gap: 10px;
+}
+
+.links a {
+    flex: 1;
+    padding: 8px 0;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--text);
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.links a:hover {
+    background: rgba(167, 139, 250, 0.16);
+    border-color: var(--accent);
+}
+
+/* "No projects match" message */
+#root > div > p {
+    text-align: center;
+    color: var(--muted);
+}
