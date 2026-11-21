@@ -1,6 +1,7 @@
 import ProfileCard from './components/ProfileCard';
 import NotificationList from './components/NotificationList';
 import Card from './components/Card';
+import CourseCatalog from './components/CourseCatalog';
 
 function StudentCard({ name, id, major }) {
   return (
@@ -33,6 +34,8 @@ function App() {
       <Card title="Homework">
         <p>Build a student portfolio component</p>
       </Card>
+      <h2 id="courses">Practice: Course Catalog</h2>
+<CourseCatalog />
     </div>
   );
 }
