@@ -8,6 +8,64 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="style1.css">
+  <style>
+    /* ===== Gaze v2 additions (replies, voice, chat options, group admin) ===== */
+    .hidden { display: none !important; }
+    .quote { border-left: 3px solid currentColor; background: rgba(127,127,127,.15); border-radius: 4px; padding: 3px 8px; margin-bottom: 4px; font-size: .82em; opacity: .85; cursor: pointer; max-width: 260px; }
+    .quote strong { display: block; font-size: .92em; }
+    .quote div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .forwarded { font-size: .74em; font-style: italic; opacity: .7; margin-bottom: 2px; }
+    .forwarded i { margin-right: 4px; }
+    .message { transition: transform .15s ease; }
+    .message.highlight .bubble { animation: gaze-flash 1.4s ease; }
+    @keyframes gaze-flash { 0%, 60% { box-shadow: 0 0 0 3px rgba(255,193,7,.9); } 100% { box-shadow: 0 0 0 0 rgba(255,193,7,0); } }
+    .message.system { align-self: center; max-width: 85%; margin: 6px auto; text-align: center; }
+    .message.system .system-text { display: inline-block; font-size: .78em; color: var(--text-secondary, #888); background: rgba(127,127,127,.12); padding: 3px 10px; border-radius: 10px; }
+    .voice { display: flex; align-items: center; gap: 8px; min-width: 190px; }
+    .voice-play { width: 32px; height: 32px; flex-shrink: 0; border: none; border-radius: 50%; background: rgba(127,127,127,.25); color: inherit; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .voice-bar { flex: 1; height: 4px; border-radius: 2px; background: rgba(127,127,127,.35); cursor: pointer; }
+    .voice-fill { width: 0; height: 100%; border-radius: 2px; background: currentColor; }
+    .voice-time { min-width: 32px; text-align: right; font-size: .75em; opacity: .8; }
+    .recording-bar { align-items: center; gap: 10px; }
+    .recording-bar .rec-dot { width: 10px; height: 10px; border-radius: 50%; background: #e53935; animation: gaze-pulse 1s infinite; }
+    .recording-bar .rec-label { flex: 1; color: var(--text-secondary, #888); }
+    #rec-cancel { color: #e53935; }
+    @keyframes gaze-pulse { 50% { opacity: .3; } }
+    .chat-flags { margin-left: 6px; font-size: .75em; opacity: .55; white-space: nowrap; }
+    .chat-flags i { margin-left: 4px; }
+    .badge.muted { background: #9e9e9e !important; }
+    .archived-row { display: flex; align-items: center; gap: 12px; padding: 10px 16px; cursor: pointer; font-weight: 500; color: var(--text-secondary, #888); }
+    .archived-row i { width: 24px; text-align: center; }
+    .option-btn { display: block; width: 100%; text-align: left; margin-bottom: 6px; }
+    .option-btn i { width: 22px; }
+    .group-head { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .rename-row { display: flex; gap: 6px; width: 100%; }
+    .rename-row .form-control { margin: 0; }
+    .member-tag { font-size: .72em; padding: 1px 6px; border-radius: 8px; background: rgba(127,127,127,.18); margin-left: 6px; white-space: nowrap; }
+    .person-row .member-actions { margin-left: auto; display: flex; gap: 4px; }
+    .section-label { margin: 8px 0; font-size: .78em; text-transform: uppercase; letter-spacing: .05em; color: var(--text-secondary, #888); }
+    .receipt { white-space: nowrap; }
+    #reply-bar > span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ----- welcome screen for new users ----- */
+    .welcome { text-align: center; padding: 28px 18px 32px; }
+    .welcome-emoji { display: inline-block; font-size: 3.2rem; line-height: 1; transform-origin: 70% 70%; }
+    .welcome-emoji.wave { animation: gaze-wave 1.8s ease-in-out 2; }
+    @keyframes gaze-wave { 0%, 60%, 100% { transform: rotate(0); } 10%, 30% { transform: rotate(14deg); } 20% { transform: rotate(-8deg); } 40% { transform: rotate(-4deg); } 50% { transform: rotate(10deg); } }
+    .welcome h3 { font-weight: 600; margin: 12px 0 6px; }
+    .welcome-lead { color: var(--text-secondary, #888); max-width: 340px; margin: 0 auto 18px; }
+    .welcome-steps { display: flex; flex-direction: column; gap: 8px; max-width: 400px; margin: 0 auto 20px; text-align: left; }
+    .welcome-step { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: rgba(127,127,127,.1); cursor: pointer; transition: transform .1s ease, background .2s ease; }
+    .welcome-step:hover { background: rgba(127,127,127,.16); }
+    .welcome-step:active { transform: scale(.98); }
+    .welcome-step .num { width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #fff; background: var(--primary-color, #0084ff); }
+    .welcome-step.done .num { background: #2e7d32; }
+    .welcome-step.done strong { text-decoration: line-through; opacity: .6; }
+    .welcome-step small { display: block; color: var(--text-secondary, #888); }
+    .welcome-step .go { margin-left: auto; opacity: .45; }
+    .welcome-people { max-width: 400px; margin: 0 auto; text-align: left; }
+    .welcome-cta { margin-top: 16px; padding-left: 24px; padding-right: 24px; }
+  </style>
 </head>
 <body>
 
@@ -112,12 +170,21 @@
     <div class="chat-messages" id="chat-messages"></div>
     <div class="typing" id="typing-indicator"></div>
     <div class="edit-bar hidden" id="edit-bar"><span><i class="fas fa-pen"></i> Editing message</span><button id="cancel-edit-btn" title="Cancel"><i class="fas fa-times"></i></button></div>
+    <div class="edit-bar hidden" id="reply-bar"><span><i class="fas fa-reply"></i> <span id="reply-text"></span></span><button id="cancel-reply-btn" title="Cancel reply"><i class="fas fa-times"></i></button></div>
 
-    <div class="chat-input">
+    <div class="chat-input" id="chat-input">
       <button id="attach-btn" class="attach" title="Send a photo"><i class="fas fa-image"></i></button>
       <input type="file" id="image-input" accept="image/*" class="hidden">
       <input type="text" id="message-input" placeholder="Aa" maxlength="2000" autocomplete="off">
-      <button id="send-btn" title="Send"><i class="fas fa-paper-plane"></i></button>
+      <button id="mic-btn" title="Record a voice message"><i class="fas fa-microphone"></i></button>
+      <button id="send-btn" class="hidden" title="Send"><i class="fas fa-paper-plane"></i></button>
+    </div>
+    <div class="chat-input recording-bar hidden" id="recording-bar">
+      <button id="rec-cancel" title="Discard recording"><i class="fas fa-trash"></i></button>
+      <span class="rec-dot"></span>
+      <span id="rec-time">0:00</span>
+      <span class="rec-label">Recording… (max 1 min)</span>
+      <button id="rec-send" title="Send voice message"><i class="fas fa-paper-plane"></i></button>
     </div>
   </div>
 
@@ -205,6 +272,16 @@
         <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
       </div>
       <div class="modal-body">
+        <div class="group-head">
+          <div id="groupInfoAvatar" class="avatar big"></div>
+          <label class="btn btn-inline btn-ghost hidden" id="groupPhotoLabel" style="margin:0;"><i class="fas fa-camera"></i> Change photo<input type="file" id="groupPhotoInput" accept="image/*" class="hidden"></label>
+          <div class="rename-row hidden" id="groupRenameRow">
+            <input type="text" id="groupRenameInput" class="form-control" maxlength="50" placeholder="Group name">
+            <button class="btn btn-inline" id="groupRenameBtn">Save</button>
+          </div>
+        </div>
+        <button class="btn btn-ghost option-btn hidden" id="groupAddBtn"><i class="fas fa-user-plus"></i> Add members</button>
+        <div class="section-label" id="groupMemberCount">Members</div>
         <div id="groupInfoMembers"></div>
       </div>
       <div class="modal-footer">
@@ -237,9 +314,62 @@
     <div class="modal-content">
       <div class="modal-body">
         <div class="emoji-row" id="emoji-row"></div>
+        <button class="btn btn-ghost" id="act-reply"><i class="fas fa-reply"></i> Reply</button>
+        <button class="btn btn-ghost" id="act-forward"><i class="fas fa-share"></i> Forward</button>
         <button class="btn btn-ghost" id="act-copy"><i class="fas fa-copy"></i> Copy text</button>
         <button class="btn btn-ghost" id="act-edit"><i class="fas fa-pen"></i> Edit</button>
         <button class="btn btn-danger" id="act-delete"><i class="fas fa-trash"></i> Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chat options (pin / mute / archive) -->
+<div class="modal fade" id="chatOptionsModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chatOptionsTitle">Chat</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-ghost option-btn" id="opt-pin"></button>
+        <button class="btn btn-ghost option-btn" id="opt-mute"></button>
+        <button class="btn btn-ghost option-btn" id="opt-archive"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Forward -->
+<div class="modal fade" id="forwardModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Forward to…</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="forwardSearch" class="form-control" placeholder="Search chats" style="margin-bottom:0.75rem;">
+        <div id="forwardList" style="max-height:50vh; overflow:auto;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add group members -->
+<div class="modal fade" id="addMembersModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add members</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div id="addMembersList" style="max-height:50vh; overflow:auto;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" id="addMembersBtn">Add</button>
       </div>
     </div>
   </div>
@@ -292,6 +422,25 @@ function el(tag, cls, text) {
   return e;
 }
 function isImg(u) { return typeof u === 'string' && u.startsWith('data:image/'); }
+function isAudio(u) { return typeof u === 'string' && u.startsWith('data:audio/'); }
+function fmtDur(s) {
+  s = Math.max(0, Math.floor(s || 0));
+  return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+}
+/* Short text describing a message, for chat-list previews and reply quotes. */
+function msgPreview(m) {
+  if (!m) return '';
+  if (m.deleted) return 'Message deleted';
+  if (m.text) return m.text.slice(0, 80);
+  if (isAudio(m.audio)) return '🎤 Voice message';
+  if (isImg(m.image)) return '📷 Photo';
+  return '';
+}
+/* Group avatar: the group photo if one is set, otherwise the people icon. */
+function setGroupAvatar(a, photo) {
+  if (isImg(photo)) { a.style.backgroundImage = `url("${photo}")`; a.textContent = ''; }
+  else { a.style.backgroundImage = ''; a.innerHTML = '<i class="fas fa-users" style="font-size:0.55em"></i>'; }
+}
 function setAvatar(a, name, url) {
   if (isImg(url)) { a.style.backgroundImage = `url("${url}")`; a.textContent = ''; }
   else { a.style.backgroundImage = ''; a.textContent = (name || '?').charAt(0).toUpperCase(); }
@@ -301,9 +450,9 @@ function makeAvatar(name, url, extraClass) {
   setAvatar(a, name, url);
   return a;
 }
-function groupAvatar(extraClass) {
+function groupAvatar(extraClass, photo) {
   const a = el('div', 'avatar' + (extraClass ? ' ' + extraClass : ''));
-  a.innerHTML = '<i class="fas fa-users" style="font-size:0.55em"></i>';
+  setGroupAvatar(a, photo);
   return a;
 }
 const sameDay = (a, b) => a.toDateString() === b.toDateString();
@@ -374,11 +523,12 @@ async function resizeChatImage(file) {
 const app = {
   me: null,
   allUsers: {}, presence: {}, friends: {}, groups: {}, userGroups: {}, chatMeta: {}, requests: {},
-  sentRequests: new Set(),
+  sentRequests: new Set(), chatSettings: {}, showArchived: false, serverOffset: 0,
   listeners: [], groupRefs: {},
   currentChat: null,
-  msgEls: {}, msgData: {}, reactions: {}, seenTs: 0, lastDay: null, initialLoaded: false,
-  editingMid: null, actionMid: null,
+  msgEls: {}, msgData: {}, reactions: {}, seenTs: 0, seenMap: {}, lastDay: null, initialLoaded: false,
+  editingMid: null, actionMid: null, replyTo: null, forwardMid: null, optionsChat: null,
+  groupInfoOpen: false, playingAudio: null, baseTitle: document.title,
   typingOn: false, typingTimer: null, typingRef: null,
   metaLoaded: false, requestsLoaded: false, renderQueued: false,
   signingUp: false, pendingAvatar: null, toastTimer: null, activeTab: 'chats',
@@ -441,6 +591,20 @@ const app = {
     on('createGroupBtn', () => this.createGroup());
     on('group-info-btn', () => this.openGroupInfo());
     on('leaveGroupBtn', () => this.leaveGroup());
+    on('groupRenameBtn', () => this.renameGroup());
+    on('groupRenameInput', e => { if (e.key === 'Enter') this.renameGroup(); }, 'keydown');
+    on('groupPhotoInput', e => { const f = e.target.files[0]; e.target.value = ''; if (f) this.setGroupPhoto(f); }, 'change');
+    on('groupAddBtn', () => this.showAddMembers());
+    on('addMembersBtn', () => this.addMembers());
+    $('#groupInfoModal').on('hidden.bs.modal', () => { this.groupInfoOpen = false; });
+
+    // chat options (pin / mute / archive)
+    on('opt-pin', () => this.toggleChatSetting('pinned'));
+    on('opt-mute', () => this.toggleChatSetting('muted'));
+    on('opt-archive', () => this.toggleChatSetting('archived'));
+
+    // forwarding
+    on('forwardSearch', () => this.renderForwardList(), 'input');
 
     // notes
     on('postNoteBtn', () => this.postNote());
@@ -449,11 +613,18 @@ const app = {
     // chat window
     on('back-btn', () => this.backToChatList());
     on('send-btn', () => this.sendMessage());
-    on('message-input', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.sendMessage(); } }, 'keydown');
-    on('message-input', () => this.onTyping(), 'input');
+    on('message-input', e => {
+      if (e.key === 'Enter') { e.preventDefault(); this.sendMessage(); }
+      else if (e.key === 'Escape') { this.cancelEdit(); this.cancelReply(); }
+    }, 'keydown');
+    on('message-input', () => { this.onTyping(); this.updateComposer(); }, 'input');
     on('attach-btn', () => $id('image-input').click());
     on('image-input', e => { const f = e.target.files[0]; e.target.value = ''; if (f) this.sendImage(f); }, 'change');
     on('cancel-edit-btn', () => this.cancelEdit());
+    on('cancel-reply-btn', () => this.cancelReply());
+    on('mic-btn', () => voice.start());
+    on('rec-cancel', () => voice.stop(false));
+    on('rec-send', () => voice.stop(true));
     on('video-call-btn', () => {
       const c = this.currentChat;
       if (c && c.type === 'direct') callManager.startCall(c.uid);
@@ -472,6 +643,8 @@ const app = {
       if (m && m.text && navigator.clipboard) navigator.clipboard.writeText(m.text).then(() => this.toast('Copied'));
       $('#actionsModal').modal('hide');
     });
+    on('act-reply', () => { $('#actionsModal').modal('hide'); this.startReply(this.actionMid); });
+    on('act-forward', () => { $('#actionsModal').modal('hide'); this.openForward(this.actionMid); });
     on('act-edit', () => { $('#actionsModal').modal('hide'); this.startEdit(this.actionMid); });
     on('act-delete', () => { $('#actionsModal').modal('hide'); this.deleteMessage(this.actionMid); });
 
@@ -502,6 +675,7 @@ const app = {
       const cred = await this.auth.createUserWithEmailAndPassword(email, psw);
       try { await cred.user.updateProfile({ displayName: name }); } catch (e) {}
       await this.db.ref(`users/${cred.user.uid}`).set({ name, nameLower: name.toLowerCase() });
+      this.justSignedUp = true;
     } catch (e) {
       this.toast(e.message);
     }
@@ -530,6 +704,10 @@ const app = {
       await this.startSession();
       this.navigateTo('main-app-view');
       this.switchTab('chats');
+      if (this.justSignedUp) {
+        this.justSignedUp = false;
+        this.toast(`Welcome to Gaze, ${this.myName().split(' ')[0]}! 🎉`);
+      }
     } catch (e) {
       console.error('Startup error', e);
       this.toast('Could not load your data: ' + e.message);
@@ -563,7 +741,20 @@ const app = {
     this.listen(usersRef, 'child_removed', s => { delete this.allUsers[s.key]; this.onUsersChanged(s.key); });
     await usersRef.once('value');
 
-    this.listen(this.db.ref(`friends/${uid}`), 'value', s => { this.friends = s.val() || {}; this.scheduleRender(); });
+    this.listen(this.db.ref(`friends/${uid}`), 'value', s => {
+      this.friends = s.val() || {};
+      // a request I sent was accepted: tidy up my sent-request record
+      Object.keys(this.friends).forEach(f => {
+        if (this.sentRequests.has(f)) this.db.ref(`sentRequests/${uid}/${f}`).remove().catch(() => {});
+      });
+      this.scheduleRender();
+    });
+    // requests I've sent are stored, so "Requested" survives a reload
+    this.listen(this.db.ref(`sentRequests/${uid}`), 'value', s => { this.sentRequests = new Set(Object.keys(s.val() || {})); this.scheduleRender(); });
+    // per-user pin / mute / archive flags
+    this.listen(this.db.ref(`chatSettings/${uid}`), 'value', s => { this.chatSettings = s.val() || {}; this.scheduleRender(); });
+    // difference between this device's clock and Firebase's clock
+    this.listen(this.db.ref('.info/serverTimeOffset'), 'value', s => { this.serverOffset = s.val() || 0; });
     this.listen(this.db.ref(`userGroups/${uid}`), 'value', s => this.syncGroups(s.val() || {}));
     this.listen(this.db.ref(`userChats/${uid}`), 'value', s => this.onChatMeta(s.val() || {}));
     this.listen(this.db.ref(`friendRequests/${uid}`), 'value', s => this.onRequests(s.val() || {}));
@@ -585,7 +776,11 @@ const app = {
 
   stopSession() {
     callManager.reset();
+    voice.stop(false);
+    this.stopAudio();
     this.stopTyping();
+    this.replyTo = null;
+    this.chatSettings = {}; this.showArchived = false; this.groupInfoOpen = false;
     this.clearListeners();
     Object.values(this.groupRefs).forEach(g => g.ref.off('value', g.cb));
     this.groupRefs = {};
@@ -609,6 +804,14 @@ const app = {
     const u = this.me && this.allUsers[this.me.uid];
     return (u && u.name) || (this.me && this.me.displayName) || 'Someone';
   },
+  nameOf(uid) {
+    if (this.me && uid === this.me.uid) return this.myName();
+    return (this.allUsers[uid] || {}).name || 'Someone';
+  },
+  firstName(uid) { return this.nameOf(uid).split(' ')[0]; },
+  /* Current time on Firebase's clock (corrects for a wrong device clock). */
+  now() { return Date.now() + (this.serverOffset || 0); },
+  settingsOf(chatId) { return this.chatSettings[chatId] || {}; },
 
   /* ---------- navigation ---------- */
   navigateTo(viewId) {
@@ -657,62 +860,221 @@ const app = {
     card.appendChild(t);
   },
 
-  renderChatList() {
-    const listEl = $id('chat-list');
-    const term = $id('chat-search').value.trim().toLowerCase();
+  /* Every chat the user has (direct + groups), with its inbox meta and settings. */
+  chatItems() {
     const items = [];
-
     Object.keys(this.friends).forEach(fid => {
       const u = this.allUsers[fid]; if (!u) return;
       const id = this.directId(fid);
-      items.push({ id, type: 'direct', uid: fid, name: u.name, img: u.profileImageUrl, meta: this.chatMeta[id] || {} });
+      items.push({ id, type: 'direct', uid: fid, name: u.name, img: u.profileImageUrl, meta: this.chatMeta[id] || {}, s: this.settingsOf(id) });
     });
     Object.keys(this.userGroups).forEach(gid => {
       const g = this.groups[gid]; if (!g) return;
-      items.push({ id: gid, type: 'group', name: g.name, meta: this.chatMeta[gid] || {} });
+      items.push({ id: gid, type: 'group', name: g.name, img: g.photo, meta: this.chatMeta[gid] || {}, s: this.settingsOf(gid) });
     });
+    return items;
+  },
 
-    const shown = items
+  renderChatList() {
+    const listEl = $id('chat-list');
+    const term = $id('chat-search').value.trim().toLowerCase();
+    const items = this.chatItems();
+    const archivedCount = items.filter(i => i.s.archived).length;
+    if (this.showArchived && !archivedCount) this.showArchived = false;
+
+    // searching looks through everything, archived included
+    const pool = term ? items : items.filter(i => !!i.s.archived === this.showArchived);
+    const shown = pool
       .filter(i => !term || i.name.toLowerCase().includes(term))
-      .sort((a, b) => (b.meta.timestamp || 0) - (a.meta.timestamp || 0));
+      .sort((a, b) => ((b.s.pinned ? 1 : 0) - (a.s.pinned ? 1 : 0)) || ((b.meta.timestamp || 0) - (a.meta.timestamp || 0)));
 
+    // muted chats don't count towards the badge
     let totalUnread = 0;
-    items.forEach(i => { totalUnread += i.meta.unread || 0; });
+    items.forEach(i => { if (!i.s.muted) totalUnread += i.meta.unread || 0; });
     const badge = $id('chats-badge');
     badge.textContent = totalUnread > 99 ? '99+' : totalUnread;
     badge.classList.toggle('hidden', !totalUnread);
-    document.title = (totalUnread ? `(${totalUnread}) ` : '') + 'Gaze - The Finest Version';
+    document.title = (totalUnread ? `(${totalUnread}) ` : '') + this.baseTitle;
 
     listEl.textContent = '';
+
+    if (!term && this.showArchived) {
+      const back = el('div', 'archived-row');
+      back.innerHTML = '<i class="fas fa-arrow-left"></i>';
+      back.appendChild(el('span', null, 'Archived chats'));
+      back.onclick = () => { this.showArchived = false; this.renderChatList(); };
+      listEl.appendChild(back);
+    } else if (!term && archivedCount) {
+      const row = el('div', 'archived-row');
+      row.innerHTML = '<i class="fas fa-archive"></i>';
+      row.appendChild(el('span', null, `Archived (${archivedCount})`));
+      row.onclick = () => { this.showArchived = true; this.renderChatList(); };
+      listEl.appendChild(row);
+    }
+
+    // brand-new user with no friends or groups yet: show the welcome screen
+    if (!term && !items.length) return this.renderWelcome(listEl);
+
     if (!shown.length) {
-      listEl.appendChild(el('div', 'empty', items.length ? 'No chats match your search.' : 'No chats yet. Open the People tab to add friends, or create a group.'));
+      listEl.appendChild(el('div', 'empty', term ? 'No chats match your search.' : 'All your chats are archived.'));
       return;
     }
 
     shown.forEach(i => {
       const m = i.meta;
       const row = el('div', 'list-item' + (m.unread ? ' unread' : ''));
-      const av = i.type === 'group' ? groupAvatar() : makeAvatar(i.name, i.img);
+      const av = i.type === 'group' ? groupAvatar(null, i.img) : makeAvatar(i.name, i.img);
       if (i.type === 'direct' && this.presence[i.uid] && this.presence[i.uid].online) av.appendChild(el('span', 'online-dot'));
       row.appendChild(av);
 
       const info = el('div', 'chat-info');
       const top = el('div', 'row-top');
-      top.appendChild(el('strong', null, i.name));
+      const nameEl = el('strong', null, i.name);
+      if (i.s.pinned || i.s.muted) {
+        const flags = el('span', 'chat-flags');
+        flags.innerHTML = (i.s.muted ? '<i class="fas fa-bell-slash" title="Muted"></i>' : '') + (i.s.pinned ? '<i class="fas fa-thumbtack" title="Pinned"></i>' : '');
+        nameEl.appendChild(flags);
+      }
+      top.appendChild(nameEl);
       top.appendChild(el('span', 'time', fmtListTime(m.timestamp)));
       const bottom = el('div', 'row-bottom');
       let preview;
       if (!m.text) preview = i.type === 'group' ? 'Start chatting' : `Say hi to ${i.name}`;
+      else if (m.system) preview = m.text;
       else if (m.senderId === this.me.uid) preview = 'You: ' + m.text;
-      else if (i.type === 'group') preview = ((this.allUsers[m.senderId] || {}).name || 'Someone').split(' ')[0] + ': ' + m.text;
+      else if (i.type === 'group') preview = this.firstName(m.senderId) + ': ' + m.text;
       else preview = m.text;
       bottom.appendChild(el('span', 'preview', preview));
-      if (m.unread) bottom.appendChild(el('span', 'badge', m.unread > 99 ? '99+' : m.unread));
+      if (m.unread) bottom.appendChild(el('span', 'badge' + (i.s.muted ? ' muted' : ''), m.unread > 99 ? '99+' : m.unread));
       info.appendChild(top); info.appendChild(bottom);
       row.appendChild(info);
-      row.onclick = () => this.openChat(i);
+      row.title = 'Right-click or long-press for options';
+      const wasLongPress = this.attachLongPress(row, () => this.openChatOptions(i));
+      row.onclick = () => { if (wasLongPress()) return; this.openChat(i); };
       listEl.appendChild(row);
     });
+  },
+
+  /* ---------- welcome screen for new users ---------- */
+  renderWelcome(listEl) {
+    const meUser = this.allUsers[this.me.uid] || {};
+    const first = this.myName().split(' ')[0];
+    const w = el('div', 'welcome');
+
+    // wave only the first time it appears, not on every re-render
+    w.appendChild(el('div', 'welcome-emoji' + (this.welcomeWaved ? '' : ' wave'), '👋'));
+    this.welcomeWaved = true;
+    w.appendChild(el('h3', null, `Hey ${first}, welcome to Gaze!`));
+    w.appendChild(el('p', 'welcome-lead', "We're so glad you're here. Let's get connected: find your friends, start a group chat and say hi."));
+
+    const reqCount = Object.keys(this.requests).filter(id => this.allUsers[id]).length;
+    if (reqCount) {
+      const b = el('button', 'btn welcome-cta', `🎉 ${reqCount} friend request${reqCount > 1 ? 's' : ''} waiting for you`);
+      b.onclick = () => this.switchTab('people');
+      w.appendChild(b);
+    }
+
+    // getting-started checklist
+    const steps = el('div', 'welcome-steps');
+    const step = (num, done, title, sub, fn) => {
+      const s = el('div', 'welcome-step' + (done ? ' done' : ''));
+      const n = el('div', 'num');
+      if (done) n.innerHTML = '<i class="fas fa-check"></i>'; else n.textContent = num;
+      s.appendChild(n);
+      const t = el('div');
+      t.appendChild(el('strong', null, title));
+      t.appendChild(el('small', null, sub));
+      s.appendChild(t);
+      const go = el('span', 'go'); go.innerHTML = '<i class="fas fa-chevron-right"></i>';
+      s.appendChild(go);
+      s.onclick = fn;
+      steps.appendChild(s);
+    };
+    step(1, isImg(meUser.profileImageUrl), 'Add a profile photo', 'Help your friends recognise you', () => this.openProfile());
+    step(2, this.sentRequests.size > 0, 'Find your friends', 'Search by name and send a friend request', () => this.goFindFriends());
+    step(3, false, 'Post a public note', "Tell everyone what you're up to. It disappears after 24h", () => this.openNotes());
+    w.appendChild(steps);
+
+    // a few people to add right away, online people first
+    const people = Object.keys(this.allUsers)
+      .filter(id => id !== this.me.uid && !this.friends[id] && !this.requests[id] && this.allUsers[id].name)
+      .sort((a, b) => ((this.presence[b] || {}).online ? 1 : 0) - ((this.presence[a] || {}).online ? 1 : 0))
+      .slice(0, 5);
+    const box = el('div', 'welcome-people');
+    if (people.length) {
+      box.appendChild(el('div', 'section-label', 'People on Gaze'));
+      people.forEach(id => {
+        const u = this.allUsers[id];
+        const row = el('div', 'person-row');
+        const av = makeAvatar(u.name, u.profileImageUrl);
+        if ((this.presence[id] || {}).online) av.appendChild(el('span', 'online-dot'));
+        row.appendChild(av);
+        row.appendChild(el('span', 'name', u.name));
+        const requested = this.sentRequests.has(id);
+        const btn = el('button', 'btn btn-inline' + (requested ? ' btn-ghost' : ''), requested ? 'Requested' : 'Add');
+        btn.onclick = () => this.sendRequest(id);
+        row.appendChild(btn);
+        box.appendChild(row);
+      });
+    } else {
+      box.appendChild(el('p', 'welcome-lead', "You're one of the first people here! Invite your friends to sign up, then find them in the People tab."));
+    }
+    w.appendChild(box);
+
+    const cta = el('button', 'btn welcome-cta');
+    cta.innerHTML = '<i class="fas fa-user-friends"></i> ';
+    cta.appendChild(document.createTextNode('Find friends'));
+    cta.onclick = () => this.goFindFriends();
+    w.appendChild(cta);
+
+    listEl.appendChild(w);
+  },
+
+  goFindFriends() {
+    this.switchTab('people');
+    setTimeout(() => $id('people-search').focus(), 50);
+  },
+
+  /* Long-press (touch) or right-click (mouse) calls fn. The returned function
+     tells a click handler whether the click was really the end of a long-press. */
+  attachLongPress(node, fn) {
+    let timer = null, fired = false;
+    node.addEventListener('touchstart', () => {
+      fired = false;
+      timer = setTimeout(() => { fired = true; fn(); }, 500);
+    }, { passive: true });
+    ['touchend', 'touchmove', 'touchcancel'].forEach(ev => node.addEventListener(ev, () => clearTimeout(timer), { passive: true }));
+    node.addEventListener('contextmenu', e => {
+      e.preventDefault();
+      clearTimeout(timer);
+      if (!fired) fn();
+    });
+    return () => { const f = fired; fired = false; return f; };
+  },
+
+  /* ---------- pin / mute / archive ---------- */
+  openChatOptions(item) {
+    this.optionsChat = item;
+    const s = this.settingsOf(item.id);
+    $id('chatOptionsTitle').textContent = item.name;
+    $id('opt-pin').innerHTML = s.pinned ? '<i class="fas fa-thumbtack"></i> Unpin chat' : '<i class="fas fa-thumbtack"></i> Pin to top';
+    $id('opt-mute').innerHTML = s.muted ? '<i class="fas fa-bell"></i> Unmute notifications' : '<i class="fas fa-bell-slash"></i> Mute notifications';
+    $id('opt-archive').innerHTML = s.archived ? '<i class="fas fa-box-open"></i> Unarchive' : '<i class="fas fa-archive"></i> Archive';
+    $('#chatOptionsModal').modal('show');
+  },
+
+  toggleChatSetting(key) {
+    const item = this.optionsChat; if (!item) return;
+    $('#chatOptionsModal').modal('hide');
+    const on = !this.settingsOf(item.id)[key];
+    const ref = this.db.ref(`chatSettings/${this.me.uid}/${item.id}/${key}`);
+    (on ? ref.set(true) : ref.remove())
+      .then(() => this.toast({
+        pinned: on ? 'Chat pinned' : 'Chat unpinned',
+        muted: on ? 'Notifications muted' : 'Notifications on',
+        archived: on ? 'Chat archived' : 'Chat moved back to Chats'
+      }[key]))
+      .catch(e => this.toast('Could not update chat: ' + e.message));
   },
 
   renderPeople() {
@@ -751,8 +1113,9 @@ const app = {
       const row = el('div', 'person-row');
       row.appendChild(makeAvatar(u.name, u.profileImageUrl));
       row.appendChild(el('span', 'name', u.name));
-      const btn = el('button', 'btn btn-inline', this.sentRequests.has(id) ? 'Requested' : 'Add');
-      btn.disabled = this.sentRequests.has(id);
+      const requested = this.sentRequests.has(id);
+      const btn = el('button', 'btn btn-inline' + (requested ? ' btn-ghost' : ''), requested ? 'Requested' : 'Add');
+      if (requested) btn.title = 'Tap to cancel the request';
       btn.onclick = () => this.sendRequest(id);
       row.appendChild(btn);
       resEl.appendChild(row);
@@ -762,7 +1125,7 @@ const app = {
     const frEl = $id('friends-list');
     frEl.textContent = '';
     const friendIds = Object.keys(this.friends).filter(id => this.allUsers[id]);
-    if (!friendIds.length) frEl.appendChild(el('div', 'empty', 'No friends yet.'));
+    if (!friendIds.length) frEl.appendChild(el('div', 'empty', 'No friends yet. Tap "Add" next to someone above to send a friend request.'));
     friendIds.forEach(id => {
       const u = this.allUsers[id];
       const row = el('div', 'person-row clickable');
@@ -776,12 +1139,22 @@ const app = {
   /* ---------- friend requests ---------- */
   async sendRequest(toUid) {
     if (this.requests[toUid]) return this.acceptRequest(toUid);
+    if (this.sentRequests.has(toUid)) return this.cancelRequest(toUid);
+    const me = this.me.uid;
     try {
-      await this.db.ref(`friendRequests/${toUid}/${this.me.uid}`).set({ timestamp: TS() });
-      this.sentRequests.add(toUid);
+      await this.db.ref(`friendRequests/${toUid}/${me}`).set({ timestamp: TS() });
+      await this.db.ref(`sentRequests/${me}/${toUid}`).set(TS());
       this.toast('Friend request sent');
-      this.renderPeople();
     } catch (e) { this.toast('Could not send request: ' + e.message); }
+  },
+
+  async cancelRequest(toUid) {
+    const me = this.me.uid;
+    try {
+      await this.db.ref(`friendRequests/${toUid}/${me}`).remove();
+      await this.db.ref(`sentRequests/${me}/${toUid}`).remove();
+      this.toast('Request cancelled');
+    } catch (e) { this.toast('Could not cancel: ' + e.message); }
   },
 
   async acceptRequest(fromUid) {
@@ -824,7 +1197,11 @@ const app = {
         if (s.exists()) this.groups[gid] = s.val(); else delete this.groups[gid];
         this.scheduleRender();
         const c = this.currentChat;
-        if (c && c.id === gid) this.updateChatHeader();
+        if (c && c.id === gid) {
+          this.updateChatHeader();
+          this.updateReceipts();
+          if (this.groupInfoOpen) this.renderGroupInfo();
+        }
       };
       ref.on('value', cb, () => {});
       this.groupRefs[gid] = { ref, cb };
@@ -834,7 +1211,11 @@ const app = {
       this.groupRefs[gid].ref.off('value', this.groupRefs[gid].cb);
       delete this.groupRefs[gid];
       delete this.groups[gid];
-      if (this.currentChat && this.currentChat.id === gid) { this.backToChatList(); this.toast('You left the group'); }
+      if (this.currentChat && this.currentChat.id === gid) {
+        $('#groupInfoModal').modal('hide');
+        this.backToChatList();
+        this.toast("You're no longer in this group");
+      }
     });
     this.scheduleRender();
   },
@@ -867,43 +1248,193 @@ const app = {
     const members = { [me]: true };
     ids.forEach(i => { members[i] = true; });
     try {
-      await this.db.ref(`groups/${gid}`).set({ name, createdBy: me, createdAt: TS(), members });
+      await this.db.ref(`groups/${gid}`).set({ name, createdBy: me, createdAt: TS(), members, admins: { [me]: true } });
       await this.db.ref(`chats/${gid}/participants`).set(members);
       await Promise.all(Object.keys(members).map(u => this.db.ref(`userGroups/${u}/${gid}`).set(true)));
-      await this.db.ref(`userChats/${me}/${gid}`).update({ text: 'Group created', senderId: me, timestamp: TS(), unread: 0 });
+      await this.systemMessage({ id: gid, type: 'group', members }, `${this.myName()} created the group "${name}"`);
       $('#createGroupModal').modal('hide');
       this.toast('Group created');
     } catch (e) { this.toast('Could not create group: ' + e.message); }
   },
 
-  openGroupInfo() {
+  /* ---------- group admin ---------- */
+  isAdmin(g, uid) {
+    if (!g || !g.members || !g.members[uid]) return false;
+    return !!((g.admins && g.admins[uid]) || g.createdBy === uid);
+  },
+  currentGroup() {
     const c = this.currentChat;
-    const g = c && this.groups[c.id];
-    if (!g) return;
-    $id('groupInfoTitle').textContent = g.name;
-    const box = $id('groupInfoMembers');
-    box.textContent = '';
-    Object.keys(g.members || {}).forEach(id => {
-      const u = this.allUsers[id] || { name: 'Unknown' };
-      const row = el('div', 'person-row');
-      row.appendChild(makeAvatar(u.name, u.profileImageUrl));
-      row.appendChild(el('span', 'name', u.name + (id === this.me.uid ? ' (you)' : '') + (id === g.createdBy ? ' · admin' : '')));
-      box.appendChild(row);
-    });
+    return c && c.type === 'group' ? this.groups[c.id] : null;
+  },
+
+  openGroupInfo() {
+    if (!this.currentGroup()) return;
+    this.groupInfoOpen = true;
+    $id('groupRenameInput').value = '';
+    this.renderGroupInfo();
     $('#groupInfoModal').modal('show');
   },
 
+  renderGroupInfo() {
+    const g = this.currentGroup(); if (!g) return;
+    const me = this.me.uid;
+    const admin = this.isAdmin(g, me);
+    $id('groupInfoTitle').textContent = g.name;
+    setGroupAvatar($id('groupInfoAvatar'), g.photo);
+    $id('groupPhotoLabel').classList.toggle('hidden', !admin);
+    $id('groupRenameRow').classList.toggle('hidden', !admin);
+    $id('groupAddBtn').classList.toggle('hidden', !admin);
+    const rename = $id('groupRenameInput');
+    if (document.activeElement !== rename) rename.value = g.name;
+
+    const ids = Object.keys(g.members || {})
+      .sort((a, b) => (this.isAdmin(g, b) - this.isAdmin(g, a)) || this.nameOf(a).localeCompare(this.nameOf(b)));
+    $id('groupMemberCount').textContent = `${ids.length} member${ids.length === 1 ? '' : 's'}`;
+    const box = $id('groupInfoMembers');
+    box.textContent = '';
+    ids.forEach(id => {
+      const u = this.allUsers[id] || { name: 'Unknown' };
+      const row = el('div', 'person-row');
+      row.appendChild(makeAvatar(u.name, u.profileImageUrl));
+      const name = el('span', 'name', u.name + (id === me ? ' (you)' : ''));
+      if (this.isAdmin(g, id)) name.appendChild(el('span', 'member-tag', 'Admin'));
+      row.appendChild(name);
+      if (admin && id !== me) {
+        const actions = el('div', 'member-actions');
+        if (!this.isAdmin(g, id)) {
+          const mk = el('button', 'btn btn-inline btn-ghost', 'Make admin');
+          mk.onclick = () => this.makeAdmin(id);
+          actions.appendChild(mk);
+        }
+        const rm = el('button', 'btn btn-inline btn-danger');
+        rm.innerHTML = '<i class="fas fa-user-minus"></i>';
+        rm.title = 'Remove from group';
+        rm.onclick = () => this.removeMember(id);
+        actions.appendChild(rm);
+        row.appendChild(actions);
+      }
+      box.appendChild(row);
+    });
+  },
+
+  async renameGroup() {
+    const c = this.currentChat, g = this.currentGroup(); if (!g) return;
+    const name = $id('groupRenameInput').value.trim();
+    if (!name) return this.toast('Please enter a group name.');
+    if (name === g.name) return;
+    try {
+      await this.db.ref(`groups/${c.id}/name`).set(name);
+      $id('groupRenameInput').blur();
+      await this.systemMessage(c, `${this.myName()} renamed the group to "${name}"`);
+      this.toast('Group renamed');
+    } catch (e) { this.toast('Could not rename: ' + e.message); }
+  },
+
+  async setGroupPhoto(file) {
+    const c = this.currentChat; if (!this.currentGroup()) return;
+    try {
+      const data = await resizeImage(file, 160, 0.8, true);
+      await this.db.ref(`groups/${c.id}/photo`).set(data);
+      await this.systemMessage(c, `${this.myName()} changed the group photo`);
+      this.toast('Group photo updated');
+    } catch (e) { this.toast('Could not update photo: ' + e.message); }
+  },
+
+  showAddMembers() {
+    const g = this.currentGroup(); if (!g) return;
+    const box = $id('addMembersList');
+    box.textContent = '';
+    const ids = Object.keys(this.friends).filter(id => this.allUsers[id] && !(g.members || {})[id]);
+    if (!ids.length) box.appendChild(el('div', 'empty', 'All your friends are already in this group.'));
+    ids.forEach(id => {
+      const lab = el('label', 'person-row');
+      const cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.value = id; cb.className = 'add-member-checkbox';
+      lab.appendChild(cb);
+      lab.appendChild(makeAvatar(this.allUsers[id].name, this.allUsers[id].profileImageUrl, 'small'));
+      lab.appendChild(el('span', 'name', this.allUsers[id].name));
+      box.appendChild(lab);
+    });
+    $('#addMembersModal').modal('show');
+  },
+
+  async addMembers() {
+    const c = this.currentChat, g = this.currentGroup(); if (!g) return;
+    const ids = Array.from(document.querySelectorAll('.add-member-checkbox:checked')).map(x => x.value);
+    if (!ids.length) return this.toast('Pick at least one friend.');
+    const gid = c.id, upd = {};
+    ids.forEach(u => {
+      upd[`groups/${gid}/members/${u}`] = true;
+      upd[`chats/${gid}/participants/${u}`] = true;
+      upd[`userGroups/${u}/${gid}`] = true;
+    });
+    try {
+      await this.db.ref().update(upd);
+      const members = { ...(g.members || {}) };
+      ids.forEach(u => { members[u] = true; });
+      const names = ids.map(u => this.firstName(u)).join(', ');
+      await this.systemMessage({ ...c, members }, `${this.myName()} added ${names}`);
+      $('#addMembersModal').modal('hide');
+      this.toast('Members added');
+    } catch (e) { this.toast('Could not add members: ' + e.message); }
+  },
+
+  async removeMember(uid) {
+    const c = this.currentChat, g = this.currentGroup(); if (!g) return;
+    if (!confirm(`Remove ${this.nameOf(uid)} from the group?`)) return;
+    const gid = c.id;
+    try {
+      await this.db.ref().update({
+        [`groups/${gid}/members/${uid}`]: null,
+        [`groups/${gid}/admins/${uid}`]: null,
+        [`chats/${gid}/participants/${uid}`]: null,
+        [`userGroups/${uid}/${gid}`]: null,
+        [`userChats/${uid}/${gid}`]: null
+      });
+      const members = { ...(g.members || {}) };
+      delete members[uid];
+      await this.systemMessage({ ...c, members }, `${this.myName()} removed ${this.nameOf(uid)}`);
+    } catch (e) { this.toast('Could not remove: ' + e.message); }
+  },
+
+  async makeAdmin(uid) {
+    const c = this.currentChat; if (!this.currentGroup()) return;
+    try {
+      await this.db.ref(`groups/${c.id}/admins/${uid}`).set(true);
+      await this.systemMessage(c, `${this.myName()} made ${this.nameOf(uid)} an admin`);
+    } catch (e) { this.toast('Could not update: ' + e.message); }
+  },
+
   async leaveGroup() {
-    const c = this.currentChat; if (!c || c.type !== 'group') return;
+    const c = this.currentChat, g = this.currentGroup(); if (!g) return;
     if (!confirm('Leave this group?')) return;
     const me = this.me.uid, gid = c.id;
+    const others = Object.keys(g.members || {}).filter(u => u !== me);
+    const upd = {
+      [`groups/${gid}/members/${me}`]: null,
+      [`groups/${gid}/admins/${me}`]: null,
+      [`chats/${gid}/participants/${me}`]: null,
+      [`userChats/${me}/${gid}`]: null,
+      [`userGroups/${me}/${gid}`]: null
+    };
+    // don't leave a group without an admin: hand it to the next member
+    if (this.isAdmin(g, me) && others.length && !others.some(u => this.isAdmin(g, u))) {
+      upd[`groups/${gid}/admins/${others[0]}`] = true;
+    }
     try {
-      await this.db.ref(`groups/${gid}/members/${me}`).remove();
-      await this.db.ref(`chats/${gid}/participants/${me}`).remove();
-      await this.db.ref(`userChats/${me}/${gid}`).remove();
-      await this.db.ref(`userGroups/${me}/${gid}`).remove();
+      const members = {};
+      others.forEach(u => { members[u] = true; });
+      await this.systemMessage({ ...c, members }, `${this.myName()} left the group`);
+      await this.db.ref().update(upd);
       $('#groupInfoModal').modal('hide');
     } catch (e) { this.toast('Could not leave: ' + e.message); }
+  },
+
+  /* A centred grey line in the chat ("Alex added Sam"). Doesn't count as unread. */
+  async systemMessage(c, text) {
+    const ref = this.db.ref(`chats/${c.id}/messages`).push();
+    await ref.set({ senderId: this.me.uid, timestamp: TS(), system: true, text });
+    this.updateInbox(c, text, ref.key, { system: true });
   },
 
   /* ---------- unread / notifications ---------- */
@@ -912,7 +1443,12 @@ const app = {
       Object.keys(meta).forEach(id => {
         const prev = (this.chatMeta[id] && this.chatMeta[id].unread) || 0;
         const m = meta[id];
-        if ((m.unread || 0) > prev && m.senderId !== this.me.uid) this.notifyMessage(id, m);
+        if ((m.unread || 0) > prev && m.senderId !== this.me.uid) {
+          this.notifyMessage(id, m);
+          // a new message brings an archived chat back, unless it's muted
+          const s = this.settingsOf(id);
+          if (s.archived && !s.muted) this.db.ref(`chatSettings/${this.me.uid}/${id}/archived`).remove().catch(() => {});
+        }
       });
     }
     this.chatMeta = meta;
@@ -924,7 +1460,7 @@ const app = {
 
   notifyMessage(chatId, m) {
     const viewing = this.currentChat && this.currentChat.id === chatId && document.visibilityState === 'visible';
-    if (viewing) return;
+    if (viewing || this.settingsOf(chatId).muted) return;
     const sender = (this.allUsers[m.senderId] || {}).name || 'Someone';
     const group = this.groups[chatId];
     const title = group ? `${group.name}` : sender;
@@ -957,15 +1493,19 @@ const app = {
 
   /* ---------- chat ---------- */
   openChat(item) {
+    this.stopAudio();
+    voice.stop(false);
     this.currentChat = { id: item.id, type: item.type, uid: item.uid, name: item.name };
     $id('chat-title').textContent = item.name;
     const av = $id('chat-avatar');
-    if (item.type === 'group') { av.style.backgroundImage = ''; av.innerHTML = '<i class="fas fa-users" style="font-size:0.55em"></i>'; }
+    if (item.type === 'group') setGroupAvatar(av, (this.groups[item.id] || {}).photo);
     else setAvatar(av, item.name, item.img);
     $id('video-call-btn').classList.toggle('hidden', item.type !== 'direct');
     $id('group-info-btn').classList.toggle('hidden', item.type !== 'group');
     $id('message-input').value = '';
     this.cancelEdit();
+    this.cancelReply();
+    this.updateComposer();
     this.navigateTo('chat-window');
     this.updateChatHeader();
     this.loadMessages();
@@ -984,7 +1524,11 @@ const app = {
       else sub.textContent = p ? fmtLastSeen(p.lastSeen) : '';
     } else {
       const g = this.groups[c.id];
-      if (g) { $id('chat-title').textContent = g.name; sub.textContent = Object.keys(g.members || {}).length + ' members'; }
+      if (g) {
+        $id('chat-title').textContent = g.name;
+        setGroupAvatar($id('chat-avatar'), g.photo);
+        sub.textContent = Object.keys(g.members || {}).length + ' members';
+      }
     }
   },
 
@@ -993,7 +1537,7 @@ const app = {
     const c = this.currentChat, id = c.id;
     const box = $id('chat-messages');
     box.textContent = '';
-    this.msgEls = {}; this.msgData = {}; this.reactions = {}; this.seenTs = 0; this.lastDay = null; this.initialLoaded = false;
+    this.msgEls = {}; this.msgData = {}; this.reactions = {}; this.seenTs = 0; this.seenMap = {}; this.lastDay = null; this.initialLoaded = false;
     $id('typing-indicator').textContent = '';
     const still = () => this.currentChat && this.currentChat.id === id;
 
@@ -1015,7 +1559,7 @@ const app = {
     this.listen(this.db.ref(`chats/${id}/typing`), 'value', s => {
       if (!still()) return;
       const t = s.val() || {};
-      const names = Object.keys(t).filter(u => u !== this.me.uid && t[u]).map(u => ((this.allUsers[u] || {}).name || 'Someone').split(' ')[0]);
+      const names = Object.keys(t).filter(u => u !== this.me.uid && t[u]).map(u => this.firstName(u));
       $id('typing-indicator').textContent = !names.length ? '' : (names.length === 1 ? `${names[0]} is typing…` : `${names.join(', ')} are typing…`);
     }, 'chat');
 
@@ -1023,6 +1567,13 @@ const app = {
       this.listen(this.db.ref(`chats/${id}/seen/${c.uid}`), 'value', s => {
         if (!still()) return;
         this.seenTs = s.val() || 0;
+        this.updateReceipts();
+      }, 'chat');
+    } else {
+      // groups: everyone's "last seen" time, for "Seen by …"
+      this.listen(this.db.ref(`chats/${id}/seen`), 'value', s => {
+        if (!still()) return;
+        this.seenMap = s.val() || {};
         this.updateReceipts();
       }, 'chat');
     }
@@ -1039,44 +1590,151 @@ const app = {
     if (!wrap) {
       const dk = new Date(ts).toDateString();
       if (dk !== this.lastDay) { box.appendChild(el('div', 'day-sep', fmtDay(ts))); this.lastDay = dk; }
-      wrap = el('div', 'message ' + (mine ? 'sent' : 'received'));
+      wrap = el('div');
       this.msgEls[mid] = wrap;
       box.appendChild(wrap);
+      if (!m.system) this.attachSwipe(wrap, mid);
     }
     this.msgData[mid] = m;
     wrap.textContent = '';
     wrap.dataset.ts = ts;
 
-    const bubble = el('div', 'bubble');
-    if (m.deleted) {
-      bubble.classList.add('deleted');
-      bubble.textContent = 'Message deleted';
+    if (m.system) {
+      wrap.className = 'message system';
+      wrap.appendChild(el('div', 'system-text', m.text || ''));
     } else {
-      if (!mine && c.type === 'group') bubble.appendChild(el('div', 'sender', (this.allUsers[m.senderId] || {}).name || 'Unknown'));
-      if (isImg(m.image)) {
-        const img = el('img', 'msg-image');
-        img.src = m.image; img.alt = 'Photo';
-        img.onclick = e => { e.stopPropagation(); $id('image-viewer-img').src = m.image; $id('image-viewer').classList.remove('hidden'); };
-        bubble.appendChild(img);
+      wrap.className = 'message ' + (mine ? 'sent' : 'received');
+      const bubble = el('div', 'bubble');
+      if (m.deleted) {
+        bubble.classList.add('deleted');
+        bubble.textContent = 'Message deleted';
+      } else {
+        if (!mine && c.type === 'group') bubble.appendChild(el('div', 'sender', (this.allUsers[m.senderId] || {}).name || 'Unknown'));
+        if (m.forwarded) {
+          const f = el('div', 'forwarded');
+          f.innerHTML = '<i class="fas fa-share"></i>';
+          f.appendChild(document.createTextNode('Forwarded'));
+          bubble.appendChild(f);
+        }
+        if (m.replyTo && m.replyTo.mid) {
+          const q = el('div', 'quote');
+          q.appendChild(el('strong', null, m.replyTo.senderId === this.me.uid ? 'You' : this.nameOf(m.replyTo.senderId)));
+          q.appendChild(el('div', null, m.replyTo.text || ''));
+          q.title = 'Go to the original message';
+          q.onclick = e => { e.stopPropagation(); this.jumpTo(m.replyTo.mid); };
+          bubble.appendChild(q);
+        }
+        if (isImg(m.image)) {
+          const img = el('img', 'msg-image');
+          img.src = m.image; img.alt = 'Photo';
+          img.onclick = e => { e.stopPropagation(); $id('image-viewer-img').src = m.image; $id('image-viewer').classList.remove('hidden'); };
+          bubble.appendChild(img);
+        }
+        if (isAudio(m.audio)) bubble.appendChild(this.renderVoice(m));
+        if (m.text) bubble.appendChild(el('div', 'msg-text', m.text));
+        if (m.edited) bubble.appendChild(el('span', 'edited', 'edited'));
+        bubble.onclick = () => this.openMessageActions(mid);
       }
-      if (m.text) bubble.appendChild(el('div', 'msg-text', m.text));
-      if (m.edited) bubble.appendChild(el('span', 'edited', 'edited'));
-      bubble.onclick = () => this.openMessageActions(mid);
+      wrap.appendChild(bubble);
+      wrap.appendChild(el('div', 'reactions'));
+      const meta = el('div', 'meta');
+      meta.appendChild(el('span', 'time', fmtTime(ts)));
+      if (mine) meta.appendChild(el('span', 'receipt'));
+      wrap.appendChild(meta);
+      this.renderReactions(mid);
     }
-    wrap.appendChild(bubble);
-    wrap.appendChild(el('div', 'reactions'));
-    const meta = el('div', 'meta');
-    meta.appendChild(el('span', 'time', fmtTime(ts)));
-    if (mine && c.type === 'direct') meta.appendChild(el('span', 'receipt'));
-    wrap.appendChild(meta);
 
-    this.renderReactions(mid);
     this.updateReceipts();
 
     if (isNew) {
       if (mine || nearBottom || !this.initialLoaded) box.scrollTop = box.scrollHeight;
       if (!mine && this.initialLoaded && document.visibilityState === 'visible') this.markRead();
     }
+  },
+
+  /* Voice message player: play/pause, a progress bar you can tap to seek, and a timer. */
+  renderVoice(m) {
+    const box = el('div', 'voice');
+    const btn = el('button', 'voice-play');
+    const PLAY = '<i class="fas fa-play"></i>', PAUSE = '<i class="fas fa-pause"></i>';
+    btn.innerHTML = PLAY;
+    btn.title = 'Play voice message';
+    const bar = el('div', 'voice-bar');
+    const fill = el('div', 'voice-fill');
+    bar.appendChild(fill);
+    const time = el('span', 'voice-time', fmtDur(m.duration));
+    // recordings from Chrome often report an "Infinity" duration, so fall back to the saved one
+    const total = a => (isFinite(a.duration) && a.duration > 0 ? a.duration : (m.duration || 1));
+    let audio = null;
+    const ensure = () => {
+      if (audio) return audio;
+      audio = new Audio(m.audio);
+      audio.ontimeupdate = () => {
+        fill.style.width = Math.min(100, audio.currentTime / total(audio) * 100) + '%';
+        time.textContent = fmtDur(audio.currentTime);
+      };
+      audio.onplay = () => { btn.innerHTML = PAUSE; };
+      audio.onpause = () => { btn.innerHTML = PLAY; };
+      audio.onended = () => { btn.innerHTML = PLAY; fill.style.width = '0%'; time.textContent = fmtDur(m.duration); };
+      return audio;
+    };
+    btn.onclick = e => {
+      e.stopPropagation();
+      const a = ensure();
+      if (a.paused) {
+        if (this.playingAudio && this.playingAudio !== a) this.playingAudio.pause();
+        this.playingAudio = a;
+        a.play().catch(() => this.toast('Could not play this voice message on this device.'));
+      } else a.pause();
+    };
+    bar.onclick = e => {
+      e.stopPropagation();
+      const a = ensure();
+      const r = bar.getBoundingClientRect();
+      try { a.currentTime = Math.max(0, (e.clientX - r.left) / r.width) * total(a); } catch (err) {}
+    };
+    box.appendChild(btn); box.appendChild(bar); box.appendChild(time);
+    return box;
+  },
+
+  stopAudio() {
+    if (this.playingAudio) { try { this.playingAudio.pause(); } catch (e) {} }
+    this.playingAudio = null;
+  },
+
+  /* Swipe a message to the right on a touch screen to reply to it. */
+  attachSwipe(wrap, mid) {
+    let x0 = null, y0 = 0, dx = 0;
+    wrap.addEventListener('touchstart', e => {
+      const t = e.touches[0]; x0 = t.clientX; y0 = t.clientY; dx = 0;
+    }, { passive: true });
+    wrap.addEventListener('touchmove', e => {
+      if (x0 === null) return;
+      const t = e.touches[0];
+      dx = t.clientX - x0;
+      if (Math.abs(t.clientY - y0) > 30) { x0 = null; wrap.style.transform = ''; return; }
+      if (dx > 0) wrap.style.transform = `translateX(${Math.min(dx, 80)}px)`;
+    }, { passive: true });
+    const end = () => {
+      if (x0 !== null && dx > 60) {
+        this.startReply(mid);
+        if (navigator.vibrate) navigator.vibrate(15);
+      }
+      x0 = null; dx = 0;
+      wrap.style.transform = '';
+    };
+    wrap.addEventListener('touchend', end);
+    wrap.addEventListener('touchcancel', end);
+  },
+
+  jumpTo(mid) {
+    const w = this.msgEls[mid];
+    if (!w) return this.toast('That message is too old to show here.');
+    w.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    w.classList.remove('highlight');
+    void w.offsetWidth; // restart the animation
+    w.classList.add('highlight');
+    setTimeout(() => w.classList.remove('highlight'), 1500);
   },
 
   renderReactions(mid) {
@@ -1100,23 +1758,33 @@ const app = {
     (mineNow === emoji ? ref.remove() : ref.set(emoji)).catch(e => this.toast(e.message));
   },
 
+  /* "✓ Sent / ✓ Seen" under my latest message; in groups, "Seen by Alex, Sam". */
   updateReceipts() {
-    const c = this.currentChat;
-    if (!c || c.type !== 'direct') return;
+    const c = this.currentChat; if (!c) return;
     const sent = document.querySelectorAll('#chat-messages .message.sent');
-    sent.forEach(w => { const r = w.querySelector('.receipt'); if (r) r.textContent = ''; });
-    for (let i = sent.length - 1; i >= 0; i--) {
-      const w = sent[i];
-      const r = w.querySelector('.receipt');
-      if (!r) continue;
-      r.textContent = this.seenTs && this.seenTs >= Number(w.dataset.ts) ? '✓ Seen' : '✓ Sent';
-      break;
+    let last = null;
+    sent.forEach(w => { const r = w.querySelector('.receipt'); if (r) { r.textContent = ''; last = w; } });
+    if (!last) return;
+    const r = last.querySelector('.receipt');
+    const ts = Number(last.dataset.ts);
+    if (c.type === 'direct') {
+      r.textContent = this.seenTs && this.seenTs >= ts ? '✓ Seen' : '✓ Sent';
+      return;
+    }
+    const g = this.groups[c.id] || {};
+    const others = Object.keys(g.members || {}).filter(u => u !== this.me.uid);
+    const seen = others.filter(u => (this.seenMap[u] || 0) >= ts);
+    if (!seen.length) r.textContent = '✓ Sent';
+    else if (seen.length === others.length && others.length > 1) r.textContent = '✓ Seen by everyone';
+    else {
+      const names = seen.slice(0, 3).map(u => this.firstName(u));
+      r.textContent = '✓ Seen by ' + names.join(', ') + (seen.length > 3 ? ` +${seen.length - 3}` : '');
     }
   },
 
   /* ---------- message actions ---------- */
   openMessageActions(mid) {
-    const m = this.msgData[mid]; if (!m || m.deleted) return;
+    const m = this.msgData[mid]; if (!m || m.deleted || m.system) return;
     this.actionMid = mid;
     const mine = m.senderId === this.me.uid;
     $id('act-copy').classList.toggle('hidden', !m.text);
@@ -1125,65 +1793,156 @@ const app = {
     $('#actionsModal').modal('show');
   },
 
+  startReply(mid) {
+    const m = this.msgData[mid]; if (!m || m.deleted || m.system) return;
+    this.cancelEdit();
+    this.replyTo = { mid, senderId: m.senderId, text: msgPreview(m) };
+    const who = m.senderId === this.me.uid ? 'yourself' : this.firstName(m.senderId);
+    $id('reply-text').textContent = `Replying to ${who}: ${msgPreview(m)}`;
+    $id('reply-bar').classList.remove('hidden');
+    $id('message-input').focus();
+  },
+  cancelReply() {
+    this.replyTo = null;
+    $id('reply-bar').classList.add('hidden');
+  },
+
   startEdit(mid) {
     const m = this.msgData[mid]; if (!m) return;
+    this.cancelReply();
     this.editingMid = mid;
     $id('edit-bar').classList.remove('hidden');
     const input = $id('message-input');
     input.value = m.text || '';
     input.focus();
+    this.updateComposer();
   },
   cancelEdit() {
     if (this.editingMid) $id('message-input').value = '';
     this.editingMid = null;
     $id('edit-bar').classList.add('hidden');
+    this.updateComposer();
+  },
+
+  /* Show the send button when there's text, the mic button when there isn't. */
+  updateComposer() {
+    const has = !!$id('message-input').value.trim() || !!this.editingMid;
+    $id('send-btn').classList.toggle('hidden', !has);
+    $id('mic-btn').classList.toggle('hidden', has);
   },
 
   deleteMessage(mid) {
     const c = this.currentChat; if (!c || !mid) return;
     if (!confirm('Delete this message for everyone?')) return;
-    this.db.ref(`chats/${c.id}/messages/${mid}`).update({ deleted: true, text: null, image: null })
+    this.db.ref(`chats/${c.id}/messages/${mid}`).update({ deleted: true, text: null, image: null, audio: null, duration: null, replyTo: null })
+      .then(() => this.refreshPreviewIfLatest(mid, 'Message deleted'))
       .catch(e => this.toast('Could not delete: ' + e.message));
   },
 
+  /* If an edited/deleted message is the newest in the chat, fix the chat-list preview for everyone. */
+  refreshPreviewIfLatest(mid, text) {
+    const c = this.currentChat; if (!c) return;
+    const keys = Object.keys(this.msgData).sort();
+    if (keys[keys.length - 1] !== mid) return;
+    const members = c.type === 'direct' ? [this.me.uid, c.uid] : Object.keys((this.groups[c.id] || {}).members || {});
+    members.forEach(u => this.db.ref(`userChats/${u}/${c.id}`).update({ text }).catch(() => {}));
+  },
+
+  /* ---------- forwarding ---------- */
+  openForward(mid) {
+    const m = this.msgData[mid]; if (!m || m.deleted || m.system) return;
+    this.forwardMid = mid;
+    this.forwardMsg = m;
+    this.forwardedTo = new Set();
+    $id('forwardSearch').value = '';
+    this.renderForwardList();
+    $('#forwardModal').modal('show');
+  },
+
+  renderForwardList() {
+    const box = $id('forwardList');
+    box.textContent = '';
+    const term = $id('forwardSearch').value.trim().toLowerCase();
+    const items = this.chatItems()
+      .filter(i => !term || i.name.toLowerCase().includes(term))
+      .sort((a, b) => (b.meta.timestamp || 0) - (a.meta.timestamp || 0));
+    if (!items.length) box.appendChild(el('div', 'empty', term ? 'No chats match.' : 'No chats to forward to yet.'));
+    items.forEach(i => {
+      const row = el('div', 'person-row');
+      row.appendChild(i.type === 'group' ? groupAvatar(null, i.img) : makeAvatar(i.name, i.img));
+      row.appendChild(el('span', 'name', i.name));
+      const done = this.forwardedTo.has(i.id);
+      const btn = el('button', 'btn btn-inline' + (done ? ' btn-ghost' : ''), done ? 'Sent' : 'Send');
+      btn.disabled = done;
+      btn.onclick = () => this.forwardTo(i, btn);
+      row.appendChild(btn);
+      box.appendChild(row);
+    });
+  },
+
+  async forwardTo(item, btn) {
+    const m = this.forwardMsg; if (!m) return;
+    btn.disabled = true;
+    const data = { senderId: this.me.uid, timestamp: TS(), forwarded: true };
+    ['text', 'image', 'audio', 'duration'].forEach(k => { if (m[k] != null) data[k] = m[k]; });
+    try {
+      const ref = this.db.ref(`chats/${item.id}/messages`).push();
+      await ref.set(data);
+      this.updateInbox(item, msgPreview(data), ref.key);
+      this.forwardedTo.add(item.id);
+      btn.textContent = 'Sent';
+      btn.classList.add('btn-ghost');
+    } catch (e) {
+      btn.disabled = false;
+      this.toast('Could not forward: ' + e.message);
+    }
+  },
+
   /* ---------- sending ---------- */
-  async sendMessage(image) {
+  /* extra: { image } or { audio, duration } for photo / voice messages */
+  async sendMessage(extra) {
     const c = this.currentChat; if (!c) return;
     const input = $id('message-input');
-    const text = input.value.trim();
+    const text = extra && extra.audio ? '' : input.value.trim();
 
-    if (this.editingMid) {
+    if (this.editingMid && !extra) {
       if (!text) return;
       const mid = this.editingMid;
       this.cancelEdit();
-      this.db.ref(`chats/${c.id}/messages/${mid}`).update({ text, edited: true }).catch(e => this.toast('Could not edit: ' + e.message));
+      this.db.ref(`chats/${c.id}/messages/${mid}`).update({ text, edited: true })
+        .then(() => this.refreshPreviewIfLatest(mid, text.slice(0, 80)))
+        .catch(e => this.toast('Could not edit: ' + e.message));
       return;
     }
-    if (!text && !image) return;
+    if (!text && !extra) return;
 
-    input.value = '';
+    if (text) input.value = '';
     this.stopTyping();
 
-    const data = { senderId: this.me.uid, timestamp: TS() };
+    const data = { senderId: this.me.uid, timestamp: TS(), ...(extra || {}) };
     if (text) data.text = text;
-    if (image) data.image = image;
-    this.db.ref(`chats/${c.id}/messages`).push().set(data).catch(e => this.toast('Message failed: ' + e.message));
+    if (this.replyTo) data.replyTo = this.replyTo;
+    this.cancelReply();
+    this.updateComposer();
 
-    const preview = text ? text.slice(0, 80) : '📷 Photo';
-    this.updateInbox(c, preview);
+    const ref = this.db.ref(`chats/${c.id}/messages`).push();
+    ref.set(data).catch(e => this.toast('Message failed: ' + e.message));
+    this.updateInbox(c, msgPreview(data), ref.key);
   },
 
-  updateInbox(c, preview) {
+  /* Update everyone's chat-list entry. c.members can be passed when the group
+     isn't loaded yet (just created / members just changed). */
+  updateInbox(c, preview, mid, opts) {
+    opts = opts || {};
     const me = this.me.uid;
-    const base = { text: preview, senderId: me, timestamp: TS() };
-    const recipients = c.type === 'direct'
-      ? [c.uid]
-      : Object.keys((this.groups[c.id] || {}).members || {}).filter(u => u !== me);
+    const base = { text: preview, senderId: me, timestamp: TS(), mid: mid || null, system: opts.system ? true : null };
+    const members = c.members || (this.groups[c.id] || {}).members || {};
+    const recipients = c.type === 'direct' ? [c.uid] : Object.keys(members).filter(u => u !== me);
     this.db.ref(`userChats/${me}/${c.id}`).update({ ...base, unread: 0 }).catch(() => {});
     recipients.forEach(r => {
       const ref = this.db.ref(`userChats/${r}/${c.id}`);
       ref.update(base).catch(() => {});
-      ref.child('unread').transaction(n => (n || 0) + 1);
+      if (!opts.system) ref.child('unread').transaction(n => (n || 0) + 1);
     });
   },
 
@@ -1191,7 +1950,7 @@ const app = {
     try {
       this.toast('Sending photo…');
       const data = await resizeChatImage(file);
-      await this.sendMessage(data);
+      await this.sendMessage({ image: data });
     } catch (e) { this.toast(e.message); }
   },
 
@@ -1214,10 +1973,13 @@ const app = {
   },
 
   backToChatList() {
+    voice.stop(false);
+    this.stopAudio();
     this.stopTyping();
     this.clearListeners('chat');
     this.currentChat = null;
     this.cancelEdit();
+    this.cancelReply();
     this.navigateTo('main-app-view');
     this.scheduleRender();
   },
@@ -1256,7 +2018,7 @@ const app = {
     const list = $id('notesList');
     list.textContent = '';
     try {
-      const now = Date.now();
+      const now = this.now();
       const snap = await this.db.ref('public_notes').orderByChild('expiresAt').startAt(now).once('value');
       const notes = [];
       snap.forEach(s => { notes.push({ id: s.key, ...s.val() }); });
@@ -1279,16 +2041,18 @@ const app = {
         }
         list.appendChild(row);
       });
-      // tidy up my own expired notes
+      // clean up every expired note, not just mine. Your database rules must allow
+      // deleting a note once expiresAt < now (see the notes I gave with this file);
+      // where they don't, the delete is refused quietly and the note is still hidden.
       const old = await this.db.ref('public_notes').orderByChild('expiresAt').endAt(now).once('value');
-      old.forEach(s => { if (s.val().userId === this.me.uid) s.ref.remove().catch(() => {}); });
+      old.forEach(s => { s.ref.remove().catch(() => {}); });
     } catch (e) { list.appendChild(el('div', 'empty', 'Could not load notes: ' + e.message)); }
   },
 
   async postNote() {
     const text = $id('noteInput').value.trim();
     if (!text) return;
-    const now = Date.now();
+    const now = this.now();
     try {
       await this.db.ref('public_notes').push({ text, userId: this.me.uid, timestamp: now, expiresAt: now + 24 * 3600 * 1000 });
       $id('noteInput').value = '';
@@ -1309,6 +2073,90 @@ const app = {
     t.classList.add('show');
     clearTimeout(this.toastTimer);
     this.toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+  }
+};
+
+/* =====================================================================
+   VOICE MESSAGES (MediaRecorder → small base64 clip stored in the message)
+   ===================================================================== */
+const voice = {
+  rec: null, stream: null, chunks: [], t0: 0, duration: 0, timer: null,
+  sendOnStop: false, stopping: false, MAX_SECONDS: 60,
+
+  supported() {
+    return !!(window.MediaRecorder && navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+  },
+  pickType() {
+    const types = ['audio/webm;codecs=opus', 'audio/mp4', 'audio/ogg;codecs=opus', 'audio/webm'];
+    if (!MediaRecorder.isTypeSupported) return '';
+    return types.find(t => MediaRecorder.isTypeSupported(t)) || '';
+  },
+
+  async start() {
+    if (!app.currentChat || this.rec) return;
+    if (callManager.active) return app.toast("You can't record during a call.");
+    if (!this.supported()) return app.toast('Voice messages need HTTPS and an up-to-date browser.');
+    try { this.stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+    catch (e) { return app.toast('Allow microphone access to record voice messages.'); }
+
+    const type = this.pickType();
+    const opts = { audioBitsPerSecond: 24000 }; // keeps a 1-minute clip around 200 KB
+    if (type) opts.mimeType = type;
+    try { this.rec = new MediaRecorder(this.stream, opts); }
+    catch (e) { this.rec = new MediaRecorder(this.stream); }
+
+    this.chunks = [];
+    this.sendOnStop = false;
+    this.stopping = false;
+    this.rec.ondataavailable = e => { if (e.data && e.data.size) this.chunks.push(e.data); };
+    this.rec.onstop = () => this.finish();
+    this.rec.start();
+    this.t0 = Date.now();
+
+    $id('chat-input').classList.add('hidden');
+    $id('recording-bar').classList.remove('hidden');
+    $id('rec-time').textContent = '0:00';
+    this.timer = setInterval(() => {
+      const s = (Date.now() - this.t0) / 1000;
+      $id('rec-time').textContent = fmtDur(s);
+      if (s >= this.MAX_SECONDS) this.stop(true);
+    }, 250);
+  },
+
+  /* send=true sends the clip, send=false throws it away */
+  stop(send) {
+    if (!this.rec || this.stopping) return;
+    this.stopping = true;
+    this.sendOnStop = send;
+    this.duration = (Date.now() - this.t0) / 1000;
+    clearInterval(this.timer);
+    if (this.rec.state !== 'inactive') this.rec.stop(); // finish() runs from onstop
+    else this.finish();
+  },
+
+  async finish() {
+    const rec = this.rec, send = this.sendOnStop, dur = this.duration, chunks = this.chunks;
+    this.rec = null; this.chunks = []; this.stopping = false;
+    clearInterval(this.timer);
+    if (this.stream) this.stream.getTracks().forEach(t => t.stop());
+    this.stream = null;
+    $id('recording-bar').classList.add('hidden');
+    $id('chat-input').classList.remove('hidden');
+    if (!send || !rec || !app.currentChat) return;
+    if (dur < 1) return app.toast('That recording was too short.');
+
+    const blob = new Blob(chunks, { type: (rec.mimeType || 'audio/webm').split(';')[0] });
+    try {
+      const data = await new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(r.result);
+        r.onerror = () => reject(new Error('Could not read the recording.'));
+        r.readAsDataURL(blob);
+      });
+      if (!isAudio(data)) throw new Error('Could not read the recording.');
+      if (data.length > 600000) throw new Error('That voice message is too long to send.');
+      await app.sendMessage({ audio: data, duration: Math.round(dur) });
+    } catch (e) { app.toast(e.message); }
   }
 };
 
@@ -1568,7 +2416,7 @@ const callManager = {
       return;
     }
     if (this.incoming && this.incoming.callId === v.callId) return;
-    if (Date.now() - (v.timestamp || 0) > 90000) { snap.ref.remove().catch(() => {}); return; }
+    if (app.now() - (v.timestamp || 0) > 90000) { snap.ref.remove().catch(() => {}); return; }
     if (this.active || this.incoming) {
       app.db.ref(`calls/${v.callId}/status`).set('declined').catch(() => {});
       snap.ref.remove().catch(() => {});
