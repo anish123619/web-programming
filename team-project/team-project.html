@@ -48,23 +48,66 @@
     #reply-bar > span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     /* ----- welcome screen for new users ----- */
-    .welcome { text-align: center; padding: 28px 18px 32px; }
-    .welcome-emoji { display: inline-block; font-size: 3.2rem; line-height: 1; transform-origin: 70% 70%; }
-    .welcome-emoji.wave { animation: gaze-wave 1.8s ease-in-out 2; }
+    .welcome {
+      position: relative; overflow: hidden; isolation: isolate;
+      margin: 12px; padding: 32px 18px 28px; border-radius: 24px;
+      text-align: center; color: #fff;
+      background: linear-gradient(135deg, #6a5cff 0%, #8b5cf6 35%, #ec4899 70%, #f59e0b 100%);
+      background-size: 220% 220%;
+      animation: gaze-gradient 14s ease infinite;
+      box-shadow: 0 12px 32px rgba(106, 92, 255, .35);
+    }
+    [data-theme="dark"] .welcome { background-image: linear-gradient(135deg, #312e81 0%, #5b21b6 40%, #9d174d 75%, #92400e 100%); box-shadow: 0 12px 32px rgba(0,0,0,.45); }
+    @keyframes gaze-gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    /* soft glowing blobs behind the content */
+    .welcome::before, .welcome::after { content: ""; position: absolute; z-index: -1; border-radius: 50%; filter: blur(8px); }
+    .welcome::before { width: 220px; height: 220px; top: -70px; right: -60px; background: rgba(255,255,255,.18); }
+    .welcome::after { width: 180px; height: 180px; bottom: -60px; left: -50px; background: rgba(255,255,255,.12); }
+    /* floating emoji */
+    .welcome-float { position: absolute; z-index: -1; font-size: 1.6rem; opacity: .55; pointer-events: none; animation: gaze-float 6s ease-in-out infinite; }
+    .welcome-float.f1 { top: 18px; left: 18px; }
+    .welcome-float.f2 { top: 70px; right: 22px; animation-delay: -2s; font-size: 1.3rem; }
+    .welcome-float.f3 { top: 200px; left: 10px; animation-delay: -4s; font-size: 1.2rem; }
+    .welcome-float.f4 { bottom: 120px; right: 14px; animation-delay: -1s; }
+    @keyframes gaze-float { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-12px) rotate(6deg); } }
+
+    .welcome-emoji { display: inline-flex; align-items: center; justify-content: center; width: 84px; height: 84px; border-radius: 50%; font-size: 2.8rem; line-height: 1; background: rgba(255,255,255,.22); box-shadow: inset 0 0 0 2px rgba(255,255,255,.35); }
+    .welcome-emoji.wave { animation: gaze-wave 1.8s ease-in-out 2; transform-origin: 70% 70%; }
     @keyframes gaze-wave { 0%, 60%, 100% { transform: rotate(0); } 10%, 30% { transform: rotate(14deg); } 20% { transform: rotate(-8deg); } 40% { transform: rotate(-4deg); } 50% { transform: rotate(10deg); } }
-    .welcome h3 { font-weight: 600; margin: 12px 0 6px; }
-    .welcome-lead { color: var(--text-secondary, #888); max-width: 340px; margin: 0 auto 18px; }
-    .welcome-steps { display: flex; flex-direction: column; gap: 8px; max-width: 400px; margin: 0 auto 20px; text-align: left; }
-    .welcome-step { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: rgba(127,127,127,.1); cursor: pointer; transition: transform .1s ease, background .2s ease; }
-    .welcome-step:hover { background: rgba(127,127,127,.16); }
+    .welcome h3 { font-weight: 600; margin: 14px 0 6px; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.15); }
+    .welcome-lead { color: rgba(255,255,255,.9); max-width: 340px; margin: 0 auto 20px; }
+
+    .welcome-steps { display: flex; flex-direction: column; gap: 10px; max-width: 400px; margin: 0 auto 20px; text-align: left; }
+    .welcome-step {
+      display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; cursor: pointer;
+      background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      transition: transform .15s ease, background .2s ease;
+    }
+    .welcome-step:hover { background: rgba(255,255,255,.26); transform: translateY(-2px); }
     .welcome-step:active { transform: scale(.98); }
-    .welcome-step .num { width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #fff; background: var(--primary-color, #0084ff); }
-    .welcome-step.done .num { background: #2e7d32; }
-    .welcome-step.done strong { text-decoration: line-through; opacity: .6; }
-    .welcome-step small { display: block; color: var(--text-secondary, #888); }
-    .welcome-step .go { margin-left: auto; opacity: .45; }
-    .welcome-people { max-width: 400px; margin: 0 auto; text-align: left; }
-    .welcome-cta { margin-top: 16px; padding-left: 24px; padding-right: 24px; }
+    .welcome-step .num { width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #7c3aed; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,.15); }
+    .welcome-step.done .num { color: #fff; background: #22c55e; }
+    .welcome-step.done strong { text-decoration: line-through; opacity: .7; }
+    .welcome-step strong { color: #fff; }
+    .welcome-step small { display: block; color: rgba(255,255,255,.8); }
+    .welcome-step .go { margin-left: auto; opacity: .7; }
+
+    .welcome-people {
+      max-width: 400px; margin: 0 auto; padding: 6px 14px 8px; border-radius: 16px; text-align: left;
+      background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    }
+    .welcome-people .section-label { color: rgba(255,255,255,.85); }
+    .welcome-people .name { color: #fff; font-weight: 500; }
+    .welcome-people .person-row + .person-row { border-top: 1px solid rgba(255,255,255,.18); }
+    .welcome-people .avatar { box-shadow: 0 0 0 2px rgba(255,255,255,.6); }
+    .welcome .btn { background: #fff; color: #7c3aed; border: none; font-weight: 600; border-radius: 999px; box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+    .welcome .btn:hover { background: #f5f3ff; color: #6d28d9; }
+    .welcome .btn.btn-ghost { background: rgba(255,255,255,.22); color: #fff; box-shadow: none; }
+    .welcome-cta { margin-top: 18px; padding: 10px 26px; font-size: 1rem; }
+    .welcome-cta i { margin-right: 6px; }
+    @media (prefers-reduced-motion: reduce) { .welcome, .welcome-float, .welcome-emoji.wave { animation: none; } }
   </style>
 </head>
 <body>
@@ -960,6 +1003,7 @@ const app = {
     const meUser = this.allUsers[this.me.uid] || {};
     const first = this.myName().split(' ')[0];
     const w = el('div', 'welcome');
+    ['💬', '✨', '📸', '🎉'].forEach((e, n) => w.appendChild(el('span', 'welcome-float f' + (n + 1), e)));
 
     // wave only the first time it appears, not on every re-render
     w.appendChild(el('div', 'welcome-emoji' + (this.welcomeWaved ? '' : ' wave'), '👋'));
