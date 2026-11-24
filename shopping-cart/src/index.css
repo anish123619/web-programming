@@ -162,3 +162,39 @@ button:hover {
         position: static;
     }
 }
+.counter-cart {
+    max-width: 520px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--accent);
+    border-radius: 14px;
+    background: var(--card);
+}
+
+.counter-cart ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.counter-cart li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.counter-qty {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.counter-qty button {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border-radius: 50%;
+}
