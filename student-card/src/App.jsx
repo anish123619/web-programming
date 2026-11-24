@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import ProfileCard from './components/ProfileCard';
 import NotificationList from './components/NotificationList';
 import Card from './components/Card';
@@ -13,29 +14,54 @@ function StudentCard({ name, id, major }) {
   );
 }
 
+// Decide which task to show from the end of the address
+function getView() {
+  const hash = window.location.hash.replace('#', '');
+  return hash === 'exercises' || hash === 'courses' ? hash : 'student';
+}
+
 function App() {
+  const [view, setView] = useState(getView());
+
+  useEffect(() => {
+    const onChange = () => setView(getView());
+    window.addEventListener('hashchange', onChange);
+    return () => window.removeEventListener('hashchange', onChange);
+  }, []);
+
   return (
     <div>
-      <StudentCard name="Tamang Anish" id="202637595" major="Computer Engineering" />
+      {view === 'student' && (
+        <StudentCard name="Tamang Anish" id="202637595" major="Computer Engineering" />
+      )}
 
-      <h2 id="exercises">Exercise 1: ProfileCard</h2>
-      <ProfileCard name="Tamang Anish" role="Student" email="tamanganish296@gmail.com" />
+      {view === 'exercises' && (
+        <>
+          <h2>Exercise 1: ProfileCard</h2>
+          <ProfileCard name="Tamang Anish" role="Student" email="tamanganish296@gmail.com" />
 
-      <h2>Exercise 2: Notifications</h2>
-      <NotificationList />
+          <h2>Exercise 2: Notifications</h2>
+          <NotificationList />
 
-      <h2>Exercise 3: Card with children</h2>
-      <Card title="Lecture Topics">
-        <ul>
-          <li>Components</li>
-          <li>Props</li>
-        </ul>
-      </Card>
-      <Card title="Homework">
-        <p>Build a student portfolio component</p>
-      </Card>
-      <h2 id="courses">Practice: Course Catalog</h2>
-<CourseCatalog />
+          <h2>Exercise 3: Card with children</h2>
+          <Card title="Lecture Topics">
+            <ul>
+              <li>Components</li>
+              <li>Props</li>
+            </ul>
+          </Card>
+          <Card title="Homework">
+            <p>Build a student portfolio component</p>
+          </Card>
+        </>
+      )}
+
+      {view === 'courses' && (
+        <>
+          <h2>Course Catalog</h2>
+          <CourseCatalog />
+        </>
+      )}
     </div>
   );
 }
