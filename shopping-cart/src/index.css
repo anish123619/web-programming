@@ -250,3 +250,50 @@ button:hover {
 .guide h3 + button {
     margin-right: 6px;
 }
+
+.gh input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 1rem;
+}
+
+.gh-status {
+    margin: 14px 0 0;
+    color: var(--muted);
+}
+
+.gh-error {
+    margin: 14px 0 0;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(220, 38, 38, 0.15);
+    color: #fca5a5;
+}
+
+.gh-card {
+    margin-top: 18px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--bg);
+    text-align: center;
+}
+
+.gh-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.gh-card h3 {
+    margin: 12px 0 6px;
+}
+
+.gh-card p {
+    margin: 4px 0;
+    color: var(--muted);
+}

@@ -4,11 +4,13 @@ import PracticeCart from './practice/ShoppingCart';
 import ToggleDetail from './guide/ToggleDetail';
 import TaskList from './guide/TaskList';
 import ScoreBoard from './guide/ScoreBoard';
+import GitHubProfile from './github/GitHubProfile';
 
 function getView() {
   const hash = window.location.hash;
   if (hash === '#counter') return 'counter';
   if (hash === '#guide') return 'guide';
+  if (hash === '#github') return 'github';
   return 'shop';
 }
 
@@ -22,6 +24,17 @@ function App() {
   }, []);
 
   if (view === 'counter') return <PracticeCart />;
+
+  if (view === 'github') {
+    return (
+      <main className="guide">
+        <h1>GitHub User Lookup</h1>
+        <section>
+          <GitHubProfile />
+        </section>
+      </main>
+    );
+  }
 
   if (view === 'guide') {
     return (
