@@ -210,6 +210,64 @@
 
     /* ===== Blocked chat bar ===== */
     .blocked-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; background: var(--secondary-color, #f0f2f5); color: var(--text-primary); }
+    /* ===== Forgot password ===== */
+    .forgot-link { display: block; margin: -2px 0 10px; text-align: right; font-size: .85rem; color: var(--accent-blue, #0084ff) !important; cursor: pointer; }
+    .reset-help { color: var(--text-secondary, #666); font-size: .92rem; }
+
+    /* ===== Stories ===== */
+    .story-bar { display: flex; gap: 14px; overflow-x: auto; padding: 12px 14px 4px; scrollbar-width: none; }
+    .story-bar::-webkit-scrollbar { display: none; }
+    .story-item { flex-shrink: 0; width: 68px; padding: 0; border: none; background: none; color: inherit; font: inherit; text-align: center; cursor: pointer; }
+    .story-ring { position: relative; width: 64px; height: 64px; margin: 0 auto 4px; padding: 3px; border-radius: 50%; background: #c7c9ce; }
+    .story-ring.unseen { background: conic-gradient(from 210deg, #f59e0b, #ec4899, #8b5cf6, #6a5cff, #f59e0b); }
+    .story-ring.none { background: transparent; }
+    .story-ring .avatar { width: 100%; height: 100%; margin: 0; font-size: 1.3rem; border: 3px solid var(--background-color, #fff); background-size: cover; background-position: center; }
+    .story-add { position: absolute; right: -2px; bottom: -2px; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid var(--background-color, #fff); background: var(--gaze-accent, #0084ff); color: #fff; font-size: .62rem; }
+    .story-name { display: block; font-size: .74rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .story-viewer { position: fixed; inset: 0; z-index: 1060; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.94); }
+    .sv-frame { position: relative; width: 100%; max-width: 440px; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #111; user-select: none; -webkit-user-select: none; }
+    @media (min-width: 500px) { .sv-frame { height: 92vh; border-radius: 16px; } }
+    #sv-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .sv-bars { position: absolute; top: 10px; left: 10px; right: 10px; z-index: 3; display: flex; gap: 4px; }
+    .sv-bar { flex: 1; height: 3px; overflow: hidden; border-radius: 2px; background: rgba(255,255,255,.35); }
+    .sv-bar i { display: block; width: 0; height: 100%; background: #fff; }
+    .sv-top { position: absolute; top: 20px; left: 10px; right: 10px; z-index: 3; display: flex; align-items: center; gap: 10px; color: #fff; }
+    .sv-who { flex: 1; line-height: 1.2; }
+    .sv-who small { display: block; opacity: .75; }
+    .sv-icon { padding: 6px; border: none; background: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
+    .sv-caption { position: absolute; left: 16px; right: 16px; bottom: 86px; z-index: 3; text-align: center; color: #fff; font-size: 1.05rem; white-space: pre-wrap; text-shadow: 0 2px 8px rgba(0,0,0,.7); pointer-events: none; }
+    .sv-tap { position: absolute; top: 70px; bottom: 84px; z-index: 2; }
+    .sv-tap.left { left: 0; width: 35%; }
+    .sv-tap.right { right: 0; width: 65%; }
+    .sv-bottom { position: absolute; left: 12px; right: 12px; bottom: 16px; z-index: 3; display: flex; justify-content: center; }
+    .sv-views { padding: 8px 16px; border: none; border-radius: 999px; background: rgba(255,255,255,.18); color: #fff; cursor: pointer; }
+    .sv-views i { margin-right: 6px; }
+    .sv-reply { display: flex; gap: 8px; width: 100%; }
+    .sv-reply input { flex: 1; padding: 10px 16px; border: 1px solid rgba(255,255,255,.5); border-radius: 999px; background: rgba(255,255,255,.12); color: #fff; outline: none; }
+    .sv-reply input::placeholder { color: rgba(255,255,255,.7); }
+    .sv-reply button { width: 44px; height: 44px; flex-shrink: 0; border: none; border-radius: 50%; background: #fff; color: #111; }
+    .sv-viewers { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; max-height: 50%; overflow-y: auto; padding: 14px 16px; border-radius: 16px 16px 0 0; background: var(--background-color, #fff); color: var(--text-primary, #111); }
+    .sv-viewers h6 { margin: 0 0 8px; font-weight: 600; }
+    .sv-viewers .person-row small { margin-left: auto; opacity: .7; }
+    .story-preview { display: block; width: 100%; max-height: 50vh; margin-bottom: 10px; object-fit: contain; border-radius: 12px; background: #111; }
+    .story-label { font-size: .74em; opacity: .75; margin-bottom: 2px; }
+    .story-label i { margin-right: 4px; }
+
+    /* ===== Polls ===== */
+    .poll { min-width: 230px; max-width: 300px; }
+    .poll-q { margin-bottom: 8px; font-weight: 600; }
+    .poll-opt { position: relative; display: flex; align-items: center; gap: 8px; width: 100%; margin: 6px 0; padding: 8px 10px; overflow: hidden; border: 1px solid rgba(127,127,127,.4); border-radius: 10px; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+    .poll-opt .fill { position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: currentColor; opacity: .14; transition: width .35s ease; }
+    .poll-opt.mine { border-color: currentColor; }
+    .poll-opt .mark { position: relative; width: 18px; height: 18px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 2px solid currentColor; border-radius: 50%; font-size: .6rem; }
+    .poll.multi .poll-opt .mark { border-radius: 4px; }
+    .poll-opt .txt { position: relative; flex: 1; }
+    .poll-opt .cnt { position: relative; font-size: .8rem; opacity: .85; }
+    .poll-meta { margin-top: 4px; font-size: .75rem; opacity: .75; }
+    .poll-opt-row { display: flex; gap: 6px; align-items: flex-start; }
+    .poll-opt-row .form-control { margin-bottom: .5rem; }
+    .poll-multi { display: flex; align-items: center; gap: 8px; margin: 10px 0 0; font-size: .92rem; }
+    html:not([data-bg="classic"]) .story-name { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.25); }
     .welcome { border: 1px solid rgba(255,255,255,.35); box-shadow: 0 12px 32px rgba(0,0,0,.18); }
 
     /* ===== Voice calls ===== */
@@ -245,6 +303,7 @@
       <h2>Welcome to Gaze</h2>
       <input type="email" id="login-email" placeholder="Email" autocomplete="email">
       <input type="password" id="login-password" placeholder="Password" autocomplete="current-password">
+      <a id="forgot-link" class="forgot-link">Forgot password?</a>
       <button id="login-btn" class="btn">Login</button>
       <div class="auth-toggle" style="margin-top:1rem;">Don't have an account? <a id="show-signup">Sign Up</a></div>
     </div>
@@ -281,6 +340,8 @@
       <div class="search-bar hidden" id="chat-search-bar">
         <input type="text" id="chat-search" class="text-input" placeholder="Search chats">
       </div>
+      <div class="story-bar" id="story-bar"></div>
+      <input type="file" id="story-input" accept="image/*" class="hidden">
       <div class="list-container" id="chat-list"></div>
     </div>
 
@@ -389,6 +450,7 @@
     <div class="blocked-bar hidden" id="blocked-bar"><span id="blocked-text"></span><button class="btn btn-inline" id="unblock-btn">Unblock</button></div>
     <div class="chat-input" id="chat-input">
       <button id="attach-btn" class="attach" title="Send a photo"><i class="fas fa-image"></i></button>
+      <button id="poll-btn" class="attach hidden" title="Create a poll"><i class="fas fa-poll"></i></button>
       <input type="file" id="image-input" accept="image/*" class="hidden">
       <input type="text" id="message-input" placeholder="Aa" maxlength="2000" autocomplete="off">
       <button id="mic-btn" title="Record a voice message"><i class="fas fa-microphone"></i></button>
@@ -409,6 +471,31 @@
 <div class="loader-overlay" id="loader"><div class="loader"></div></div>
 <div class="toast" id="toast"></div>
 <div class="image-viewer hidden" id="image-viewer"><img id="image-viewer-img" alt="Photo"></div>
+
+<!-- Story viewer -->
+<div id="story-viewer" class="story-viewer hidden">
+  <div class="sv-frame">
+    <div class="sv-bars" id="sv-bars"></div>
+    <div class="sv-top">
+      <div id="sv-avatar" class="avatar small"></div>
+      <div class="sv-who"><strong id="sv-name"></strong><small id="sv-time"></small></div>
+      <button id="sv-delete" class="sv-icon hidden" title="Delete story"><i class="fas fa-trash"></i></button>
+      <button id="sv-close" class="sv-icon" title="Close"><i class="fas fa-times"></i></button>
+    </div>
+    <img id="sv-img" alt="Story">
+    <div class="sv-caption" id="sv-caption"></div>
+    <div class="sv-tap left" id="sv-prev"></div>
+    <div class="sv-tap right" id="sv-next"></div>
+    <div class="sv-bottom">
+      <button id="sv-views" class="sv-views hidden"></button>
+      <div class="sv-reply hidden" id="sv-reply">
+        <input id="sv-reply-input" placeholder="Reply…" maxlength="500" autocomplete="off">
+        <button id="sv-reply-send" title="Send reply"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+    <div class="sv-viewers hidden" id="sv-viewers"></div>
+  </div>
+</div>
 
 <!-- Incoming call -->
 <div id="incoming-call" class="call-screen incoming hidden">
@@ -658,6 +745,66 @@
   </div>
 </div>
 
+<!-- Reset password modal -->
+<div class="modal fade" id="resetModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reset your password</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <p class="reset-help">Enter your account email and we'll send you a link to set a new password.</p>
+        <input type="email" id="resetEmail" class="form-control" placeholder="Email" autocomplete="email">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" id="resetSendBtn">Send reset link</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New story modal -->
+<div class="modal fade" id="storyModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New story</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <img id="story-preview" class="story-preview" alt="Story preview">
+        <input type="text" id="storyCaption" class="form-control" maxlength="120" placeholder="Add a caption (optional)">
+        <small style="color:var(--text-secondary)"><i class="fas fa-user-friends"></i> Your friends can see it for 24 hours.</small>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" id="storyShareBtn">Share to story</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create poll modal -->
+<div class="modal fade" id="pollModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create a poll</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="pollQuestion" class="form-control" maxlength="120" placeholder="Ask a question" style="margin-bottom:.75rem;">
+        <div id="pollOptions"></div>
+        <button type="button" class="btn btn-ghost btn-inline" id="pollAddOpt"><i class="fas fa-plus"></i> Add option</button>
+        <label class="poll-multi"><input type="checkbox" id="pollMulti"> Allow multiple answers</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" id="pollCreateBtn">Create poll</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -691,6 +838,7 @@ const ICE_SERVERS = [
 ];
 
 const REACTION_EMOJIS = ['👍', '❤️', '😂', '😮', '😢', '🙏'];
+const STORY_MS = 5000; // how long each story shows
 
 /* Background themes (Menu → Theme). The colours themselves live in the CSS. */
 const THEMES = [
@@ -723,6 +871,7 @@ function fmtDur(s) {
 function msgPreview(m) {
   if (!m) return '';
   if (m.deleted) return 'Message deleted';
+  if (m.poll) return '📊 ' + (m.poll.question || 'Poll');
   if (m.text) return m.text.slice(0, 80);
   if (isAudio(m.audio)) return '🎤 Voice message';
   if (isImg(m.image)) return '📷 Photo';
@@ -765,6 +914,12 @@ function fmtDay(ts) {
   if (sameDay(d, y)) return 'Yesterday';
   return d.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' });
 }
+function fmtAgo(ts) {
+  const m = Math.max(0, Math.floor((Date.now() - (ts || 0)) / 60000));
+  if (m < 1) return 'Just now';
+  if (m < 60) return m + 'm';
+  return Math.floor(m / 60) + 'h';
+}
 function fmtLastSeen(ts) {
   if (!ts) return 'Offline';
   const d = new Date(ts);
@@ -800,6 +955,13 @@ function resizeImage(file, maxDim, quality, square) {
     img.src = url;
   });
 }
+async function resizeStory(file) {
+  for (const [dim, q] of [[1080, 0.72], [900, 0.65], [720, 0.6]]) {
+    const data = await resizeImage(file, dim, q, false);
+    if (data.length < 450000) return data;
+  }
+  throw new Error('That photo is too large for a story.');
+}
 async function resizeCover(file) {
   for (const [dim, q] of [[1000, 0.7], [800, 0.6], [640, 0.55]]) {
     const data = await resizeImage(file, dim, q, false);
@@ -824,6 +986,7 @@ const app = {
   allUsers: {}, presence: {}, friends: {}, groups: {}, userGroups: {}, chatMeta: {}, requests: {},
   sentRequests: new Set(), chatSettings: {}, showArchived: false, serverOffset: 0,
   settings: {}, connected: false, profileUid: null, profileReturn: null, pendingCover: null,
+  stories: {}, storyRefs: {}, myStoryViews: {}, seenStories: {}, sv: null, svTimer: null, pendingStory: null, pollVotes: {}, pollDraft: [],
   listeners: [], groupRefs: {},
   currentChat: null,
   msgEls: {}, msgData: {}, reactions: {}, seenTs: 0, seenMap: {}, lastDay: null, initialLoaded: false,
@@ -845,6 +1008,10 @@ const app = {
     let savedText = null;
     try { savedText = localStorage.getItem('gaze-text'); } catch (e) {}
     this.applyTextSize(savedText || 'medium');
+    try { // stories you've already watched (forget ones that have expired)
+      const seen = JSON.parse(localStorage.getItem('gaze-seen-stories') || '{}');
+      Object.keys(seen).forEach(id => { if (seen[id] > Date.now()) this.seenStories[id] = seen[id]; });
+    } catch (e) {}
     this.renderSettings();
     this.updateNotifyLabel();
     this.bindUI();
@@ -861,6 +1028,9 @@ const app = {
     on('show-signup', () => { $id('login-box').classList.add('hidden'); $id('signup-box').classList.remove('hidden'); });
     on('show-login', () => { $id('signup-box').classList.add('hidden'); $id('login-box').classList.remove('hidden'); });
     on('login-btn', () => this.login());
+    on('forgot-link', () => this.openReset());
+    on('resetSendBtn', () => this.sendReset());
+    on('resetEmail', e => { if (e.key === 'Enter') this.sendReset(); }, 'keydown');
     on('signup-btn', () => this.signUp());
     ['login-email', 'login-password'].forEach(id => on(id, e => { if (e.key === 'Enter') this.login(); }, 'keydown'));
     ['signup-name', 'signup-email', 'signup-password'].forEach(id => on(id, e => { if (e.key === 'Enter') this.signUp(); }, 'keydown'));
@@ -936,6 +1106,36 @@ const app = {
     on('opt-pin', () => this.toggleChatSetting('pinned'));
     on('opt-mute', () => this.toggleChatSetting('muted'));
     on('opt-archive', () => this.toggleChatSetting('archived'));
+
+    // stories
+    on('story-input', e => { const f = e.target.files[0]; e.target.value = ''; if (f) this.prepareStory(f); }, 'change');
+    on('storyShareBtn', () => this.postStory());
+    on('sv-close', () => this.closeStories());
+    on('sv-delete', () => this.deleteStory());
+    on('sv-views', () => this.toggleViewers());
+    on('sv-reply-send', () => this.sendStoryReply());
+    on('sv-reply-input', e => { if (e.key === 'Enter') this.sendStoryReply(); }, 'keydown');
+    ['sv-prev', 'sv-next'].forEach(id => { // tap = previous/next, hold = pause
+      let t0 = 0;
+      on(id, () => { t0 = Date.now(); if (this.sv) this.sv.holding = true; }, 'pointerdown');
+      on(id, () => {
+        if (!this.sv) return;
+        this.sv.holding = false;
+        if (Date.now() - t0 < 300) { if (id === 'sv-prev') this.prevStory(); else this.nextStory(); }
+      }, 'pointerup');
+      on(id, () => { if (this.sv) this.sv.holding = false; }, 'pointerleave');
+    });
+    document.addEventListener('keydown', e => {
+      if (!this.sv || (e.target && e.target.id === 'sv-reply-input')) return;
+      if (e.key === 'Escape') this.closeStories();
+      else if (e.key === 'ArrowRight') this.nextStory();
+      else if (e.key === 'ArrowLeft') this.prevStory();
+    });
+
+    // polls
+    on('poll-btn', () => this.openPollCreator());
+    on('pollAddOpt', () => this.addPollOption());
+    on('pollCreateBtn', () => this.createPoll());
 
     // forwarding
     on('forwardSearch', () => this.renderForwardList(), 'input');
@@ -1090,6 +1290,7 @@ const app = {
       Object.keys(this.friends).forEach(f => {
         if (this.sentRequests.has(f)) this.db.ref(`sentRequests/${uid}/${f}`).remove().catch(() => {});
       });
+      this.syncStories();
       this.scheduleRender();
     });
     // requests I've sent are stored, so "Requested" survives a reload
@@ -1098,6 +1299,8 @@ const app = {
     this.listen(this.db.ref(`chatSettings/${uid}`), 'value', s => { this.chatSettings = s.val() || {}; this.scheduleRender(); });
     // private settings: privacy switches, sounds, text size, blocked users
     this.listen(this.db.ref(`settings/${uid}`), 'value', s => { this.settings = s.val() || {}; this.onSettings(); });
+    // who has viewed my stories
+    this.listen(this.db.ref(`storyViews/${uid}`), 'value', s => { this.myStoryViews = s.val() || {}; this.updateViewsLabel(); });
     // difference between this device's clock and Firebase's clock
     this.listen(this.db.ref('.info/serverTimeOffset'), 'value', s => { this.serverOffset = s.val() || 0; });
     this.listen(this.db.ref(`userGroups/${uid}`), 'value', s => this.syncGroups(s.val() || {}));
@@ -1126,6 +1329,7 @@ const app = {
     this.replyTo = null;
     this.chatSettings = {}; this.showArchived = false; this.groupInfoOpen = false;
     this.settings = {}; this.connected = false; this.profileUid = null;
+    this.stopStories();
     this.clearListeners();
     Object.values(this.groupRefs).forEach(g => g.ref.off('value', g.cb));
     this.groupRefs = {};
@@ -1191,6 +1395,7 @@ const app = {
   renderAll() {
     if (!this.me) return;
     this.renderProfileBits();
+    this.renderStories();
     this.renderChatList();
     this.renderPeople();
     if (this.profileUid) this.renderProfileView();
@@ -1863,6 +2068,7 @@ const app = {
     $id('video-call-btn').classList.toggle('hidden', item.type !== 'direct');
     $id('audio-call-btn').classList.toggle('hidden', item.type !== 'direct');
     $id('group-info-btn').classList.toggle('hidden', item.type !== 'group');
+    $id('poll-btn').classList.toggle('hidden', item.type !== 'group');
     this.updateBlockedUI();
     $id('message-input').value = '';
     this.cancelEdit();
@@ -1899,7 +2105,7 @@ const app = {
     const c = this.currentChat, id = c.id;
     const box = $id('chat-messages');
     box.textContent = '';
-    this.msgEls = {}; this.msgData = {}; this.reactions = {}; this.seenTs = 0; this.seenMap = {}; this.lastDay = null; this.initialLoaded = false;
+    this.msgEls = {}; this.msgData = {}; this.reactions = {}; this.pollVotes = {}; this.seenTs = 0; this.seenMap = {}; this.lastDay = null; this.initialLoaded = false;
     $id('typing-indicator').textContent = '';
     const still = () => this.currentChat && this.currentChat.id === id;
 
@@ -1916,6 +2122,12 @@ const app = {
       if (!still()) return;
       this.reactions = s.val() || {};
       Object.keys(this.msgEls).forEach(mid => this.renderReactions(mid));
+    }, 'chat');
+
+    this.listen(this.db.ref(`chats/${id}/pollVotes`), 'value', s => {
+      if (!still()) return;
+      this.pollVotes = s.val() || {};
+      this.refreshPolls();
     }, 'chat');
 
     this.listen(this.db.ref(`chats/${id}/typing`), 'value', s => {
@@ -1978,6 +2190,12 @@ const app = {
           f.appendChild(document.createTextNode('Forwarded'));
           bubble.appendChild(f);
         }
+        if (m.storyReply) {
+          const sr = el('div', 'story-label');
+          sr.innerHTML = '<i class="fas fa-circle-notch"></i>';
+          sr.appendChild(document.createTextNode(mine ? 'You replied to their story' : 'Replied to your story'));
+          bubble.appendChild(sr);
+        }
         if (m.replyTo && m.replyTo.mid) {
           const q = el('div', 'quote');
           q.appendChild(el('strong', null, m.replyTo.senderId === this.me.uid ? 'You' : this.nameOf(m.replyTo.senderId)));
@@ -1993,6 +2211,7 @@ const app = {
           bubble.appendChild(img);
         }
         if (isAudio(m.audio)) bubble.appendChild(this.renderVoice(m));
+        if (m.poll) bubble.appendChild(this.renderPoll(mid, m));
         if (m.text) bubble.appendChild(el('div', 'msg-text', m.text));
         if (m.edited) bubble.appendChild(el('span', 'edited', 'edited'));
         bubble.onclick = () => this.openMessageActions(mid);
@@ -2155,6 +2374,7 @@ const app = {
     $id('act-copy').classList.toggle('hidden', !m.text);
     $id('act-edit').classList.toggle('hidden', !(mine && m.text));
     $id('act-delete').classList.toggle('hidden', !mine);
+    $id('act-forward').classList.toggle('hidden', !!m.poll);
     $('#actionsModal').modal('show');
   },
 
@@ -2199,7 +2419,7 @@ const app = {
   deleteMessage(mid) {
     const c = this.currentChat; if (!c || !mid) return;
     if (!confirm('Delete this message for everyone?')) return;
-    this.db.ref(`chats/${c.id}/messages/${mid}`).update({ deleted: true, text: null, image: null, audio: null, duration: null, replyTo: null })
+    this.db.ref(`chats/${c.id}/messages/${mid}`).update({ deleted: true, text: null, image: null, audio: null, duration: null, replyTo: null, poll: null })
       .then(() => this.refreshPreviewIfLatest(mid, 'Message deleted'))
       .catch(e => this.toast('Could not delete: ' + e.message));
   },
@@ -2535,6 +2755,7 @@ const app = {
     this.updateChatHeader();
     this.updateReceipts();
     this.updateBlockedUI();
+    this.syncStories();
     this.scheduleRender();
   },
 
@@ -2666,6 +2887,372 @@ const app = {
     }
   },
 
+  /* ---------- forgot password ---------- */
+  openReset() {
+    $id('resetEmail').value = $id('login-email').value.trim();
+    $('#resetModal').modal('show');
+    setTimeout(() => $id('resetEmail').focus(), 300);
+  },
+  async sendReset() {
+    const email = $id('resetEmail').value.trim();
+    if (!email) return this.toast('Enter your email address.');
+    const btn = $id('resetSendBtn');
+    btn.disabled = true;
+    // same message whether or not the account exists, so emails can't be guessed
+    const sent = 'If an account exists for that email, a reset link is on its way. Check your inbox and spam folder.';
+    try {
+      await this.auth.sendPasswordResetEmail(email);
+      $('#resetModal').modal('hide');
+      this.toast(sent, 6000);
+    } catch (e) {
+      if (e.code === 'auth/user-not-found') { $('#resetModal').modal('hide'); this.toast(sent, 6000); }
+      else if (e.code === 'auth/invalid-email') this.toast('That email address doesn\'t look right.');
+      else this.toast('Could not send the email: ' + e.message);
+    } finally { btn.disabled = false; }
+  },
+
+  /* ---------- stories ---------- */
+  /* listen to my stories and my friends' stories */
+  syncStories() {
+    if (!this.me) return;
+    const want = new Set([this.me.uid].concat(Object.keys(this.friends).filter(f => !this.isBlocked(f))));
+    Object.keys(this.storyRefs).forEach(uid => {
+      if (want.has(uid)) return;
+      this.storyRefs[uid].ref.off('value', this.storyRefs[uid].cb);
+      delete this.storyRefs[uid];
+      delete this.stories[uid];
+    });
+    want.forEach(uid => {
+      if (this.storyRefs[uid]) return;
+      const ref = this.db.ref(`stories/${uid}`);
+      const cb = s => {
+        const val = s.val() || {};
+        this.stories[uid] = val;
+        if (uid === this.me.uid) { // tidy up my own expired stories
+          Object.keys(val).forEach(id => {
+            if ((val[id].expiresAt || 0) < this.now()) {
+              this.db.ref().update({ [`stories/${uid}/${id}`]: null, [`storyViews/${uid}/${id}`]: null }).catch(() => {});
+            }
+          });
+        }
+        this.scheduleRender();
+      };
+      ref.on('value', cb, () => { this.stories[uid] = {}; });
+      this.storyRefs[uid] = { ref, cb };
+    });
+  },
+  stopStories() {
+    this.closeStories();
+    Object.values(this.storyRefs).forEach(r => r.ref.off('value', r.cb));
+    this.storyRefs = {}; this.stories = {}; this.myStoryViews = {};
+  },
+  activeStories(uid) {
+    const now = this.now();
+    return Object.entries(this.stories[uid] || {})
+      .map(([id, v]) => ({ id, ...v }))
+      .filter(st => (st.expiresAt || 0) > now && isImg(st.image))
+      .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+  },
+  hasUnseen(uid) { return this.activeStories(uid).some(st => !this.seenStories[st.id]); },
+  latestStory(uid) { const l = this.activeStories(uid); return l.length ? (l[l.length - 1].timestamp || 0) : 0; },
+  /* friends with stories: unseen first, newest first */
+  storyFriends() {
+    return Object.keys(this.friends)
+      .filter(f => this.allUsers[f] && !this.isBlocked(f) && this.activeStories(f).length)
+      .sort((a, b) => (this.hasUnseen(b) - this.hasUnseen(a)) || (this.latestStory(b) - this.latestStory(a)));
+  },
+
+  renderStories() {
+    const bar = $id('story-bar'); if (!bar || !this.me) return;
+    bar.textContent = '';
+    const me = this.me.uid;
+    const mineActive = this.activeStories(me).length > 0;
+    const item = (uid, label, ringCls, onClick, withAdd) => {
+      const b = el('button', 'story-item');
+      b.type = 'button';
+      const ring = el('div', 'story-ring ' + ringCls);
+      const u = this.allUsers[uid] || {};
+      ring.appendChild(makeAvatar(u.name || this.myName(), u.profileImageUrl));
+      if (withAdd) {
+        const add = el('span', 'story-add');
+        add.innerHTML = '<i class="fas fa-plus"></i>';
+        add.title = 'Add to your story';
+        add.onclick = e => { e.stopPropagation(); this.pickStory(); };
+        ring.appendChild(add);
+      }
+      b.appendChild(ring);
+      b.appendChild(el('span', 'story-name', label));
+      b.onclick = onClick;
+      bar.appendChild(b);
+    };
+    item(me, 'Your story', mineActive ? 'unseen' : 'none', () => (mineActive ? this.openStories(me) : this.pickStory()), true);
+    this.storyFriends().forEach(f => item(f, this.firstName(f), this.hasUnseen(f) ? 'unseen' : 'seen', () => this.openStories(f), false));
+  },
+
+  pickStory() { $id('story-input').click(); },
+  async prepareStory(file) {
+    try {
+      this.pendingStory = await resizeStory(file);
+      $id('story-preview').src = this.pendingStory;
+      $id('storyCaption').value = '';
+      $('#storyModal').modal('show');
+    } catch (e) { this.toast(e.message); }
+  },
+  async postStory() {
+    if (!this.pendingStory) return;
+    const now = this.now();
+    const btn = $id('storyShareBtn');
+    btn.disabled = true;
+    try {
+      await this.db.ref(`stories/${this.me.uid}`).push({
+        image: this.pendingStory, caption: $id('storyCaption').value.trim() || null,
+        timestamp: TS(), expiresAt: now + 24 * 3600 * 1000
+      });
+      this.pendingStory = null;
+      $('#storyModal').modal('hide');
+      this.toast('Added to your story');
+    } catch (e) { this.toast('Could not share: ' + e.message); }
+    finally { btn.disabled = false; }
+  },
+
+  firstUnseen(uid) {
+    const i = this.activeStories(uid).findIndex(st => !this.seenStories[st.id]);
+    return i < 0 ? 0 : i;
+  },
+  openStories(uid) {
+    const queue = uid === this.me.uid ? [uid] : this.storyFriends();
+    const start = queue.indexOf(uid); if (start < 0) return;
+    this.sv = { queue: queue.slice(start), ui: 0, si: this.firstUnseen(uid), elapsed: 0, holding: false, viewed: new Set() };
+    $id('story-viewer').classList.remove('hidden');
+    this.showStory();
+    clearInterval(this.svTimer);
+    this.svTimer = setInterval(() => this.tickStory(), 50);
+  },
+  showStory() {
+    const sv = this.sv; if (!sv) return;
+    const uid = sv.queue[sv.ui];
+    const list = this.activeStories(uid);
+    if (!list.length) return this.nextUser();
+    if (sv.si >= list.length) sv.si = list.length - 1;
+    const st = list[sv.si];
+    sv.current = st;
+    sv.elapsed = 0;
+    const u = this.allUsers[uid] || {};
+    const isMe = uid === this.me.uid;
+    setAvatar($id('sv-avatar'), u.name, u.profileImageUrl);
+    $id('sv-name').textContent = isMe ? 'Your story' : (u.name || 'Someone');
+    $id('sv-time').textContent = fmtAgo(st.timestamp);
+    $id('sv-img').src = st.image;
+    $id('sv-caption').textContent = st.caption || '';
+    const bars = $id('sv-bars');
+    bars.textContent = '';
+    list.forEach((x, i) => { const b = el('div', 'sv-bar'); const f = el('i'); f.style.width = i < sv.si ? '100%' : '0%'; b.appendChild(f); bars.appendChild(b); });
+    $id('sv-delete').classList.toggle('hidden', !isMe);
+    $id('sv-views').classList.toggle('hidden', !isMe);
+    $id('sv-reply').classList.toggle('hidden', isMe);
+    $id('sv-viewers').classList.add('hidden');
+    $id('sv-reply-input').value = '';
+    $id('sv-reply-input').placeholder = `Reply to ${(u.name || '').split(' ')[0] || 'story'}…`;
+    if (isMe) this.updateViewsLabel();
+    else this.markStorySeen(uid, st);
+  },
+  /* pauses while you hold the screen, type a reply or look at the viewers list */
+  tickStory() {
+    const sv = this.sv; if (!sv) return;
+    if (sv.holding || document.activeElement === $id('sv-reply-input') || !$id('sv-viewers').classList.contains('hidden')) return;
+    sv.elapsed += 50;
+    const bar = $id('sv-bars').children[sv.si];
+    if (bar) bar.firstChild.style.width = Math.min(100, sv.elapsed / STORY_MS * 100) + '%';
+    if (sv.elapsed >= STORY_MS) this.nextStory();
+  },
+  nextStory() {
+    const sv = this.sv; if (!sv) return;
+    if (sv.si + 1 < this.activeStories(sv.queue[sv.ui]).length) { sv.si++; this.showStory(); }
+    else this.nextUser();
+  },
+  nextUser() {
+    const sv = this.sv; if (!sv) return;
+    sv.ui++;
+    if (sv.ui >= sv.queue.length) return this.closeStories();
+    sv.si = this.firstUnseen(sv.queue[sv.ui]);
+    this.showStory();
+  },
+  prevStory() {
+    const sv = this.sv; if (!sv) return;
+    if (sv.si > 0) sv.si--;
+    else if (sv.ui > 0) { sv.ui--; sv.si = Math.max(0, this.activeStories(sv.queue[sv.ui]).length - 1); }
+    this.showStory();
+  },
+  closeStories() {
+    clearInterval(this.svTimer);
+    if (!this.sv) return;
+    this.sv = null;
+    $id('story-viewer').classList.add('hidden');
+    $id('sv-img').removeAttribute('src');
+    this.scheduleRender();
+  },
+  markStorySeen(owner, st) {
+    this.seenStories[st.id] = st.expiresAt || (this.now() + 86400000);
+    try { localStorage.setItem('gaze-seen-stories', JSON.stringify(this.seenStories)); } catch (e) {}
+    if (this.sv && !this.sv.viewed.has(st.id)) {
+      this.sv.viewed.add(st.id);
+      this.db.ref(`storyViews/${owner}/${st.id}/${this.me.uid}`).set(TS()).catch(() => {});
+    }
+  },
+  updateViewsLabel() {
+    const sv = this.sv; if (!sv || !sv.current || sv.queue[sv.ui] !== this.me.uid) return;
+    const n = Object.keys(this.myStoryViews[sv.current.id] || {}).length;
+    $id('sv-views').innerHTML = `<i class="fas fa-eye"></i>${n} view${n === 1 ? '' : 's'}`;
+  },
+  toggleViewers() {
+    const sv = this.sv; if (!sv || !sv.current) return;
+    const panel = $id('sv-viewers');
+    if (!panel.classList.contains('hidden')) { panel.classList.add('hidden'); return; }
+    panel.textContent = '';
+    panel.appendChild(el('h6', null, 'Viewed by'));
+    const views = this.myStoryViews[sv.current.id] || {};
+    const ids = Object.keys(views).sort((a, b) => views[b] - views[a]);
+    if (!ids.length) panel.appendChild(el('div', 'empty', 'No views yet.'));
+    ids.forEach(id => {
+      const u = this.allUsers[id] || { name: 'Someone' };
+      const row = el('div', 'person-row');
+      row.appendChild(makeAvatar(u.name, u.profileImageUrl, 'small'));
+      row.appendChild(el('span', 'name', u.name));
+      row.appendChild(el('small', null, fmtAgo(views[id])));
+      panel.appendChild(row);
+    });
+    panel.classList.remove('hidden');
+  },
+  async deleteStory() {
+    const sv = this.sv; if (!sv || !sv.current) return;
+    if (!confirm('Delete this story?')) return;
+    const id = sv.current.id;
+    try {
+      await this.db.ref().update({ [`stories/${this.me.uid}/${id}`]: null, [`storyViews/${this.me.uid}/${id}`]: null });
+      this.toast('Story deleted');
+      if (!this.activeStories(this.me.uid).length) this.closeStories(); else this.showStory();
+    } catch (e) { this.toast('Could not delete: ' + e.message); }
+  },
+  /* replying to a story sends a normal message in your chat with them */
+  async sendStoryReply() {
+    const sv = this.sv; if (!sv || !sv.current) return;
+    const input = $id('sv-reply-input');
+    const text = input.value.trim(); if (!text) return;
+    const uid = sv.queue[sv.ui];
+    const c = { id: this.directId(uid), type: 'direct', uid };
+    const data = { senderId: this.me.uid, timestamp: TS(), text, storyReply: true };
+    try {
+      const ref = this.db.ref(`chats/${c.id}/messages`).push();
+      await ref.set(data);
+      this.updateInbox(c, text.slice(0, 80), ref.key);
+      input.value = '';
+      input.blur();
+      this.toast('Reply sent');
+    } catch (e) { this.toast('Could not send: ' + e.message); }
+  },
+
+  /* ---------- polls (group chats) ---------- */
+  openPollCreator() {
+    $id('pollQuestion').value = '';
+    $id('pollMulti').checked = false;
+    this.pollDraft = ['', ''];
+    this.renderPollOptions();
+    $('#pollModal').modal('show');
+    setTimeout(() => $id('pollQuestion').focus(), 300);
+  },
+  renderPollOptions() {
+    const box = $id('pollOptions');
+    box.textContent = '';
+    this.pollDraft.forEach((v, i) => {
+      const row = el('div', 'poll-opt-row');
+      const inp = el('input', 'form-control');
+      inp.maxLength = 60; inp.placeholder = `Option ${i + 1}`; inp.value = v;
+      inp.oninput = () => { this.pollDraft[i] = inp.value; };
+      row.appendChild(inp);
+      if (this.pollDraft.length > 2) {
+        const x = el('button', 'btn btn-inline btn-ghost');
+        x.type = 'button'; x.title = 'Remove option';
+        x.innerHTML = '<i class="fas fa-times"></i>';
+        x.onclick = () => { this.pollDraft.splice(i, 1); this.renderPollOptions(); };
+        row.appendChild(x);
+      }
+      box.appendChild(row);
+    });
+    $id('pollAddOpt').classList.toggle('hidden', this.pollDraft.length >= 6);
+  },
+  addPollOption() {
+    if (this.pollDraft.length >= 6) return;
+    this.pollDraft.push('');
+    this.renderPollOptions();
+    const inputs = $id('pollOptions').querySelectorAll('input');
+    inputs[inputs.length - 1].focus();
+  },
+  async createPoll() {
+    const c = this.currentChat; if (!c || c.type !== 'group') return;
+    const question = $id('pollQuestion').value.trim();
+    const opts = this.pollDraft.map(x => x.trim()).filter(Boolean);
+    if (!question) return this.toast('Ask a question first.');
+    if (opts.length < 2) return this.toast('Add at least two options.');
+    if (new Set(opts.map(o => o.toLowerCase())).size !== opts.length) return this.toast('Each option needs to be different.');
+    const options = {};
+    opts.forEach((o, i) => { options['o' + i] = o; });
+    const data = { senderId: this.me.uid, timestamp: TS(), poll: { question, options, multi: $id('pollMulti').checked } };
+    try {
+      const ref = this.db.ref(`chats/${c.id}/messages`).push();
+      await ref.set(data);
+      this.updateInbox(c, msgPreview(data), ref.key);
+      $('#pollModal').modal('hide');
+    } catch (e) { this.toast('Could not create poll: ' + e.message); }
+  },
+  renderPoll(mid, m) {
+    const poll = m.poll || {};
+    const box = el('div', 'poll' + (poll.multi ? ' multi' : ''));
+    box.appendChild(el('div', 'poll-q', poll.question || 'Poll'));
+    const votes = this.pollVotes[mid] || {};
+    const counts = {}, voters = {};
+    let people = 0;
+    Object.keys(votes).forEach(u => {
+      const picks = Object.keys(votes[u] || {});
+      if (picks.length) people++;
+      picks.forEach(o => { counts[o] = (counts[o] || 0) + 1; (voters[o] = voters[o] || []).push(this.firstName(u)); });
+    });
+    const mine = votes[this.me.uid] || {};
+    Object.keys(poll.options || {}).sort().forEach(o => {
+      const b = el('button', 'poll-opt' + (mine[o] ? ' mine' : ''));
+      b.type = 'button';
+      const fill = el('span', 'fill');
+      fill.style.width = (people ? Math.round((counts[o] || 0) / people * 100) : 0) + '%';
+      b.appendChild(fill);
+      const mark = el('span', 'mark');
+      if (mine[o]) mark.innerHTML = '<i class="fas fa-check"></i>';
+      b.appendChild(mark);
+      b.appendChild(el('span', 'txt', poll.options[o]));
+      b.appendChild(el('span', 'cnt', counts[o] ? String(counts[o]) : ''));
+      if (voters[o]) b.title = 'Voted: ' + voters[o].join(', ');
+      b.onclick = e => { e.stopPropagation(); this.votePoll(mid, o, !!poll.multi); };
+      box.appendChild(b);
+    });
+    box.appendChild(el('div', 'poll-meta', `${people} ${people === 1 ? 'person' : 'people'} voted` + (poll.multi ? ' · Multiple answers allowed' : '')));
+    return box;
+  },
+  votePoll(mid, opt, multi) {
+    const c = this.currentChat; if (!c) return;
+    const ref = this.db.ref(`chats/${c.id}/pollVotes/${mid}/${this.me.uid}`);
+    const mine = (this.pollVotes[mid] || {})[this.me.uid] || {};
+    let p;
+    if (multi) p = mine[opt] ? ref.child(opt).remove() : ref.child(opt).set(true);
+    else p = mine[opt] ? ref.remove() : ref.set({ [opt]: true }); // tapping your choice again removes it
+    p.catch(e => this.toast('Could not vote: ' + e.message));
+  },
+  refreshPolls() {
+    Object.keys(this.msgData).forEach(mid => {
+      const m = this.msgData[mid];
+      if (!m.poll || m.deleted) return;
+      const old = this.msgEls[mid] && this.msgEls[mid].querySelector('.poll');
+      if (old) old.replaceWith(this.renderPoll(mid, m));
+    });
+  },
+
   /* ---------- notes ---------- */
   async openNotes() {
     $id('noteInput').value = '';
@@ -2760,12 +3347,12 @@ const app = {
     $id('sw-dark').classList.toggle('on', dark);
   },
 
-  toast(msg) {
+  toast(msg, ms) {
     const t = $id('toast');
     t.textContent = msg;
     t.classList.add('show');
     clearTimeout(this.toastTimer);
-    this.toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+    this.toastTimer = setTimeout(() => t.classList.remove('show'), ms || 3200);
   }
 };
 
