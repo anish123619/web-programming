@@ -140,8 +140,6 @@
     html:not([data-bg="classic"]) #chat-list .list-item .chat-info { border-bottom: none; }
     html:not([data-bg="classic"]) #chat-list > .empty, html:not([data-bg="classic"]) #chat-list .archived-row { color: rgba(255,255,255,.92); }
     html:not([data-bg="classic"]) #panel-people .section, html:not([data-bg="classic"]) #panel-menu .profile-card { background: var(--glass); margin: 12px; padding: 12px 14px; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
-    html:not([data-bg="classic"]) #panel-menu .menu-row { background: var(--glass); margin: 8px 12px; width: calc(100% - 24px); border-radius: 14px; }
-    html:not([data-bg="classic"]) #panel-menu .menu-row:hover { background: var(--background-color); }
     html:not([data-bg="classic"]) #main-app-view .bottom-nav { background: var(--glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-top-color: transparent; }
     html:not([data-bg="classic"]) #chat-window .chat-messages { background: transparent; }
     html:not([data-bg="classic"]) #chat-window .bubble { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
@@ -151,6 +149,67 @@
     html:not([data-bg="classic"]) #chat-window .meta, html:not([data-bg="classic"]) #chat-window .meta .time, html:not([data-bg="classic"]) #chat-window .typing { color: rgba(255,255,255,.9); }
     html:not([data-bg="classic"]) #chat-window .day-sep, html:not([data-bg="classic"]) #chat-window .message.system .system-text { background: rgba(255,255,255,.25); color: #fff; }
     html:not([data-bg="classic"]) #chat-window .chat-input, html:not([data-bg="classic"]) #chat-window .edit-bar { background: var(--glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+    html:not([data-bg="classic"]) #profile-view { background-image: var(--gaze-gradient); background-size: 220% 220%; animation: gaze-gradient 14s ease infinite; }
+    html:not([data-bg="classic"]) #profile-view .header { background: transparent; border-bottom-color: rgba(255,255,255,.25); }
+    html:not([data-bg="classic"]) #profile-view .header h3, html:not([data-bg="classic"]) #profile-view .back-btn { color: #fff; }
+    html:not([data-bg="classic"]) #profile-view .pv-head h2 { color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.15); }
+    html:not([data-bg="classic"]) #profile-view .pv-bio, html:not([data-bg="classic"]) #profile-view .pv-status { color: rgba(255,255,255,.92); }
+    html:not([data-bg="classic"]) #profile-view .pv-status.online { color: #bbf7d0; }
+    html:not([data-bg="classic"]) #profile-view .pv-cover:not(.has-photo) { background: rgba(255,255,255,.18); }
+    html:not([data-bg="classic"]) #profile-view .pv-card, html:not([data-bg="classic"]) #panel-menu .settings-group { background: var(--glass); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+    html:not([data-bg="classic"]) #panel-menu .settings-footer { color: rgba(255,255,255,.85); }
+    html:not([data-bg="classic"]) #chat-window .blocked-bar { background: var(--glass); }
+    html[data-bg="classic"] { --gaze-accent: #0084ff; }
+
+    /* ===== Settings screen ===== */
+    .settings-group { margin: 12px; border-radius: 16px; overflow: hidden; background: var(--surface, #fff); box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+    .settings-title { padding: 12px 16px 4px; font-size: .74rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-secondary, #888); }
+    .settings-group .menu-row { display: flex; align-items: center; gap: 12px; width: 100%; margin: 0; border-radius: 0; text-align: left; background: none; }
+    .settings-group .menu-row > i { width: 22px; text-align: center; }
+    .settings-group .menu-row .state, .settings-group .menu-row .switch { margin-left: auto; }
+    .settings-group .menu-row + .menu-row { border-top: 1px solid var(--border-soft, #eee); }
+    .settings-footer { text-align: center; font-size: .8rem; color: var(--text-secondary, #888); padding: 4px 0 24px; }
+    .switch { position: relative; flex-shrink: 0; width: 44px; height: 26px; border-radius: 13px; background: #c7c9ce; transition: background .2s ease; }
+    .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); transition: transform .2s ease; }
+    .switch.on { background: var(--gaze-accent, #0084ff); }
+    .switch.on::after { transform: translateX(18px); }
+    .settings-form .form-control { margin-bottom: .6rem; }
+    html[data-text="small"] .bubble { font-size: .88em; }
+    html[data-text="large"] .bubble { font-size: 1.15em; }
+
+    /* ===== Profile page ===== */
+    .pv-scroll { flex: 1; overflow-y: auto; padding-bottom: 28px; }
+    .pv-cover { height: 180px; margin: 12px; border-radius: 18px; background: var(--gaze-gradient); background-size: cover; background-position: center; }
+    .pv-head { position: relative; margin-top: -66px; padding: 0 16px; text-align: center; }
+    .pv-avatar { width: 124px; height: 124px; margin: 0 auto; font-size: 3rem; border: 4px solid var(--background-color, #fff); box-shadow: 0 6px 18px rgba(0,0,0,.18); background-size: cover; background-position: center; }
+    .pv-head h2 { margin: 10px 0 4px; font-weight: 600; font-size: 1.6rem; }
+    .pv-bio { max-width: 420px; margin: 0 auto 6px; white-space: pre-wrap; color: var(--text-secondary, #666); }
+    .pv-status { margin-bottom: 14px; font-size: .85rem; color: var(--text-secondary, #888); }
+    .pv-status.online { color: var(--online, #31a24c); }
+    .pv-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 16px; }
+    .pv-actions .btn { border-radius: 999px; padding: 8px 16px; }
+    .pv-actions .btn i { margin-right: 6px; }
+    .pv-card { margin: 0 12px 12px; padding: 14px 16px; border-radius: 16px; background: var(--surface, #fff); box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+    .pv-card h4 { margin: 0 0 8px; font-size: 1rem; font-weight: 600; }
+    .pv-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
+    .pv-row i { width: 22px; text-align: center; color: var(--text-secondary, #888); }
+    .pv-empty { font-size: .9rem; color: var(--text-secondary, #888); }
+    #chat-avatar, #chat-window .title-text { cursor: pointer; }
+    .person-row .avatar, .person-row .name { cursor: pointer; }
+
+    /* ===== Edit profile ===== */
+    .modal-body.edit-profile { max-height: 72vh; overflow-y: auto; }
+    .ep-cover { position: relative; height: 120px; margin-bottom: -46px; border-radius: 14px; background: var(--gaze-gradient); background-size: cover; background-position: center; }
+    .ep-cover-btn { position: absolute; right: 8px; bottom: 8px; margin: 0; padding: 4px 10px; border-radius: 999px; font-size: .8rem; color: #fff; background: rgba(0,0,0,.55); cursor: pointer; }
+    .ep-avatar-wrap { position: relative; width: 96px; margin: 0 auto 10px; }
+    .ep-avatar-wrap .avatar { width: 96px; height: 96px; margin: 0; font-size: 2.4rem; border: 4px solid var(--background-color, #fff); background-size: cover; background-position: center; }
+    .ep-avatar-btn { position: absolute; right: -2px; bottom: 2px; width: 32px; height: 32px; margin: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--secondary-color, #eee); color: var(--text-primary); box-shadow: 0 1px 4px rgba(0,0,0,.2); cursor: pointer; }
+    .ep-label { display: flex; justify-content: space-between; margin: 4px 0 2px; font-size: .8rem; font-weight: 600; color: var(--text-secondary, #888); }
+    .edit-profile .form-control { margin-bottom: .55rem; }
+    .ep-note { display: block; margin-top: 4px; color: var(--text-secondary, #888); }
+
+    /* ===== Blocked chat bar ===== */
+    .blocked-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; background: var(--secondary-color, #f0f2f5); color: var(--text-primary); }
     .welcome { border: 1px solid rgba(255,255,255,.35); box-shadow: 0 12px 32px rgba(0,0,0,.18); }
 
     /* ===== Voice calls ===== */
@@ -242,20 +301,65 @@
       </div>
     </div>
 
-    <!-- Menu -->
+    <!-- Menu / Settings -->
     <div class="panel" id="panel-menu">
       <div class="profile-card" id="profile-card"></div>
-      <button class="menu-row" id="menu-notes"><i class="fas fa-sticky-note"></i> Public notes</button>
-      <button class="menu-row" id="menu-notify"><i class="fas fa-bell"></i> Notifications <span class="state" id="notify-state"></span></button>
-      <button class="menu-row" id="menu-theme"><i class="fas fa-palette"></i> Theme <span class="state" id="theme-state"></span></button>
-      <button class="menu-row" id="menu-dark"><i class="fas fa-moon"></i> Dark mode <span class="state" id="dark-state"></span></button>
-      <button class="menu-row danger" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+
+      <div class="settings-group">
+        <div class="settings-title">Account</div>
+        <button class="menu-row" id="menu-edit-profile"><i class="fas fa-user-edit"></i> Edit profile</button>
+        <button class="menu-row" id="menu-password"><i class="fas fa-key"></i> Change password</button>
+      </div>
+      <div class="settings-group">
+        <div class="settings-title">Privacy</div>
+        <button class="menu-row" id="menu-active" title="When off, nobody sees when you're online, and you won't see theirs"><i class="fas fa-circle"></i> Active status <span class="switch" id="sw-active"></span></button>
+        <button class="menu-row" id="menu-receipts" title="When off, people won't see when you've read their messages, and you won't see theirs"><i class="fas fa-check-double"></i> Read receipts <span class="switch" id="sw-receipts"></span></button>
+        <button class="menu-row" id="menu-blocked"><i class="fas fa-ban"></i> Blocked users <span class="state" id="blocked-state"></span></button>
+      </div>
+      <div class="settings-group">
+        <div class="settings-title">Notifications &amp; sounds</div>
+        <button class="menu-row" id="menu-notify"><i class="fas fa-bell"></i> Notifications <span class="state" id="notify-state"></span></button>
+        <button class="menu-row" id="menu-sounds"><i class="fas fa-volume-up"></i> Message sounds <span class="switch" id="sw-sounds"></span></button>
+      </div>
+      <div class="settings-group">
+        <div class="settings-title">Appearance</div>
+        <button class="menu-row" id="menu-theme"><i class="fas fa-palette"></i> Theme <span class="state" id="theme-state"></span></button>
+        <button class="menu-row" id="menu-dark"><i class="fas fa-moon"></i> Dark mode <span class="switch" id="sw-dark"></span></button>
+        <button class="menu-row" id="menu-textsize"><i class="fas fa-text-height"></i> Text size <span class="state" id="textsize-state"></span></button>
+      </div>
+      <div class="settings-group">
+        <div class="settings-title">More</div>
+        <button class="menu-row" id="menu-notes"><i class="fas fa-sticky-note"></i> Public notes</button>
+        <button class="menu-row danger" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+      <div class="settings-footer">Gaze · Let's get connected</div>
     </div>
 
     <div class="bottom-nav">
       <div class="nav-item active" id="nav-chats"><i class="fas fa-comment"></i><span class="label">Chats</span><span class="badge hidden" id="chats-badge"></span></div>
       <div class="nav-item" id="nav-people"><i class="fas fa-user-friends"></i><span class="label">People</span><span class="badge hidden" id="people-badge"></span></div>
       <div class="nav-item" id="nav-menu"><i class="fas fa-bars"></i><span class="label">Menu</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PROFILE PAGE ============ -->
+  <div class="profile-view view" id="profile-view">
+    <div class="header">
+      <div class="title-group">
+        <button id="profile-back-btn" class="back-btn" title="Back"><i class="fas fa-arrow-left"></i></button>
+        <h3 id="pv-title">Profile</h3>
+      </div>
+    </div>
+    <div class="pv-scroll">
+      <div class="pv-cover" id="pv-cover"></div>
+      <div class="pv-head">
+        <div id="pv-avatar" class="avatar pv-avatar"></div>
+        <h2 id="pv-name"></h2>
+        <div class="pv-bio" id="pv-bio"></div>
+        <div class="pv-status" id="pv-status"></div>
+        <div class="pv-actions" id="pv-actions"></div>
+      </div>
+      <div class="pv-card" id="pv-details"></div>
     </div>
   </div>
 
@@ -282,6 +386,7 @@
     <div class="edit-bar hidden" id="edit-bar"><span><i class="fas fa-pen"></i> Editing message</span><button id="cancel-edit-btn" title="Cancel"><i class="fas fa-times"></i></button></div>
     <div class="edit-bar hidden" id="reply-bar"><span><i class="fas fa-reply"></i> <span id="reply-text"></span></span><button id="cancel-reply-btn" title="Cancel reply"><i class="fas fa-times"></i></button></div>
 
+    <div class="blocked-bar hidden" id="blocked-bar"><span id="blocked-text"></span><button class="btn btn-inline" id="unblock-btn">Unblock</button></div>
     <div class="chat-input" id="chat-input">
       <button id="attach-btn" class="attach" title="Send a photo"><i class="fas fa-image"></i></button>
       <input type="file" id="image-input" accept="image/*" class="hidden">
@@ -335,7 +440,7 @@
   </div>
 </div>
 
-<!-- Profile modal -->
+<!-- Edit profile modal -->
 <div class="modal fade" id="profileModal" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -343,13 +448,65 @@
         <h5 class="modal-title">Edit profile</h5>
         <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
       </div>
-      <div class="modal-body">
-        <div id="profile-preview" class="avatar big"></div>
-        <input type="file" id="profileImageInput" accept="image/*" class="form-control" style="margin-bottom:0.75rem;">
+      <div class="modal-body edit-profile">
+        <div class="ep-cover" id="ep-cover">
+          <label class="ep-cover-btn"><i class="fas fa-camera"></i> Cover photo<input type="file" id="coverImageInput" accept="image/*" class="hidden"></label>
+        </div>
+        <div class="ep-avatar-wrap">
+          <div id="profile-preview" class="avatar"></div>
+          <label class="ep-avatar-btn" title="Change profile photo"><i class="fas fa-camera"></i><input type="file" id="profileImageInput" accept="image/*" class="hidden"></label>
+        </div>
+        <label class="ep-label" for="profileNameInput">Name</label>
         <input type="text" id="profileNameInput" class="form-control" placeholder="Your name" maxlength="40">
+        <label class="ep-label" for="profileBioInput">Bio <small id="bio-count">0/150</small></label>
+        <textarea id="profileBioInput" class="form-control" rows="2" maxlength="150" placeholder="Tell people a little about yourself"></textarea>
+        <label class="ep-label" for="profileLocationInput">Lives in</label>
+        <input type="text" id="profileLocationInput" class="form-control" maxlength="60" placeholder="City, country">
+        <label class="ep-label" for="profileWorkInput">Work</label>
+        <input type="text" id="profileWorkInput" class="form-control" maxlength="60" placeholder="Where you work">
+        <label class="ep-label" for="profileSchoolInput">Education</label>
+        <input type="text" id="profileSchoolInput" class="form-control" maxlength="60" placeholder="School or university">
+        <label class="ep-label" for="profileBirthdayInput">Birthday</label>
+        <input type="date" id="profileBirthdayInput" class="form-control">
+        <small class="ep-note"><i class="fas fa-globe-asia"></i> Your profile details are visible to everyone on Gaze.</small>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" id="saveProfileBtn">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Change password modal -->
+<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Change password</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body settings-form">
+        <input type="password" id="pwCurrent" class="form-control" placeholder="Current password" autocomplete="current-password">
+        <input type="password" id="pwNew" class="form-control" placeholder="New password (6+ characters)" autocomplete="new-password">
+        <input type="password" id="pwConfirm" class="form-control" placeholder="Confirm new password" autocomplete="new-password">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" id="pwSaveBtn">Update password</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Blocked users modal -->
+<div class="modal fade" id="blockedModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Blocked users</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div id="blockedList" style="max-height:50vh; overflow:auto;"></div>
       </div>
     </div>
   </div>
@@ -643,6 +800,13 @@ function resizeImage(file, maxDim, quality, square) {
     img.src = url;
   });
 }
+async function resizeCover(file) {
+  for (const [dim, q] of [[1000, 0.7], [800, 0.6], [640, 0.55]]) {
+    const data = await resizeImage(file, dim, q, false);
+    if (data.length < 250000) return data;
+  }
+  throw new Error('That cover photo is too large.');
+}
 async function resizeChatImage(file) {
   const tries = [[900, 0.7], [640, 0.6], [480, 0.5]];
   for (const [dim, q] of tries) {
@@ -659,6 +823,7 @@ const app = {
   me: null,
   allUsers: {}, presence: {}, friends: {}, groups: {}, userGroups: {}, chatMeta: {}, requests: {},
   sentRequests: new Set(), chatSettings: {}, showArchived: false, serverOffset: 0,
+  settings: {}, connected: false, profileUid: null, profileReturn: null, pendingCover: null,
   listeners: [], groupRefs: {},
   currentChat: null,
   msgEls: {}, msgData: {}, reactions: {}, seenTs: 0, seenMap: {}, lastDay: null, initialLoaded: false,
@@ -677,6 +842,10 @@ const app = {
     let savedBg = null;
     try { savedBg = localStorage.getItem('gaze-bg'); } catch (e) {}
     this.applyBg(savedBg || 'sunset', false);
+    let savedText = null;
+    try { savedText = localStorage.getItem('gaze-text'); } catch (e) {}
+    this.applyTextSize(savedText || 'medium');
+    this.renderSettings();
     this.updateNotifyLabel();
     this.bindUI();
     this.auth.onAuthStateChanged(u => this.onAuth(u));
@@ -717,8 +886,34 @@ const app = {
     on('logout-btn', () => this.logout());
 
     // profile
-    on('profile-btn', () => this.openProfile());
-    on('profile-card', () => this.openProfile());
+    on('profile-btn', () => this.openProfileView(this.me.uid));
+    on('profile-card', () => this.openProfileView(this.me.uid));
+    on('menu-edit-profile', () => this.openEditProfile());
+    on('profile-back-btn', () => this.closeProfileView());
+    on('coverImageInput', async e => {
+      const f = e.target.files[0]; if (!f) return;
+      try { this.pendingCover = await resizeCover(f); $id('ep-cover').style.backgroundImage = `url("${this.pendingCover}")`; }
+      catch (err) { this.toast(err.message); }
+    }, 'change');
+    on('profileBioInput', () => { $id('bio-count').textContent = `${$id('profileBioInput').value.length}/150`; }, 'input');
+
+    // settings
+    on('menu-password', () => this.openPassword());
+    on('pwSaveBtn', () => this.changePassword());
+    on('menu-active', () => this.setSetting('hidePresence', this.settings.hidePresence ? null : true));
+    on('menu-receipts', () => this.setSetting('noReceipts', this.settings.noReceipts ? null : true));
+    on('menu-sounds', () => this.setSetting('sounds', this.soundsOn() ? false : null));
+    on('menu-blocked', () => this.openBlocked());
+    on('menu-textsize', () => this.cycleTextSize());
+    on('unblock-btn', () => { const c = this.currentChat; if (c && c.uid) this.unblockUser(c.uid); });
+
+    // tap the name/photo at the top of a chat: profile (1-on-1) or group info
+    const openHeader = () => {
+      const c = this.currentChat; if (!c) return;
+      if (c.type === 'direct') this.openProfileView(c.uid); else this.openGroupInfo();
+    };
+    on('chat-avatar', openHeader);
+    document.querySelector('#chat-window .title-text').addEventListener('click', openHeader);
     on('profileImageInput', async e => {
       const f = e.target.files[0]; if (!f) return;
       try { this.pendingAvatar = await resizeImage(f, 160, 0.8, true); setAvatar($id('profile-preview'), 'x', this.pendingAvatar); }
@@ -817,7 +1012,7 @@ const app = {
     try {
       const cred = await this.auth.createUserWithEmailAndPassword(email, psw);
       try { await cred.user.updateProfile({ displayName: name }); } catch (e) {}
-      await this.db.ref(`users/${cred.user.uid}`).set({ name, nameLower: name.toLowerCase() });
+      await this.db.ref(`users/${cred.user.uid}`).set({ name, nameLower: name.toLowerCase(), joinedAt: TS() });
       this.justSignedUp = true;
     } catch (e) {
       this.toast(e.message);
@@ -883,6 +1078,11 @@ const app = {
     this.listen(usersRef, 'child_changed', onUser);
     this.listen(usersRef, 'child_removed', s => { delete this.allUsers[s.key]; this.onUsersChanged(s.key); });
     await usersRef.once('value');
+    // older accounts have no joined date yet: fill it in from the sign-up time
+    const mine = this.allUsers[uid] || {};
+    if (mine.name && !mine.joinedAt && this.me.metadata && this.me.metadata.creationTime) {
+      this.db.ref(`users/${uid}/joinedAt`).set(Date.parse(this.me.metadata.creationTime)).catch(() => {});
+    }
 
     this.listen(this.db.ref(`friends/${uid}`), 'value', s => {
       this.friends = s.val() || {};
@@ -896,6 +1096,8 @@ const app = {
     this.listen(this.db.ref(`sentRequests/${uid}`), 'value', s => { this.sentRequests = new Set(Object.keys(s.val() || {})); this.scheduleRender(); });
     // per-user pin / mute / archive flags
     this.listen(this.db.ref(`chatSettings/${uid}`), 'value', s => { this.chatSettings = s.val() || {}; this.scheduleRender(); });
+    // private settings: privacy switches, sounds, text size, blocked users
+    this.listen(this.db.ref(`settings/${uid}`), 'value', s => { this.settings = s.val() || {}; this.onSettings(); });
     // difference between this device's clock and Firebase's clock
     this.listen(this.db.ref('.info/serverTimeOffset'), 'value', s => { this.serverOffset = s.val() || 0; });
     this.listen(this.db.ref(`userGroups/${uid}`), 'value', s => this.syncGroups(s.val() || {}));
@@ -909,9 +1111,8 @@ const app = {
     this.listen(presRef, 'child_changed', onPres);
 
     this.listen(this.db.ref('.info/connected'), 'value', s => {
-      if (s.val() !== true) return;
-      const pr = this.db.ref(`presence/${uid}`);
-      pr.onDisconnect().set({ online: false, lastSeen: TS() }).then(() => pr.set({ online: true, lastSeen: TS() }));
+      this.connected = s.val() === true;
+      if (this.connected) this.updatePresence();
     });
 
     this.renderAll();
@@ -924,6 +1125,7 @@ const app = {
     this.stopTyping();
     this.replyTo = null;
     this.chatSettings = {}; this.showArchived = false; this.groupInfoOpen = false;
+    this.settings = {}; this.connected = false; this.profileUid = null;
     this.clearListeners();
     Object.values(this.groupRefs).forEach(g => g.ref.off('value', g.cb));
     this.groupRefs = {};
@@ -943,6 +1145,7 @@ const app = {
       const t = (this.allUsers[uid] || {}).theme;
       if (t && t !== document.documentElement.dataset.bg) this.applyBg(t, false);
     }
+    if (this.profileUid === uid) this.renderProfileView();
     this.scheduleRender();
     const c = this.currentChat;
     if (c && c.type === 'direct' && c.uid === uid) this.updateChatHeader();
@@ -990,6 +1193,7 @@ const app = {
     this.renderProfileBits();
     this.renderChatList();
     this.renderPeople();
+    if (this.profileUid) this.renderProfileView();
   },
 
   directId(otherUid) { return [this.me.uid, otherUid].sort().join('_'); },
@@ -1004,7 +1208,7 @@ const app = {
     const t = el('div');
     t.appendChild(el('strong', null, name));
     t.appendChild(el('br'));
-    t.appendChild(el('small', null, 'Tap to edit profile'));
+    t.appendChild(el('small', null, 'See your profile'));
     card.appendChild(t);
   },
 
@@ -1072,7 +1276,7 @@ const app = {
       const m = i.meta;
       const row = el('div', 'list-item' + (m.unread ? ' unread' : ''));
       const av = i.type === 'group' ? groupAvatar(null, i.img) : makeAvatar(i.name, i.img);
-      if (i.type === 'direct' && this.presence[i.uid] && this.presence[i.uid].online) av.appendChild(el('span', 'online-dot'));
+      if (i.type === 'direct' && this.canSeePresence() && !this.isBlocked(i.uid) && this.presence[i.uid] && this.presence[i.uid].online) av.appendChild(el('span', 'online-dot'));
       row.appendChild(av);
 
       const info = el('div', 'chat-info');
@@ -1092,6 +1296,7 @@ const app = {
       else if (m.senderId === this.me.uid) preview = 'You: ' + m.text;
       else if (i.type === 'group') preview = this.firstName(m.senderId) + ': ' + m.text;
       else preview = m.text;
+      if (i.type === 'direct' && this.isBlocked(i.uid)) preview = '🚫 Blocked';
       bottom.appendChild(el('span', 'preview', preview));
       if (m.unread) bottom.appendChild(el('span', 'badge' + (i.s.muted ? ' muted' : ''), m.unread > 99 ? '99+' : m.unread));
       info.appendChild(top); info.appendChild(bottom);
@@ -1139,7 +1344,7 @@ const app = {
       s.onclick = fn;
       steps.appendChild(s);
     };
-    step(1, isImg(meUser.profileImageUrl), 'Add a profile photo', 'Help your friends recognise you', () => this.openProfile());
+    step(1, isImg(meUser.profileImageUrl), 'Add a profile photo', 'Help your friends recognise you', () => this.openEditProfile());
     step(2, this.sentRequests.size > 0, 'Find your friends', 'Search by name and send a friend request', () => this.goFindFriends());
     step(3, false, 'Post a public note', "Tell everyone what you're up to. It disappears after 24h", () => this.openNotes());
     w.appendChild(steps);
@@ -1156,7 +1361,7 @@ const app = {
         const u = this.allUsers[id];
         const row = el('div', 'person-row');
         const av = makeAvatar(u.name, u.profileImageUrl);
-        if ((this.presence[id] || {}).online) av.appendChild(el('span', 'online-dot'));
+        if (this.canSeePresence() && (this.presence[id] || {}).online) av.appendChild(el('span', 'online-dot'));
         row.appendChild(av);
         row.appendChild(el('span', 'name', u.name));
         const requested = this.sentRequests.has(id);
@@ -1231,7 +1436,7 @@ const app = {
     const uid = this.me.uid;
 
     // requests
-    const reqIds = Object.keys(this.requests).filter(id => this.allUsers[id]);
+    const reqIds = Object.keys(this.requests).filter(id => this.allUsers[id] && !this.isBlocked(id));
     $id('requests-section').classList.toggle('hidden', !reqIds.length);
     const reqEl = $id('requests-list');
     reqEl.textContent = '';
@@ -1243,6 +1448,7 @@ const app = {
       const ok = el('button', 'btn btn-inline', 'Accept'); ok.onclick = () => this.acceptRequest(id);
       const no = el('button', 'btn btn-inline btn-ghost', 'Decline'); no.onclick = () => this.declineRequest(id);
       row.appendChild(ok); row.appendChild(no);
+      this.linkProfile(row, id);
       reqEl.appendChild(row);
     });
     const pb = $id('people-badge');
@@ -1254,7 +1460,7 @@ const app = {
     const resEl = $id('people-results');
     resEl.textContent = '';
     const matches = Object.keys(this.allUsers)
-      .filter(id => id !== uid && !this.friends[id] && !this.requests[id] && (!term || (this.allUsers[id].name || '').toLowerCase().includes(term)))
+      .filter(id => id !== uid && !this.friends[id] && !this.requests[id] && !this.isBlocked(id) && (!term || (this.allUsers[id].name || '').toLowerCase().includes(term)))
       .slice(0, 30);
     if (!matches.length) resEl.appendChild(el('div', 'empty', term ? 'Nobody found.' : 'No one else to add right now.'));
     matches.forEach(id => {
@@ -1267,6 +1473,7 @@ const app = {
       if (requested) btn.title = 'Tap to cancel the request';
       btn.onclick = () => this.sendRequest(id);
       row.appendChild(btn);
+      this.linkProfile(row, id);
       resEl.appendChild(row);
     });
 
@@ -1281,6 +1488,7 @@ const app = {
       row.appendChild(makeAvatar(u.name, u.profileImageUrl));
       row.appendChild(el('span', 'name', u.name));
       row.onclick = () => this.openChat({ id: this.directId(id), type: 'direct', uid: id, name: u.name, img: u.profileImageUrl });
+      this.linkProfile(row, id);
       frEl.appendChild(row);
     });
   },
@@ -1324,7 +1532,7 @@ const app = {
   onRequests(map) {
     if (this.requestsLoaded) {
       Object.keys(map).forEach(id => {
-        if (!this.requests[id]) {
+        if (!this.requests[id] && !this.isBlocked(id)) {
           const n = (this.allUsers[id] || {}).name || 'Someone';
           this.toast(`${n} sent you a friend request`);
           this.systemNotify('Friend request', `${n} wants to be your friend`, 'req-' + id);
@@ -1462,6 +1670,7 @@ const app = {
         actions.appendChild(rm);
         row.appendChild(actions);
       }
+      if (id !== me) this.linkProfile(row, id);
       box.appendChild(row);
     });
   },
@@ -1610,6 +1819,8 @@ const app = {
   notifyMessage(chatId, m) {
     const viewing = this.currentChat && this.currentChat.id === chatId && document.visibilityState === 'visible';
     if (viewing || this.settingsOf(chatId).muted) return;
+    if (!this.groups[chatId] && this.isBlocked(m.senderId)) return;
+    this.playPop();
     const sender = (this.allUsers[m.senderId] || {}).name || 'Someone';
     const group = this.groups[chatId];
     const title = group ? `${group.name}` : sender;
@@ -1637,7 +1848,7 @@ const app = {
   markRead() {
     const c = this.currentChat; if (!c || !this.me) return;
     if (((this.chatMeta[c.id] || {}).unread || 0) > 0) this.db.ref(`userChats/${this.me.uid}/${c.id}/unread`).set(0).catch(() => {});
-    this.db.ref(`chats/${c.id}/seen/${this.me.uid}`).set(TS()).catch(() => {});
+    if (!this.settings.noReceipts) this.db.ref(`chats/${c.id}/seen/${this.me.uid}`).set(TS()).catch(() => {});
   },
 
   /* ---------- chat ---------- */
@@ -1652,6 +1863,7 @@ const app = {
     $id('video-call-btn').classList.toggle('hidden', item.type !== 'direct');
     $id('audio-call-btn').classList.toggle('hidden', item.type !== 'direct');
     $id('group-info-btn').classList.toggle('hidden', item.type !== 'group');
+    this.updateBlockedUI();
     $id('message-input').value = '';
     this.cancelEdit();
     this.cancelReply();
@@ -1669,9 +1881,9 @@ const app = {
     if (c.type === 'direct') {
       const u = this.allUsers[c.uid];
       if (u) { $id('chat-title').textContent = u.name; setAvatar($id('chat-avatar'), u.name, u.profileImageUrl); }
-      const p = this.presence[c.uid];
+      const p = this.canSeePresence() && !this.isBlocked(c.uid) ? this.presence[c.uid] : null;
       if (p && p.online) { sub.textContent = 'Online'; sub.classList.add('online'); }
-      else sub.textContent = p ? fmtLastSeen(p.lastSeen) : '';
+      else sub.textContent = p && p.lastSeen ? fmtLastSeen(p.lastSeen) : '';
     } else {
       const g = this.groups[c.id];
       if (g) {
@@ -1798,6 +2010,7 @@ const app = {
 
     if (isNew) {
       if (mine || nearBottom || !this.initialLoaded) box.scrollTop = box.scrollHeight;
+      if (!mine && !m.system && this.initialLoaded && document.visibilityState === 'visible' && !this.isBlocked(m.senderId)) this.playPop(true);
       if (!mine && this.initialLoaded && document.visibilityState === 'visible') this.markRead();
     }
   },
@@ -1917,6 +2130,8 @@ const app = {
     if (!last) return;
     const r = last.querySelector('.receipt');
     const ts = Number(last.dataset.ts);
+    // read receipts off: you don't share yours, and you don't see other people's
+    if (this.settings.noReceipts) { r.textContent = '✓ Sent'; return; }
     if (c.type === 'direct') {
       r.textContent = this.seenTs && this.seenTs >= ts ? '✓ Seen' : '✓ Sent';
       return;
@@ -2052,6 +2267,7 @@ const app = {
   /* extra: { image } or { audio, duration } for photo / voice messages */
   async sendMessage(extra) {
     const c = this.currentChat; if (!c) return;
+    if (c.type === 'direct' && this.isBlocked(c.uid)) return this.toast('Unblock them to send messages.');
     const input = $id('message-input');
     const text = extra && extra.audio ? '' : input.value.trim();
 
@@ -2134,27 +2350,320 @@ const app = {
     this.scheduleRender();
   },
 
-  /* ---------- profile ---------- */
-  openProfile() {
+  /* ---------- profile page ---------- */
+  openProfileView(uid) {
+    if (!uid || (!this.allUsers[uid] && uid !== this.me.uid)) return;
+    $('.modal').modal('hide');
+    const active = document.querySelector('.view.active');
+    if (!this.profileUid) this.profileReturn = active && active.id !== 'profile-view' ? active.id : 'main-app-view';
+    this.profileUid = uid;
+    this.friendCount = null; this.mutualCount = null;
+    this.renderProfileView();
+    this.navigateTo('profile-view');
+    $id('profile-view').querySelector('.pv-scroll').scrollTop = 0;
+    // other people's friend counts (skipped quietly if your rules keep friend lists private)
+    if (uid !== this.me.uid) {
+      this.db.ref(`friends/${uid}`).once('value').then(s => {
+        if (this.profileUid !== uid) return;
+        const theirs = s.val() || {};
+        this.friendCount = Object.keys(theirs).length;
+        this.mutualCount = Object.keys(theirs).filter(f => this.friends[f]).length;
+        this.renderProfileView();
+      }).catch(() => {});
+    }
+  },
+
+  closeProfileView() {
+    this.profileUid = null;
+    this.navigateTo(this.profileReturn || 'main-app-view');
+  },
+
+  renderProfileView() {
+    const uid = this.profileUid; if (!uid || !this.me) return;
+    const isMe = uid === this.me.uid;
+    const u = this.allUsers[uid] || {};
+    const name = u.name || (isMe ? this.myName() : 'Unknown');
+    $id('pv-title').textContent = isMe ? 'Your profile' : name;
+
+    const cover = $id('pv-cover');
+    if (isImg(u.coverUrl)) { cover.style.backgroundImage = `url("${u.coverUrl}")`; cover.classList.add('has-photo'); }
+    else { cover.style.backgroundImage = ''; cover.classList.remove('has-photo'); }
+    setAvatar($id('pv-avatar'), name, u.profileImageUrl);
+    $id('pv-name').textContent = name;
+    $id('pv-bio').textContent = u.bio || (isMe ? 'Add a short bio so people know who you are.' : '');
+
+    const st = $id('pv-status');
+    st.classList.remove('online');
+    const p = (!isMe && this.canSeePresence() && !this.isBlocked(uid)) ? this.presence[uid] : null;
+    if (isMe) st.textContent = this.settings.hidePresence ? 'Active status is off' : 'Active now';
+    else if (p && p.online) { st.textContent = 'Active now'; st.classList.add('online'); }
+    else st.textContent = p && p.lastSeen ? fmtLastSeen(p.lastSeen) : '';
+
+    // buttons
+    const acts = $id('pv-actions');
+    acts.textContent = '';
+    const btn = (icon, label, cls, fn) => {
+      const b = el('button', 'btn' + (cls ? ' ' + cls : ''));
+      b.innerHTML = `<i class="fas ${icon}"></i>`;
+      b.appendChild(document.createTextNode(label));
+      b.onclick = fn;
+      acts.appendChild(b);
+    };
+    if (isMe) {
+      btn('fa-pen', 'Edit profile', '', () => this.openEditProfile());
+    } else if (this.isBlocked(uid)) {
+      btn('fa-unlock', 'Unblock', '', () => this.unblockUser(uid));
+    } else {
+      const friend = !!this.friends[uid];
+      if (friend) {
+        btn('fa-comment', 'Message', '', () => this.messageUser(uid));
+        btn('fa-phone', 'Call', 'btn-ghost', () => callManager.startCall(uid, 'audio'));
+        btn('fa-video', 'Video', 'btn-ghost', () => callManager.startCall(uid, 'video'));
+      } else if (this.requests[uid]) {
+        btn('fa-user-check', 'Accept request', '', () => this.acceptRequest(uid));
+      } else if (this.sentRequests.has(uid)) {
+        btn('fa-user-clock', 'Requested', 'btn-ghost', () => this.cancelRequest(uid));
+      } else {
+        btn('fa-user-plus', 'Add friend', '', () => this.sendRequest(uid));
+      }
+      if (friend) btn('fa-user-minus', 'Unfriend', 'btn-ghost', () => this.unfriend(uid));
+      btn('fa-ban', 'Block', 'btn-ghost', () => this.blockUser(uid));
+    }
+
+    // About card
+    const box = $id('pv-details');
+    box.textContent = '';
+    box.appendChild(el('h4', null, 'About'));
+    let any = false;
+    const row = (icon, text) => {
+      const r = el('div', 'pv-row');
+      r.innerHTML = `<i class="fas ${icon}"></i>`;
+      r.appendChild(el('span', null, text));
+      box.appendChild(r);
+      any = true;
+    };
+    if (u.location) row('fa-map-marker-alt', `Lives in ${u.location}`);
+    if (u.work) row('fa-briefcase', `Works at ${u.work}`);
+    if (u.school) row('fa-graduation-cap', `Studied at ${u.school}`);
+    if (u.birthday) {
+      const d = new Date(u.birthday + 'T00:00:00');
+      if (!isNaN(d)) row('fa-birthday-cake', 'Birthday: ' + d.toLocaleDateString([], { month: 'long', day: 'numeric' }));
+    }
+    const fc = isMe ? Object.keys(this.friends).length : this.friendCount;
+    if (fc != null) row('fa-user-friends', `${fc} friend${fc === 1 ? '' : 's'}` + (!isMe && this.mutualCount ? ` · ${this.mutualCount} mutual` : ''));
+    if (u.joinedAt) row('fa-clock', 'Joined ' + new Date(u.joinedAt).toLocaleDateString([], { month: 'long', year: 'numeric' }));
+    if (!any) box.appendChild(el('div', 'pv-empty', isMe ? 'Add where you live, work and study from Edit profile.' : 'No details yet.'));
+  },
+
+  /* tapping a photo or name in a list opens that person's profile */
+  linkProfile(row, uid) {
+    row.querySelectorAll('.avatar, .name').forEach(n => n.addEventListener('click', e => {
+      e.stopPropagation();
+      this.openProfileView(uid);
+    }));
+  },
+
+  messageUser(uid) {
+    const u = this.allUsers[uid] || {};
+    this.profileUid = null;
+    const id = this.directId(uid);
+    if (this.currentChat && this.currentChat.id === id) return this.navigateTo('chat-window');
+    this.openChat({ id, type: 'direct', uid, name: u.name, img: u.profileImageUrl });
+  },
+
+  async unfriend(uid) {
+    if (!confirm(`Remove ${this.nameOf(uid)} from your friends?`)) return;
+    try {
+      await this.db.ref(`friends/${this.me.uid}/${uid}`).remove();
+      this.db.ref(`friends/${uid}/${this.me.uid}`).remove().catch(() => {});
+      this.toast('Unfriended');
+    } catch (e) { this.toast('Could not unfriend: ' + e.message); }
+  },
+
+  /* ---------- edit profile ---------- */
+  openEditProfile() {
     const u = this.allUsers[this.me.uid] || {};
     this.pendingAvatar = null;
+    this.pendingCover = null;
     $id('profileImageInput').value = '';
+    $id('coverImageInput').value = '';
     $id('profileNameInput').value = u.name || '';
+    $id('profileBioInput').value = u.bio || '';
+    $id('bio-count').textContent = `${(u.bio || '').length}/150`;
+    $id('profileLocationInput').value = u.location || '';
+    $id('profileWorkInput').value = u.work || '';
+    $id('profileSchoolInput').value = u.school || '';
+    $id('profileBirthdayInput').value = u.birthday || '';
     setAvatar($id('profile-preview'), u.name || '?', u.profileImageUrl);
+    $id('ep-cover').style.backgroundImage = isImg(u.coverUrl) ? `url("${u.coverUrl}")` : '';
     $('#profileModal').modal('show');
   },
 
   async saveProfile() {
     const name = $id('profileNameInput').value.trim();
     if (!name) return this.toast('Name cannot be empty.');
-    const upd = { name, nameLower: name.toLowerCase() };
+    const val = id => $id(id).value.trim() || null; // empty fields are removed
+    const upd = {
+      name, nameLower: name.toLowerCase(),
+      bio: val('profileBioInput'), location: val('profileLocationInput'),
+      work: val('profileWorkInput'), school: val('profileSchoolInput'), birthday: val('profileBirthdayInput')
+    };
     if (this.pendingAvatar) upd.profileImageUrl = this.pendingAvatar;
+    if (this.pendingCover) upd.coverUrl = this.pendingCover;
     try {
       await this.db.ref(`users/${this.me.uid}`).update(upd);
       try { await this.me.updateProfile({ displayName: name }); } catch (e) {}
       $('#profileModal').modal('hide');
       this.toast('Profile updated');
     } catch (e) { this.toast('Could not save: ' + e.message); }
+  },
+
+  /* ---------- settings ---------- */
+  setSetting(key, val) {
+    const ref = this.db.ref(`settings/${this.me.uid}/${key}`);
+    (val === null || val === undefined ? ref.remove() : ref.set(val))
+      .catch(e => this.toast('Could not save setting: ' + e.message));
+  },
+  soundsOn() { return this.settings.sounds !== false; },
+  canSeePresence() { return !this.settings.hidePresence; },
+  isBlocked(uid) { return !!(uid && this.settings.blocked && this.settings.blocked[uid]); },
+
+  onSettings() {
+    if (this.settings.textSize) this.applyTextSize(this.settings.textSize);
+    this.updatePresence();
+    this.renderSettings();
+    this.updateChatHeader();
+    this.updateReceipts();
+    this.updateBlockedUI();
+    this.scheduleRender();
+  },
+
+  renderSettings() {
+    const st = this.settings;
+    $id('sw-active').classList.toggle('on', !st.hidePresence);
+    $id('sw-receipts').classList.toggle('on', !st.noReceipts);
+    $id('sw-sounds').classList.toggle('on', this.soundsOn());
+    const n = Object.keys(st.blocked || {}).length;
+    $id('blocked-state').textContent = n ? String(n) : 'None';
+    this.renderBlocked();
+  },
+
+  /* Active status off: you show as offline with no "last seen", and you don't see other people's. */
+  updatePresence() {
+    if (!this.connected || !this.me) return;
+    const pr = this.db.ref(`presence/${this.me.uid}`);
+    const hide = !!this.settings.hidePresence;
+    pr.onDisconnect().set({ online: false, lastSeen: hide ? null : TS() })
+      .then(() => pr.set({ online: !hide, lastSeen: hide ? null : TS() }))
+      .catch(() => {});
+  },
+
+  applyTextSize(size) {
+    const names = { small: 'Small', medium: 'Medium', large: 'Large' };
+    if (!names[size]) size = 'medium';
+    document.documentElement.dataset.text = size;
+    try { localStorage.setItem('gaze-text', size); } catch (e) {}
+    $id('textsize-state').textContent = names[size];
+  },
+  cycleTextSize() {
+    const order = ['small', 'medium', 'large'];
+    const next = order[(order.indexOf(document.documentElement.dataset.text) + 1) % order.length];
+    this.applyTextSize(next);
+    if (this.me) this.setSetting('textSize', next);
+    this.toast('Text size: ' + $id('textsize-state').textContent);
+  },
+
+  /* short "pop" for new messages */
+  playPop(soft) {
+    if (!this.soundsOn()) return;
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext; if (!Ctx) return;
+      const ctx = this.popCtx || (this.popCtx = new Ctx());
+      if (ctx.state === 'suspended') ctx.resume();
+      const o = ctx.createOscillator(), g = ctx.createGain(), t = ctx.currentTime;
+      o.type = 'sine';
+      o.frequency.setValueAtTime(880, t);
+      o.frequency.exponentialRampToValueAtTime(1320, t + 0.08);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(soft ? 0.05 : 0.09, t + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(t); o.stop(t + 0.2);
+    } catch (e) {}
+  },
+
+  /* ---------- blocking ---------- */
+  blockUser(uid) {
+    if (!confirm(`Block ${this.nameOf(uid)}? They won't be able to call you, and you won't be notified about their messages or friend requests.`)) return;
+    this.db.ref(`settings/${this.me.uid}/blocked/${uid}`).set(true)
+      .then(() => this.toast(`${this.firstName(uid)} blocked`))
+      .catch(e => this.toast('Could not block: ' + e.message));
+  },
+  unblockUser(uid) {
+    this.db.ref(`settings/${this.me.uid}/blocked/${uid}`).remove()
+      .then(() => this.toast(`${this.firstName(uid)} unblocked`))
+      .catch(e => this.toast('Could not unblock: ' + e.message));
+  },
+  openBlocked() {
+    this.renderBlocked();
+    $('#blockedModal').modal('show');
+  },
+  renderBlocked() {
+    const box = $id('blockedList');
+    box.textContent = '';
+    const ids = Object.keys(this.settings.blocked || {});
+    if (!ids.length) box.appendChild(el('div', 'empty', "You haven't blocked anyone."));
+    ids.forEach(id => {
+      const u = this.allUsers[id] || { name: 'Unknown' };
+      const row = el('div', 'person-row');
+      row.appendChild(makeAvatar(u.name, u.profileImageUrl));
+      row.appendChild(el('span', 'name', u.name));
+      const b = el('button', 'btn btn-inline', 'Unblock');
+      b.onclick = () => this.unblockUser(id);
+      row.appendChild(b);
+      box.appendChild(row);
+    });
+  },
+  /* in a chat with someone you blocked: hide the message box and call buttons */
+  updateBlockedUI() {
+    const c = this.currentChat;
+    const blocked = !!(c && c.type === 'direct' && this.isBlocked(c.uid));
+    $id('blocked-bar').classList.toggle('hidden', !blocked);
+    if (blocked) {
+      $id('blocked-text').textContent = `You blocked ${this.firstName(c.uid)}. You can't message or call them.`;
+      voice.stop(false);
+      $id('chat-input').classList.add('hidden');
+      $id('recording-bar').classList.add('hidden');
+    } else if (!voice.rec) {
+      $id('chat-input').classList.remove('hidden');
+    }
+    if (c && c.type === 'direct') {
+      $id('video-call-btn').classList.toggle('hidden', blocked);
+      $id('audio-call-btn').classList.toggle('hidden', blocked);
+    }
+  },
+
+  /* ---------- change password ---------- */
+  openPassword() {
+    ['pwCurrent', 'pwNew', 'pwConfirm'].forEach(id => { $id(id).value = ''; });
+    $('#passwordModal').modal('show');
+  },
+  async changePassword() {
+    const cur = $id('pwCurrent').value, nw = $id('pwNew').value, cf = $id('pwConfirm').value;
+    if (!cur || !nw) return this.toast('Fill in your current and new password.');
+    if (nw.length < 6) return this.toast('The new password needs at least 6 characters.');
+    if (nw !== cf) return this.toast("The new passwords don't match.");
+    try {
+      const cred = firebase.auth.EmailAuthProvider.credential(this.me.email, cur);
+      await this.me.reauthenticateWithCredential(cred);
+      await this.me.updatePassword(nw);
+      ['pwCurrent', 'pwNew', 'pwConfirm'].forEach(id => { $id(id).value = ''; });
+      $('#passwordModal').modal('hide');
+      this.toast('Password updated');
+    } catch (e) {
+      const wrong = ['auth/wrong-password', 'auth/invalid-credential', 'auth/invalid-login-credentials'].includes(e.code);
+      this.toast(wrong ? 'Your current password is incorrect.' : 'Could not update password: ' + e.message);
+    }
   },
 
   /* ---------- notes ---------- */
@@ -2248,7 +2757,7 @@ const app = {
   applyTheme(dark) {
     document.documentElement.dataset.theme = dark ? 'dark' : 'light';
     try { localStorage.setItem('gaze-theme', dark ? 'dark' : 'light'); } catch (e) {}
-    $id('dark-state').textContent = dark ? 'On' : 'Off';
+    $id('sw-dark').classList.toggle('on', dark);
   },
 
   toast(msg) {
@@ -2535,6 +3044,7 @@ const callManager = {
   async startCall(peerUid, kind = 'video') {
     if (this.active || this.incoming) return app.toast('You are already in a call.');
     const peer = app.allUsers[peerUid]; if (!peer) return;
+    if (app.isBlocked(peerUid)) return app.toast('Unblock them to call.');
     const p = app.presence[peerUid];
     if (!p || !p.online) app.toast(`${peer.name} looks offline. The call only rings if they open the app.`);
 
@@ -2610,6 +3120,11 @@ const callManager = {
       return;
     }
     if (this.incoming && this.incoming.callId === v.callId) return;
+    if (app.isBlocked(v.from)) { // blocked people can't ring you
+      app.db.ref(`calls/${v.callId}/status`).set('declined').catch(() => {});
+      snap.ref.remove().catch(() => {});
+      return;
+    }
     if (app.now() - (v.timestamp || 0) > 90000) { snap.ref.remove().catch(() => {}); return; }
     if (this.active || this.incoming) {
       app.db.ref(`calls/${v.callId}/status`).set('declined').catch(() => {});
