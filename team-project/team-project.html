@@ -108,6 +108,48 @@
     .welcome-cta { margin-top: 18px; padding: 10px 26px; font-size: 1rem; }
     .welcome-cta i { margin-right: 6px; }
     @media (prefers-reduced-motion: reduce) { .welcome, .welcome-float, .welcome-emoji.wave { animation: none; } }
+        /* ===== Gaze gradient theme for the whole app (after login) ===== */
+    :root { --gaze-gradient: linear-gradient(135deg, #6a5cff 0%, #8b5cf6 35%, #ec4899 70%, #f59e0b 100%); --glass: rgba(255,255,255,.86); }
+    :root[data-theme="dark"] { --gaze-gradient: linear-gradient(135deg, #312e81 0%, #5b21b6 40%, #9d174d 75%, #92400e 100%); --glass: rgba(36,37,38,.84); }
+    @keyframes gaze-gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+    /* remove "#auth-container," if you want the login page to stay white */
+    #main-app-view, #chat-window, #auth-container {
+      background-image: var(--gaze-gradient); background-size: 220% 220%;
+      animation: gaze-gradient 14s ease infinite;
+    }
+    /* headers */
+    #main-app-view .header, #chat-window .header { background: transparent; border-bottom-color: rgba(255,255,255,.25); }
+    #main-app-view .header h3, #chat-window .header h3, #chat-window .back-btn { color: #fff; }
+    #chat-window .subtitle { color: rgba(255,255,255,.85); }
+    #chat-window .subtitle.online { color: #bbf7d0; }
+    #main-app-view .header .icon-btn, #chat-window .header .icon-btn { background: rgba(255,255,255,.22); color: #fff; }
+    /* chat list, people and menu become frosted cards */
+    #chat-list .list-item { background: var(--glass); margin: 8px 12px; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.08); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+    #chat-list .list-item:hover { background: var(--background-color); }
+    #chat-list > .empty, #chat-list .archived-row { color: rgba(255,255,255,.92); }
+    #panel-people .section, #panel-menu .profile-card { background: var(--glass); margin: 12px; padding: 12px 14px; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+    #panel-menu .menu-row { background: var(--glass); margin: 8px 12px; width: calc(100% - 24px); border-radius: 14px; }
+    #panel-menu .menu-row:hover { background: var(--background-color); }
+    #main-app-view .bottom-nav { background: var(--glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-top-color: transparent; }
+    .welcome { border: 1px solid rgba(255,255,255,.35); box-shadow: 0 12px 32px rgba(0,0,0,.18); }
+    /* chat window */
+    #chat-window .chat-messages { background: transparent; }
+    #chat-window .bubble { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    #chat-window .message.received .bubble { background: var(--glass); color: var(--text-primary); }
+    #chat-window .message.sent .bubble { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; }
+    #chat-window .bubble.deleted { color: rgba(255,255,255,.85); box-shadow: none; }
+    #chat-window .meta, #chat-window .meta .time, #chat-window .typing { color: rgba(255,255,255,.9); }
+    #chat-window .day-sep, #chat-window .message.system .system-text { background: rgba(255,255,255,.25); color: #fff; }
+    #chat-window .chat-input, #chat-window .edit-bar { background: var(--glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+
+    /* ===== Voice calls ===== */
+    .call-screen.audio { background: var(--gaze-gradient); background-size: 220% 220%; animation: gaze-gradient 14s ease infinite; }
+    .call-screen.audio #remoteVideo, .call-screen.audio #localVideo { visibility: hidden; } /* hidden but still plays sound */
+    .call-screen.audio .call-info { text-align: center; }
+    .call-audio-avatar { width: 128px; height: 128px; font-size: 3.2rem; margin: 0 auto 16px; animation: gaze-ring 2s ease-out infinite; }
+    @keyframes gaze-ring { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.5); } 100% { box-shadow: 0 0 0 34px rgba(255,255,255,0); } }
+  
   </style>
 </head>
 <body>
@@ -207,6 +249,7 @@
       <div class="actions">
         <button id="video-call-btn" class="icon-btn" title="Video call"><i class="fas fa-video"></i></button>
         <button id="group-info-btn" class="icon-btn hidden" title="Group info"><i class="fas fa-info-circle"></i></button>
+        <button id="audio-call-btn" class="icon-btn" title="Voice call"><i class="fas fa-phone"></i></button>
       </div>
     </div>
 
@@ -243,7 +286,7 @@
   <div class="incoming-card">
     <div id="incoming-avatar" class="avatar big"></div>
     <h2 id="incoming-name">Someone</h2>
-    <p>Incoming video call…</p>
+    <p id="incoming-label">Incoming video call…</p>
     <div class="incoming-actions">
       <button id="incoming-decline" class="call-btn end" title="Decline"><i class="fas fa-phone-slash"></i></button>
       <button id="incoming-accept" class="call-btn accept" title="Accept"><i class="fas fa-phone"></i></button>
@@ -256,6 +299,8 @@
   <video id="remoteVideo" autoplay playsinline></video>
   <video id="localVideo" autoplay muted playsinline></video>
   <div class="call-info">
+      
+    <div id="call-audio-avatar" class="avatar call-audio-avatar hidden"></div>
     <div id="call-peer-name"></div>
     <div id="call-status"></div>
   </div>
@@ -668,9 +713,13 @@ const app = {
     on('mic-btn', () => voice.start());
     on('rec-cancel', () => voice.stop(false));
     on('rec-send', () => voice.stop(true));
-    on('video-call-btn', () => {
+        on('video-call-btn', () => {
       const c = this.currentChat;
-      if (c && c.type === 'direct') callManager.startCall(c.uid);
+      if (c && c.type === 'direct') callManager.startCall(c.uid, 'video');
+    });
+    on('audio-call-btn', () => {
+      const c = this.currentChat;
+      if (c && c.type === 'direct') callManager.startCall(c.uid, 'audio');
     });
     on('image-viewer', () => $id('image-viewer').classList.add('hidden'));
 
@@ -1545,6 +1594,7 @@ const app = {
     if (item.type === 'group') setGroupAvatar(av, (this.groups[item.id] || {}).photo);
     else setAvatar(av, item.name, item.img);
     $id('video-call-btn').classList.toggle('hidden', item.type !== 'direct');
+    $id('audio-call-btn').classList.toggle('hidden', item.type !== 'direct');
     $id('group-info-btn').classList.toggle('hidden', item.type !== 'group');
     $id('message-input').value = '';
     this.cancelEdit();
@@ -2228,9 +2278,13 @@ const callManager = {
   },
 
   /* ---------- media ---------- */
-  async getMedia() {
+    async getMedia(kind) {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      throw new Error('Calls need HTTPS. Open the app from your Firebase Hosting link.');
+      throw new Error('Calls need HTTPS. Open the app from its https:// link.');
+    }
+    if (kind === 'audio') {
+      try { return await navigator.mediaDevices.getUserMedia({ audio: true }); }
+      catch (e) { throw new Error('Allow microphone access to make voice calls.'); }
     }
     try {
       return await navigator.mediaDevices.getUserMedia({ video: { facingMode: this.facing }, audio: true });
@@ -2244,15 +2298,20 @@ const callManager = {
       }
     }
   },
-
   stopStream(s) { if (s) s.getTracks().forEach(t => t.stop()); },
 
   /* ---------- UI ---------- */
-  showCallScreen(name, status) {
+    showCallScreen(name, status) {
     $id('call-peer-name').textContent = name;
     this.setStatus(status);
     const call = this.active;
     const hasVideo = call && call.local.getVideoTracks().length > 0;
+    // voice calls: gradient background + the other person's photo instead of video
+    const voiceOnly = !!call && call.kind === 'audio';
+    $id('call-screen').classList.toggle('audio', voiceOnly);
+    const av = $id('call-audio-avatar');
+    av.classList.toggle('hidden', !voiceOnly);
+    if (voiceOnly) setAvatar(av, name, (app.allUsers[call.peerUid] || {}).profileImageUrl);
     $id('localVideo').srcObject = call ? call.local : null;
     $id('localVideo').classList.toggle('hidden', !hasVideo);
     $id('localVideo').classList.remove('rear');
@@ -2352,7 +2411,7 @@ const callManager = {
       const s = pc.iceConnectionState;
       if (s === 'connected' || s === 'completed') {
         clearTimeout(call.dropTimer);
-        if (!call.connected) { call.connected = true; clearTimeout(call.ringTimeout); this.startTimer(); }
+      if (!call.connected) { call.connected = true; call.connectedAt = Date.now(); clearTimeout(call.ringTimeout); this.startTimer(); }  
       } else if (s === 'disconnected') {
         this.setStatus('Reconnecting…');
         clearTimeout(call.dropTimer);
@@ -2383,36 +2442,37 @@ const callManager = {
   },
 
   /* ---------- caller ---------- */
-  async startCall(peerUid) {
+  async startCall(peerUid, kind = 'video') {
     if (this.active || this.incoming) return app.toast('You are already in a call.');
     const peer = app.allUsers[peerUid]; if (!peer) return;
     const p = app.presence[peerUid];
     if (!p || !p.online) app.toast(`${peer.name} looks offline. The call only rings if they open the app.`);
 
     let local;
-    try { local = await this.getMedia(); } catch (e) { return app.toast(e.message); }
+    try { local = await this.getMedia(kind); } catch (e) { return app.toast(e.message); }
 
     const me = app.me.uid;
     const callRef = app.db.ref('calls').push();
     const call = this.active = {
-      id: callRef.key, role: 'caller', peerUid, ref: callRef, local,
+      id: callRef.key, role: 'caller', kind, peerUid, ref: callRef, local,
       pending: [], candBuffer: [], ready: false, connected: false, answerSet: false, listeners: []
     };
     this.showCallScreen(peer.name, 'Calling…');
     this.createPeer(call, 'callerCandidates');
 
     try {
-      const offer = await call.pc.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true });
+      const offer = await call.pc.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: kind !== 'audio' });
       await call.pc.setLocalDescription(offer);
       await callRef.set({
-        caller: me, callee: peerUid, callerName: app.myName(), status: 'ringing',
+        caller: me, callee: peerUid, callerName: app.myName(), status: 'ringing', kind,
         offer: { type: offer.type, sdp: offer.sdp }, createdAt: TS()
       });
       this.flushCandidates(call);
       callRef.onDisconnect().remove();
       const incRef = call.incRef = app.db.ref(`incomingCalls/${peerUid}`);
-      await incRef.set({ callId: call.id, from: me, fromName: app.myName(), timestamp: TS() });
+      await incRef.set({ callId: call.id, from: me, fromName: app.myName(), timestamp: TS(), kind });
       incRef.onDisconnect().remove();
+      call.rang = true;
     } catch (e) {
       console.error(e);
       return this.finish(call, 'Could not start the call: ' + e.message, false);
@@ -2469,10 +2529,11 @@ const callManager = {
     this.incoming = { ...v, accepted: false };
     const u = app.allUsers[v.from] || { name: v.fromName || 'Someone' };
     $id('incoming-name').textContent = u.name;
+    $id('incoming-label').textContent = v.kind === 'audio' ? 'Incoming voice call…' : 'Incoming video call…';
     setAvatar($id('incoming-avatar'), u.name, u.profileImageUrl);
     $id('incoming-call').classList.remove('hidden');
     this.startRing();
-    app.systemNotify('Incoming video call', `${u.name} is calling you`, 'call');
+    app.systemNotify(v.kind === 'audio' ? 'Incoming voice call' : 'Incoming video call', `${u.name} is calling you`, 'call');
 
     // watch for the caller cancelling
     const ref = app.db.ref(`calls/${v.callId}`);
@@ -2504,7 +2565,7 @@ const callManager = {
     $id('incoming-call').classList.add('hidden');
 
     let local;
-    try { local = await this.getMedia(); }
+    try { local = await this.getMedia(inc.kind || 'video'); }
     catch (e) { app.toast(e.message); this.incoming = null; app.db.ref(`calls/${inc.callId}/status`).set('declined').catch(() => {}); app.db.ref(`incomingCalls/${app.me.uid}`).remove().catch(() => {}); return; }
 
     const callRef = app.db.ref(`calls/${inc.callId}`);
@@ -2518,7 +2579,7 @@ const callManager = {
     }
 
     const call = this.active = {
-      id: inc.callId, role: 'callee', peerUid: inc.from, ref: callRef, local,
+    id: inc.callId, role: 'callee', kind: inc.kind || 'video', peerUid: inc.from, ref: callRef, local,  
       pending: [], candBuffer: [], ready: true, connected: false, answerSet: true, listeners: []
     };
     this.incoming = null;
@@ -2575,6 +2636,14 @@ const callManager = {
     try { call.pc.close(); } catch (e) {}
     this.stopStream(call.local);
     this.hideCallScreen();
+        // leave a call log in the chat: "📞 Voice call · 2:31" or "📞 Missed voice call"
+    if (call.role === 'caller' && call.rang && app.me) {
+      const label = call.kind === 'audio' ? 'voice call' : 'video call';
+      const text = call.connectedAt
+        ? `📞 ${label.charAt(0).toUpperCase() + label.slice(1)} · ${fmtDur((Date.now() - call.connectedAt) / 1000)}`
+        : `📞 Missed ${label}`;
+      app.systemMessage({ id: app.directId(call.peerUid), type: 'direct', uid: call.peerUid }, text).catch(() => {});
+    }
     if (message) app.toast(message);
   },
 
