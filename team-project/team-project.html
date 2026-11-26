@@ -52,12 +52,11 @@
       position: relative; overflow: hidden; isolation: isolate;
       margin: 12px; padding: 32px 18px 28px; border-radius: 24px;
       text-align: center; color: #fff;
-      background: linear-gradient(135deg, #6a5cff 0%, #8b5cf6 35%, #ec4899 70%, #f59e0b 100%);
+      background: var(--gaze-gradient);
       background-size: 220% 220%;
       animation: gaze-gradient 14s ease infinite;
       box-shadow: 0 12px 32px rgba(106, 92, 255, .35);
     }
-    [data-theme="dark"] .welcome { background-image: linear-gradient(135deg, #312e81 0%, #5b21b6 40%, #9d174d 75%, #92400e 100%); box-shadow: 0 12px 32px rgba(0,0,0,.45); }
     @keyframes gaze-gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
     /* soft glowing blobs behind the content */
     .welcome::before, .welcome::after { content: ""; position: absolute; z-index: -1; border-radius: 50%; filter: blur(8px); }
@@ -86,7 +85,7 @@
     }
     .welcome-step:hover { background: rgba(255,255,255,.26); transform: translateY(-2px); }
     .welcome-step:active { transform: scale(.98); }
-    .welcome-step .num { width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #7c3aed; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,.15); }
+    .welcome-step .num { width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--gaze-accent); background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,.15); }
     .welcome-step.done .num { color: #fff; background: #22c55e; }
     .welcome-step.done strong { text-decoration: line-through; opacity: .7; }
     .welcome-step strong { color: #fff; }
@@ -102,46 +101,57 @@
     .welcome-people .name { color: #fff; font-weight: 500; }
     .welcome-people .person-row + .person-row { border-top: 1px solid rgba(255,255,255,.18); }
     .welcome-people .avatar { box-shadow: 0 0 0 2px rgba(255,255,255,.6); }
-    .welcome .btn { background: #fff; color: #7c3aed; border: none; font-weight: 600; border-radius: 999px; box-shadow: 0 4px 12px rgba(0,0,0,.15); }
-    .welcome .btn:hover { background: #f5f3ff; color: #6d28d9; }
+    .welcome .btn { background: #fff; color: var(--gaze-accent); border: none; font-weight: 600; border-radius: 999px; box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+    .welcome .btn:hover { background: #f5f3ff; color: var(--gaze-accent); }
     .welcome .btn.btn-ghost { background: rgba(255,255,255,.22); color: #fff; box-shadow: none; }
     .welcome-cta { margin-top: 18px; padding: 10px 26px; font-size: 1rem; }
     .welcome-cta i { margin-right: 6px; }
     @media (prefers-reduced-motion: reduce) { .welcome, .welcome-float, .welcome-emoji.wave { animation: none; } }
-        /* ===== Gaze gradient theme for the whole app (after login) ===== */
-    :root { --gaze-gradient: linear-gradient(135deg, #6a5cff 0%, #8b5cf6 35%, #ec4899 70%, #f59e0b 100%); --glass: rgba(255,255,255,.86); }
-    :root[data-theme="dark"] { --gaze-gradient: linear-gradient(135deg, #312e81 0%, #5b21b6 40%, #9d174d 75%, #92400e 100%); --glass: rgba(36,37,38,.84); }
+    /* ===== Background themes: Menu → Theme (Sunset, Ocean, Forest, Midnight, Classic) ===== */
+    :root { --glass: rgba(255,255,255,.86); --gaze-accent: #7c3aed;
+      --gaze-gradient: linear-gradient(135deg, #6a5cff 0%, #8b5cf6 35%, #ec4899 70%, #f59e0b 100%);
+      --gaze-bubble: linear-gradient(135deg, #4f46e5, #7c3aed); }
+    :root[data-theme="dark"] { --glass: rgba(36,37,38,.84);
+      --gaze-gradient: linear-gradient(135deg, #312e81 0%, #5b21b6 40%, #9d174d 75%, #92400e 100%); }
+    html[data-bg="ocean"] { --gaze-accent: #2563eb;
+      --gaze-gradient: linear-gradient(135deg, #38bdf8 0%, #2563eb 40%, #06b6d4 75%, #14b8a6 100%);
+      --gaze-bubble: linear-gradient(135deg, #0284c7, #2563eb); }
+    html[data-bg="ocean"][data-theme="dark"] {
+      --gaze-gradient: linear-gradient(135deg, #0c4a6e 0%, #1e3a8a 40%, #155e75 75%, #134e4a 100%); }
+    html[data-bg="forest"] { --gaze-accent: #15803d;
+      --gaze-gradient: linear-gradient(135deg, #4ade80 0%, #16a34a 40%, #65a30d 75%, #0d9488 100%);
+      --gaze-bubble: linear-gradient(135deg, #15803d, #0d9488); }
+    html[data-bg="forest"][data-theme="dark"] {
+      --gaze-gradient: linear-gradient(135deg, #14532d 0%, #166534 40%, #3f6212 75%, #115e59 100%); }
+    html[data-bg="midnight"], html[data-bg="midnight"][data-theme="dark"] { --gaze-accent: #6d28d9;
+      --gaze-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #4c1d95 75%, #1e293b 100%);
+      --gaze-bubble: linear-gradient(135deg, #6366f1, #8b5cf6); }
     @keyframes gaze-gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
-    /* remove "#auth-container," if you want the login page to stay white */
-    #main-app-view, #chat-window, #auth-container {
-      background-image: var(--gaze-gradient); background-size: 220% 220%;
-      animation: gaze-gradient 14s ease infinite;
-    }
-    /* headers */
-    #main-app-view .header, #chat-window .header { background: transparent; border-bottom-color: rgba(255,255,255,.25); }
-    #main-app-view .header h3, #chat-window .header h3, #chat-window .back-btn { color: #fff; }
-    #chat-window .subtitle { color: rgba(255,255,255,.85); }
-    #chat-window .subtitle.online { color: #bbf7d0; }
-    #main-app-view .header .icon-btn, #chat-window .header .icon-btn { background: rgba(255,255,255,.22); color: #fff; }
-    /* chat list, people and menu become frosted cards */
-    #chat-list .list-item { background: var(--glass); margin: 8px 12px; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.08); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-    #chat-list .list-item:hover { background: var(--background-color); }
-    #chat-list > .empty, #chat-list .archived-row { color: rgba(255,255,255,.92); }
-    #panel-people .section, #panel-menu .profile-card { background: var(--glass); margin: 12px; padding: 12px 14px; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
-    #panel-menu .menu-row { background: var(--glass); margin: 8px 12px; width: calc(100% - 24px); border-radius: 14px; }
-    #panel-menu .menu-row:hover { background: var(--background-color); }
-    #main-app-view .bottom-nav { background: var(--glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-top-color: transparent; }
+    /* everything below is skipped for the Classic (plain) theme */
+    html:not([data-bg="classic"]) #main-app-view, html:not([data-bg="classic"]) #chat-window, html:not([data-bg="classic"]) #auth-container { background-image: var(--gaze-gradient); background-size: 220% 220%; animation: gaze-gradient 14s ease infinite; }
+    html:not([data-bg="classic"]) #main-app-view .header, html:not([data-bg="classic"]) #chat-window .header { background: transparent; border-bottom-color: rgba(255,255,255,.25); }
+    html:not([data-bg="classic"]) #main-app-view .header h3, html:not([data-bg="classic"]) #chat-window .header h3, html:not([data-bg="classic"]) #chat-window .back-btn { color: #fff; }
+    html:not([data-bg="classic"]) #chat-window .subtitle { color: rgba(255,255,255,.85); }
+    html:not([data-bg="classic"]) #chat-window .subtitle.online { color: #bbf7d0; }
+    html:not([data-bg="classic"]) #main-app-view .header .icon-btn, html:not([data-bg="classic"]) #chat-window .header .icon-btn { background: rgba(255,255,255,.22); color: #fff; }
+    html:not([data-bg="classic"]) #chat-list .list-item { background: var(--glass); margin: 8px 12px; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.08); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+    html:not([data-bg="classic"]) #chat-list .list-item:hover { background: var(--background-color); }
+    html:not([data-bg="classic"]) #chat-list .list-item .chat-info { border-bottom: none; }
+    html:not([data-bg="classic"]) #chat-list > .empty, html:not([data-bg="classic"]) #chat-list .archived-row { color: rgba(255,255,255,.92); }
+    html:not([data-bg="classic"]) #panel-people .section, html:not([data-bg="classic"]) #panel-menu .profile-card { background: var(--glass); margin: 12px; padding: 12px 14px; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+    html:not([data-bg="classic"]) #panel-menu .menu-row { background: var(--glass); margin: 8px 12px; width: calc(100% - 24px); border-radius: 14px; }
+    html:not([data-bg="classic"]) #panel-menu .menu-row:hover { background: var(--background-color); }
+    html:not([data-bg="classic"]) #main-app-view .bottom-nav { background: var(--glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-top-color: transparent; }
+    html:not([data-bg="classic"]) #chat-window .chat-messages { background: transparent; }
+    html:not([data-bg="classic"]) #chat-window .bubble { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    html:not([data-bg="classic"]) #chat-window .message.received .bubble { background: var(--glass); color: var(--text-primary); }
+    html:not([data-bg="classic"]) #chat-window .message.sent .bubble { background: var(--gaze-bubble); color: #fff; }
+    html:not([data-bg="classic"]) #chat-window .bubble.deleted { color: rgba(255,255,255,.85); box-shadow: none; }
+    html:not([data-bg="classic"]) #chat-window .meta, html:not([data-bg="classic"]) #chat-window .meta .time, html:not([data-bg="classic"]) #chat-window .typing { color: rgba(255,255,255,.9); }
+    html:not([data-bg="classic"]) #chat-window .day-sep, html:not([data-bg="classic"]) #chat-window .message.system .system-text { background: rgba(255,255,255,.25); color: #fff; }
+    html:not([data-bg="classic"]) #chat-window .chat-input, html:not([data-bg="classic"]) #chat-window .edit-bar { background: var(--glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
     .welcome { border: 1px solid rgba(255,255,255,.35); box-shadow: 0 12px 32px rgba(0,0,0,.18); }
-    /* chat window */
-    #chat-window .chat-messages { background: transparent; }
-    #chat-window .bubble { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
-    #chat-window .message.received .bubble { background: var(--glass); color: var(--text-primary); }
-    #chat-window .message.sent .bubble { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; }
-    #chat-window .bubble.deleted { color: rgba(255,255,255,.85); box-shadow: none; }
-    #chat-window .meta, #chat-window .meta .time, #chat-window .typing { color: rgba(255,255,255,.9); }
-    #chat-window .day-sep, #chat-window .message.system .system-text { background: rgba(255,255,255,.25); color: #fff; }
-    #chat-window .chat-input, #chat-window .edit-bar { background: var(--glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
 
     /* ===== Voice calls ===== */
     .call-screen.audio { background: var(--gaze-gradient); background-size: 220% 220%; animation: gaze-gradient 14s ease infinite; }
@@ -149,6 +159,19 @@
     .call-screen.audio .call-info { text-align: center; }
     .call-audio-avatar { width: 128px; height: 128px; font-size: 3.2rem; margin: 0 auto 16px; animation: gaze-ring 2s ease-out infinite; }
     @keyframes gaze-ring { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.5); } 100% { box-shadow: 0 0 0 34px rgba(255,255,255,0); } }
+
+    /* ===== Theme picker ===== */
+    .theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+    .theme-swatch { padding: 0; overflow: hidden; text-align: left; cursor: pointer; border-radius: 16px; border: 2px solid var(--border, #ddd); background: var(--surface, #fff); color: var(--text-primary); transition: transform .15s ease; }
+    .theme-swatch:hover { transform: translateY(-2px); }
+    .theme-swatch.selected { border-color: var(--gaze-accent); box-shadow: 0 0 0 3px rgba(124,58,237,.18); }
+    .theme-swatch .preview { position: relative; height: 78px; }
+    .theme-swatch .preview span { position: absolute; height: 12px; border-radius: 6px; background: rgba(255,255,255,.88); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+    .theme-swatch .preview span:nth-child(1) { top: 14px; left: 10px; width: 55%; }
+    .theme-swatch .preview span:nth-child(2) { top: 34px; right: 10px; width: 45%; }
+    .theme-swatch .preview span:nth-child(3) { top: 54px; left: 10px; width: 35%; }
+    .theme-swatch .label { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; font-weight: 500; font-size: .92rem; }
+    .theme-swatch .label i { color: var(--gaze-accent); }
   
   </style>
 </head>
@@ -224,6 +247,7 @@
       <div class="profile-card" id="profile-card"></div>
       <button class="menu-row" id="menu-notes"><i class="fas fa-sticky-note"></i> Public notes</button>
       <button class="menu-row" id="menu-notify"><i class="fas fa-bell"></i> Notifications <span class="state" id="notify-state"></span></button>
+      <button class="menu-row" id="menu-theme"><i class="fas fa-palette"></i> Theme <span class="state" id="theme-state"></span></button>
       <button class="menu-row" id="menu-dark"><i class="fas fa-moon"></i> Dark mode <span class="state" id="dark-state"></span></button>
       <button class="menu-row danger" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
@@ -299,7 +323,6 @@
   <video id="remoteVideo" autoplay playsinline></video>
   <video id="localVideo" autoplay muted playsinline></video>
   <div class="call-info">
-      
     <div id="call-audio-avatar" class="avatar call-audio-avatar hidden"></div>
     <div id="call-peer-name"></div>
     <div id="call-status"></div>
@@ -463,6 +486,21 @@
   </div>
 </div>
 
+<!-- Theme picker -->
+<div class="modal fade" id="themeModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Choose a theme</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="theme-grid" id="themeList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Libraries -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -496,6 +534,15 @@ const ICE_SERVERS = [
 ];
 
 const REACTION_EMOJIS = ['👍', '❤️', '😂', '😮', '😢', '🙏'];
+
+/* Background themes (Menu → Theme). The colours themselves live in the CSS. */
+const THEMES = [
+  { id: 'sunset',   name: 'Sunset',   preview: 'linear-gradient(135deg, #6a5cff, #ec4899, #f59e0b)' },
+  { id: 'ocean',    name: 'Ocean',    preview: 'linear-gradient(135deg, #38bdf8, #2563eb, #14b8a6)' },
+  { id: 'forest',   name: 'Forest',   preview: 'linear-gradient(135deg, #4ade80, #16a34a, #0d9488)' },
+  { id: 'midnight', name: 'Midnight', preview: 'linear-gradient(135deg, #0f172a, #1e1b4b, #4c1d95)' },
+  { id: 'classic',  name: 'Classic',  preview: 'linear-gradient(135deg, #ffffff, #f0f2f5)' }
+];
 
 /* =====================================================================
    HELPERS
@@ -627,6 +674,9 @@ const app = {
     this.auth = firebase.auth();
     this.db = firebase.database();
     this.applyTheme(localStorage.getItem('gaze-theme') === 'dark');
+    let savedBg = null;
+    try { savedBg = localStorage.getItem('gaze-bg'); } catch (e) {}
+    this.applyBg(savedBg || 'sunset', false);
     this.updateNotifyLabel();
     this.bindUI();
     this.auth.onAuthStateChanged(u => this.onAuth(u));
@@ -663,6 +713,7 @@ const app = {
     on('menu-notes', () => this.openNotes());
     on('menu-notify', () => this.enableNotifications());
     on('menu-dark', () => this.applyTheme(document.documentElement.dataset.theme !== 'dark'));
+    on('menu-theme', () => this.openThemes());
     on('logout-btn', () => this.logout());
 
     // profile
@@ -886,7 +937,12 @@ const app = {
   },
 
   onUsersChanged(uid) {
-    if (this.me && uid === this.me.uid) this.renderProfileBits();
+    if (this.me && uid === this.me.uid) {
+      this.renderProfileBits();
+      // the theme is saved on the account, so it follows you to other devices
+      const t = (this.allUsers[uid] || {}).theme;
+      if (t && t !== document.documentElement.dataset.bg) this.applyBg(t, false);
+    }
     this.scheduleRender();
     const c = this.currentChat;
     if (c && c.type === 'direct' && c.uid === uid) this.updateChatHeader();
@@ -2155,6 +2211,40 @@ const app = {
   },
 
   /* ---------- misc UI ---------- */
+  /* ---------- background themes ---------- */
+  applyBg(id, save) {
+    const t = THEMES.find(x => x.id === id) || THEMES[0];
+    document.documentElement.dataset.bg = t.id;
+    try { localStorage.setItem('gaze-bg', t.id); } catch (e) {}
+    $id('theme-state').textContent = t.name;
+    if (save && this.me) this.db.ref(`users/${this.me.uid}/theme`).set(t.id).catch(() => {});
+    if (document.getElementById('themeList')) this.renderThemes();
+  },
+
+  openThemes() {
+    this.renderThemes();
+    $('#themeModal').modal('show');
+  },
+
+  renderThemes() {
+    const box = $id('themeList');
+    const current = document.documentElement.dataset.bg;
+    box.textContent = '';
+    THEMES.forEach(t => {
+      const b = el('button', 'theme-swatch' + (t.id === current ? ' selected' : ''));
+      b.type = 'button';
+      const pv = el('div', 'preview');
+      pv.style.background = t.preview;
+      pv.appendChild(el('span')); pv.appendChild(el('span')); pv.appendChild(el('span'));
+      b.appendChild(pv);
+      const label = el('div', 'label', t.name);
+      if (t.id === current) { const ic = el('i', 'fas fa-check-circle'); label.appendChild(ic); }
+      b.appendChild(label);
+      b.onclick = () => { this.applyBg(t.id, true); this.toast(`${t.name} theme on`); };
+      box.appendChild(b);
+    });
+  },
+
   applyTheme(dark) {
     document.documentElement.dataset.theme = dark ? 'dark' : 'light';
     try { localStorage.setItem('gaze-theme', dark ? 'dark' : 'light'); } catch (e) {}
