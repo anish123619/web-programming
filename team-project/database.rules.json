@@ -1,0 +1,127 @@
+{
+  "rules": {
+    "users": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "presence": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "friends": {
+      "$uid": {
+        ".read": "auth != null",
+        "$friend": {
+          ".write": "auth != null && (auth.uid === $uid || (auth.uid === $friend && (!newData.exists() || root.child('friendRequests/' + $friend + '/' + $uid).exists())))"
+        }
+      }
+    },
+    "friendRequests": {
+      "$to": {
+        ".read": "auth != null && auth.uid === $to",
+        "$from": {
+          ".write": "auth != null && (auth.uid === $from || auth.uid === $to)"
+        }
+      }
+    },
+    "sentRequests": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "userGroups": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "$gid": {
+          ".write": "auth != null && (auth.uid === $uid || root.child('groups/' + $gid + '/admins/' + auth.uid).exists() || root.child('groups/' + $gid + '/createdBy').val() === auth.uid)"
+        }
+      }
+    },
+    "userChats": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "$chatId": {
+          ".read": "auth != null && ($chatId.contains(auth.uid) || root.child('groups/' + $chatId + '/members/' + auth.uid).exists())",
+          ".write": "auth != null && (auth.uid === $uid || $chatId.contains(auth.uid) || root.child('groups/' + $chatId + '/members/' + auth.uid).exists())"
+        }
+      }
+    },
+    "chats": {
+      "$chatId": {
+        ".read": "auth != null && ($chatId.contains(auth.uid) || data.child('participants/' + auth.uid).exists())",
+        ".write": "auth != null && ($chatId.contains(auth.uid) || data.child('participants/' + auth.uid).exists() || root.child('groups/' + $chatId + '/members/' + auth.uid).exists())"
+      }
+    },
+    "groups": {
+      "$gid": {
+        ".read": "auth != null && data.child('members/' + auth.uid).exists()",
+        ".write": "auth != null && (!data.exists() || data.child('admins/' + auth.uid).exists() || data.child('createdBy').val() === auth.uid)",
+        "members": {
+          "$member": {
+            ".write": "auth != null && auth.uid === $member && !newData.exists()"
+          }
+        },
+        "admins": {
+          "$member": {
+            ".write": "auth != null && auth.uid === $member && !newData.exists()"
+          }
+        }
+      }
+    },
+    "calls": {
+      "$callId": {
+        ".read": "auth != null && (!data.exists() || data.child('caller').val() === auth.uid || data.child('callee').val() === auth.uid)",
+        ".write": "auth != null && (!data.exists() || data.child('caller').val() === auth.uid || data.child('callee').val() === auth.uid)"
+      }
+    },
+    "incomingCalls": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && (auth.uid === $uid || (newData.exists() ? newData.child('from').val() === auth.uid : data.child('from').val() === auth.uid))"
+      }
+    },
+    "public_notes": {
+      ".read": "auth != null",
+      ".indexOn": [
+        "expiresAt"
+      ],
+      "$noteId": {
+        ".write": "auth != null && ((!data.exists() && newData.child('userId').val() === auth.uid) || (data.exists() && (data.child('userId').val() === auth.uid || (!newData.exists() && data.child('expiresAt').val() < now))))"
+      }
+    },
+    "chatSettings": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "settings": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "stories": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('friends/' + $uid + '/' + auth.uid).exists())",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "storyViews": {
+      "$owner": {
+        ".read": "auth != null && auth.uid === $owner",
+        ".write": "auth != null && auth.uid === $owner",
+        "$storyId": {
+          "$viewer": {
+            ".write": "auth != null && auth.uid === $viewer"
+          }
+        }
+      }
+    }
+  }
+}
