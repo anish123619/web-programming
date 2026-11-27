@@ -8,6 +8,7 @@ import GitHubProfile from './github/GitHubProfile';
 import TitleEditor from './effects/TitleEditor';
 import UserProfile from './effects/UserProfile';
 import Stopwatch from './effects/Stopwatch';
+import WeatherDashboard from './weather/WeatherDashboard';
 
 function getView() {
   const hash = window.location.hash;
@@ -15,6 +16,7 @@ function getView() {
   if (hash === '#guide') return 'guide';
   if (hash === '#github') return 'github';
   if (hash === '#effects') return 'effects';
+  if (hash === '#weather') return 'weather';
   return 'shop';
 }
 
@@ -28,6 +30,17 @@ function App() {
   }, []);
 
   if (view === 'counter') return <PracticeCart />;
+
+  if (view === 'weather') {
+    return (
+      <main className="guide">
+        <h1>Weather Dashboard</h1>
+        <section>
+          <WeatherDashboard />
+        </section>
+      </main>
+    );
+  }
 
   if (view === 'github') {
     return (
