@@ -5,12 +5,16 @@ import ToggleDetail from './guide/ToggleDetail';
 import TaskList from './guide/TaskList';
 import ScoreBoard from './guide/ScoreBoard';
 import GitHubProfile from './github/GitHubProfile';
+import TitleEditor from './effects/TitleEditor';
+import UserProfile from './effects/UserProfile';
+import Stopwatch from './effects/Stopwatch';
 
 function getView() {
   const hash = window.location.hash;
   if (hash === '#counter') return 'counter';
   if (hash === '#guide') return 'guide';
   if (hash === '#github') return 'github';
+  if (hash === '#effects') return 'effects';
   return 'shop';
 }
 
@@ -31,6 +35,29 @@ function App() {
         <h1>GitHub User Lookup</h1>
         <section>
           <GitHubProfile />
+        </section>
+      </main>
+    );
+  }
+
+  if (view === 'effects') {
+    return (
+      <main className="guide">
+        <h1>useEffect Exercises</h1>
+
+        <section>
+          <h2>Exercise 1: Title editor</h2>
+          <TitleEditor />
+        </section>
+
+        <section>
+          <h2>Exercise 2: Fetch a user</h2>
+          <UserProfile />
+        </section>
+
+        <section>
+          <h2>Exercise 3: Stopwatch</h2>
+          <Stopwatch />
         </section>
       </main>
     );
