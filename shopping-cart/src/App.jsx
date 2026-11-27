@@ -9,15 +9,32 @@ import TitleEditor from './effects/TitleEditor';
 import UserProfile from './effects/UserProfile';
 import Stopwatch from './effects/Stopwatch';
 import WeatherDashboard from './weather/WeatherDashboard';
+import ProfileEditor from './forms/ProfileEditor';
+
+// Every address (the part after #) that has its own page
+const VIEWS = ['counter', 'guide', 'github', 'effects', 'weather', 'profile'];
 
 function getView() {
-  const hash = window.location.hash;
-  if (hash === '#counter') return 'counter';
-  if (hash === '#guide') return 'guide';
-  if (hash === '#github') return 'github';
-  if (hash === '#effects') return 'effects';
-  if (hash === '#weather') return 'weather';
-  return 'shop';
+  const name = window.location.hash.replace('#', '');
+  return VIEWS.includes(name) ? name : 'shop';
+}
+
+function Page({ title, children }) {
+  return (
+    <main className="guide">
+      <h1>{title}</h1>
+      {children}
+    </main>
+  );
+}
+
+function Section({ title, children }) {
+  return (
+    <section>
+      {title && <h2>{title}</h2>}
+      {children}
+    </section>
+  );
 }
 
 function App() {
@@ -29,77 +46,52 @@ function App() {
     return () => window.removeEventListener('hashchange', onChange);
   }, []);
 
-  if (view === 'counter') return <PracticeCart />;
+  switch (view) {
+    case 'counter':
+      return <PracticeCart />;
 
-  if (view === 'weather') {
-    return (
-      <main className="guide">
-        <h1>Weather Dashboard</h1>
-        <section>
-          <WeatherDashboard />
-        </section>
-      </main>
-    );
+    case 'weather':
+      return (
+        <Page title="Weather Dashboard">
+          <Section><WeatherDashboard /></Section>
+        </Page>
+      );
+
+    case 'github':
+      return (
+        <Page title="GitHub User Lookup">
+          <Section><GitHubProfile /></Section>
+        </Page>
+      );
+
+    case 'effects':
+      return (
+        <Page title="useEffect Exercises">
+          <Section title="Exercise 1: Title editor"><TitleEditor /></Section>
+          <Section title="Exercise 2: Fetch a user"><UserProfile /></Section>
+          <Section title="Exercise 3: Stopwatch"><Stopwatch /></Section>
+        </Page>
+      );
+
+    case 'guide':
+      return (
+        <Page title="Study Guide Exercises">
+          <Section title="Exercise 1: Toggle details"><ToggleDetail /></Section>
+          <Section title="Exercise 2: Task list"><TaskList /></Section>
+          <Section title="Exercise 3: Score board"><ScoreBoard /></Section>
+        </Page>
+      );
+
+    case 'profile':
+      return (
+        <Page title="Student Profile Editor">
+          <Section><ProfileEditor /></Section>
+        </Page>
+      );
+
+    default:
+      return <ShoppingCart />;
   }
-
-  if (view === 'github') {
-    return (
-      <main className="guide">
-        <h1>GitHub User Lookup</h1>
-        <section>
-          <GitHubProfile />
-        </section>
-      </main>
-    );
-  }
-
-  if (view === 'effects') {
-    return (
-      <main className="guide">
-        <h1>useEffect Exercises</h1>
-
-        <section>
-          <h2>Exercise 1: Title editor</h2>
-          <TitleEditor />
-        </section>
-
-        <section>
-          <h2>Exercise 2: Fetch a user</h2>
-          <UserProfile />
-        </section>
-
-        <section>
-          <h2>Exercise 3: Stopwatch</h2>
-          <Stopwatch />
-        </section>
-      </main>
-    );
-  }
-
-  if (view === 'guide') {
-    return (
-      <main className="guide">
-        <h1>Study Guide Exercises</h1>
-
-        <section>
-          <h2>Exercise 1: Toggle details</h2>
-          <ToggleDetail />
-        </section>
-
-        <section>
-          <h2>Exercise 2: Task list</h2>
-          <TaskList />
-        </section>
-
-        <section>
-          <h2>Exercise 3: Score board</h2>
-          <ScoreBoard />
-        </section>
-      </main>
-    );
-  }
-
-  return <ShoppingCart />;
 }
 
 export default App;

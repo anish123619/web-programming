@@ -352,3 +352,141 @@ button:hover {
     font-size: 2.2rem;
     font-weight: bold;
 }
+
+.pe-form {
+    display: grid;
+    gap: 14px;
+}
+
+.pe-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.pe-field legend {
+    margin-bottom: 6px;
+    padding: 0;
+}
+
+.pe-form input:not([type="radio"]),
+.pe-form select,
+.pe-form textarea {
+    width: 100%;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+}
+
+.pe-form [aria-invalid="true"] {
+    border-color: #ef4444;
+}
+
+.pe-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 16px;
+}
+
+.pe-radio input {
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.pe-error {
+    min-height: 1.2em;
+    color: #fca5a5;
+    font-size: 0.85rem;
+}
+
+.pe-count {
+    align-self: flex-end;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.pe-over {
+    color: #fca5a5;
+    font-weight: bold;
+}
+
+.pe-muted {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.pe-photo {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.pe-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pe-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(249, 115, 22, 0.16);
+    color: #fdba74;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.pe-tag button {
+    width: auto;
+    height: auto;
+    padding: 0 4px;
+    background: transparent;
+    color: inherit;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.pe-card {
+    margin: 12px 0 16px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--bg);
+    text-align: center;
+}
+
+.pe-card img {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.pe-card h4 {
+    margin: 10px 0 4px;
+    font-size: 1.2rem;
+}
+
+.pe-card p {
+    margin: 4px 0;
+    color: var(--muted);
+}
+
+.pe-card .pe-tags {
+    justify-content: center;
+    margin-top: 10px;
+}
